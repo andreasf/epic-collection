@@ -1,15 +1,17 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {BrowserRouter} from "react-router-dom";
+import {Router} from "react-router-dom";
 import {Routes} from "./router/Routes";
 import {TokenService} from "./account/TokenService";
+import createBrowserHistory from "history/createBrowserHistory";
 
-const tokenService = new TokenService(window.localStorage);
+const history = createBrowserHistory();
+const tokenService = new TokenService(localStorage, location, history);
 
 ReactDOM.render((
-        <BrowserRouter>
+        <Router history={history}>
             <Routes tokenService={tokenService}/>
-        </BrowserRouter>
+        </Router>
     ),
     document.getElementById('root') as HTMLElement
 );

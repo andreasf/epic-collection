@@ -4,4 +4,7 @@ import * as Adapter from "enzyme-adapter-react-16";
 configure({adapter: new Adapter()});
 
 describe("MainPage", () => {
+    it("does not test anything yet", () => {
+        // empty
+    });
 });

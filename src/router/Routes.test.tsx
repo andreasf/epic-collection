@@ -17,6 +17,7 @@ describe("Routes", () => {
     beforeEach(() => {
         tokenService = mock(TokenService);
         when(tokenService.isLoggedIn()).thenReturn(true);
+        when(tokenService.isOauthCallback()).thenReturn(false);
     });
 
     const renderAt = (path: string) => {
@@ -55,6 +56,17 @@ describe("Routes", () => {
     });
 
     describe("Login", () => {
+        describe("when receiving an oauth callback", () => {
+            it("stores the token", () => {
+                when(tokenService.isOauthCallback()).thenReturn(true);
+
+                renderAt("/oauth/callback");
+
+                verify(tokenService.isOauthCallback()).once();
+                verify(tokenService.handleOauthCallback()).once();
+            });
+        });
+
         describe("when no token is stored", () => {
             it("redirects to Spotify Accounts Service login", () => {
                 when(tokenService.isLoggedIn()).thenReturn(false);
@@ -63,6 +75,7 @@ describe("Routes", () => {
 
                 verify(tokenService.isLoggedIn()).once();
                 verify(tokenService.redirectToLogin()).once();
+                verify(tokenService.handleOauthCallback()).never();
             });
         });
 
@@ -72,8 +85,8 @@ describe("Routes", () => {
 
                 verify(tokenService.isLoggedIn()).once();
                 verify(tokenService.redirectToLogin()).never();
+                verify(tokenService.handleOauthCallback()).never();
             });
         });
-
     });
 });

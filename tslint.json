@@ -15,6 +15,7 @@
     "ordered-imports": false,
     "check-groups": false,
     "jsx-no-lambda": false,
-    "interface-name": false
+    "interface-name": false,
+    "max-classes-per-file": false
   }
 }

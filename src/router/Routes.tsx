@@ -1,4 +1,3 @@
-/* tslint:disable:jsx-no-lambda */
 import * as React from "react";
 import {ReactNode} from "react";
 import {StaticContext} from "react-router";
@@ -17,6 +16,10 @@ export class Routes extends React.Component<RoutesProps, {}> {
     }
 
     public componentDidMount() {
+        if (this.props.tokenService.isOauthCallback()) {
+            this.props.tokenService.handleOauthCallback();
+        }
+
         if (!this.props.tokenService.isLoggedIn()) {
             this.props.tokenService.redirectToLogin();
         }
