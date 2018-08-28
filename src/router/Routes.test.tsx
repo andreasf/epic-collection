@@ -3,7 +3,6 @@ import * as Adapter from "enzyme-adapter-react-16";
 import {LocationDescriptor} from "history";
 import * as React from "react";
 import {MemoryRouter} from "react-router-dom";
-import {LoginPage} from "../pages/LoginPage";
 import {MainPage} from "../pages/MainPage";
 import {Routes} from "./Routes";
 import {TokenService} from "../account/TokenService";
@@ -33,11 +32,7 @@ describe("Routes", () => {
             {
                 component: MainPage,
                 path: "/",
-            },
-            {
-                component: LoginPage,
-                path: "/login",
-            },
+            }
         ];
 
         for (const currentRoute of routes) {
