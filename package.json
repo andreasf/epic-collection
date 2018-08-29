@@ -18,6 +18,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^5.9.1",
     "@types/enzyme": "^3.1.13",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.3.1",
