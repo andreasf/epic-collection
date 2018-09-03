@@ -10,7 +10,7 @@ export class ApiClient {
     }
 
     public async getTrackCount(): Promise<number> {
-        const url = `${this.apiPrefix}/v1/me/tracks&offset=0&limit=2`;
+        const url = `${this.apiPrefix}/v1/me/tracks?offset=0&limit=2`;
         const response = await this.fetch.fetch(url,{
             headers: {
                 "Authorization": "Bearer access-token"
