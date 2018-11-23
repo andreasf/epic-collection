@@ -27,6 +27,7 @@
     "@types/react-dom": "^16.0.7",
     "enzyme": "^3.4.4",
     "enzyme-adapter-react-16": "^1.2.0",
+    "nightwatch": "^0.9.21",
     "ts-mockito": "^2.3.1",
     "typescript": "^3.0.1"
   }
