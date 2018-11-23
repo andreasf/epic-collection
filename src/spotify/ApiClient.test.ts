@@ -2,6 +2,9 @@ import {InteractionObject, Pact} from "@pact-foundation/pact";
 import * as path from "path";
 import {meTracksPage1} from "./test_resources/me_tracks_response";
 import {ApiClient} from "./ApiClient";
+import {meResponse} from "./test_resources/me_response";
+import {TokenService} from "../account/TokenService";
+import {instance, mock, when} from "ts-mockito";
 
 const mockServerPort = 8123;
 
@@ -13,10 +16,19 @@ describe("ApiClient", () => {
         port: mockServerPort,
         provider: "spotify",
     });
-    let apiClient: ApiClient;
 
-    beforeEach(() => {
-        apiClient = new ApiClient(`http://localhost:${mockServerPort}`, window);
+    let apiClient: ApiClient;
+    let tokenService: TokenService;
+
+    beforeAll(() => provider.setup());
+
+    beforeEach(async () => {
+        tokenService = mock(TokenService);
+        when(tokenService.getToken()).thenReturn("real-access-token");
+
+        apiClient = new ApiClient(`http://localhost:${mockServerPort}`, window, instance(tokenService));
+
+        await provider.removeInteractions();
     });
 
     describe("getTrackCount", () => {
@@ -29,7 +41,7 @@ describe("ApiClient", () => {
                     path: "/v1/me/tracks",
                     query: "offset=0&limit=2",
                     headers: {
-                        Authorization: "Bearer access-token"
+                        Authorization: "Bearer real-access-token"
                     }
                 },
                 willRespondWith: {
@@ -41,7 +53,6 @@ describe("ApiClient", () => {
                 }
             };
 
-            await provider.setup();
             await provider.addInteraction(preflightRequestFor(interaction));
             await provider.addInteraction(interaction);
         });
@@ -50,6 +61,38 @@ describe("ApiClient", () => {
             const count = await apiClient.getTrackCount();
 
             expect(count).toEqual(3);
+        });
+    });
+
+    describe("getUsername", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "foo",
+                uponReceiving: "GET /v1/me",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/me",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: meResponse
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("returns the username", async () => {
+            const username = await apiClient.getUsername();
+
+            expect(username).toEqual("JM Wizzler");
         });
     });
 

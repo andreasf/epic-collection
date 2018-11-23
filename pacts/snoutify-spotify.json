@@ -30,7 +30,7 @@
         "path": "/v1/me/tracks",
         "query": "offset=0&limit=2",
         "headers": {
-          "Authorization": "Bearer access-token"
+          "Authorization": "Bearer real-access-token"
         }
       },
       "response": {
@@ -229,6 +229,64 @@
           "offset": 0,
           "previous": null,
           "total": 3
+        }
+      }
+    },
+    {
+      "description": "OPTIONS /v1/me",
+      "providerState": "foo",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/v1/me"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "Authorization"
+        }
+      }
+    },
+    {
+      "description": "GET /v1/me",
+      "providerState": "foo",
+      "request": {
+        "method": "GET",
+        "path": "/v1/me",
+        "headers": {
+          "Authorization": "Bearer real-access-token"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "birthdate": "1937-06-01",
+          "country": "SE",
+          "display_name": "JM Wizzler",
+          "email": "email@example.com",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/wizzler"
+          },
+          "followers": {
+            "href": null,
+            "total": 3829
+          },
+          "href": "https://api.spotify.com/v1/users/wizzler",
+          "id": "wizzler",
+          "images": [
+            {
+              "height": null,
+              "url": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/1970403_10152215092574354_1798272330_n.jpg",
+              "width": null
+            }
+          ],
+          "product": "premium",
+          "type": "user",
+          "uri": "spotify:user:wizzler"
         }
       }
     }

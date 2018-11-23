@@ -19,6 +19,10 @@ export class TokenService {
         return this.localStorage.getItem(TOKEN_KEY) !== null;
     }
 
+    public getToken(): string | null {
+        return this.localStorage.getItem(TOKEN_KEY);
+    }
+
     public isOauthCallback(): boolean {
         return this.location.pathname === callbackPath;
     }

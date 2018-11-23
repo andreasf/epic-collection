@@ -64,3 +64,7 @@ export interface Thumbnail {
     width: number;
     url: string;
 }
+
+export interface UserProfile {
+    display_name: string;
+}

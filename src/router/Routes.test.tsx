@@ -7,14 +7,17 @@ import {MainPage} from "../pages/MainPage";
 import {Routes} from "./Routes";
 import {TokenService} from "../account/TokenService";
 import {instance, mock, verify, when} from "ts-mockito";
+import {ApiClient} from "../spotify/ApiClient";
 
 configure({adapter: new Adapter()});
 
 describe("Routes", () => {
     let tokenService: TokenService;
+    let apiClient: ApiClient;
 
     beforeEach(() => {
         tokenService = mock(TokenService);
+        apiClient = mock(ApiClient);
         when(tokenService.isLoggedIn()).thenReturn(true);
         when(tokenService.isOauthCallback()).thenReturn(false);
     });
@@ -22,7 +25,7 @@ describe("Routes", () => {
     const renderAt = (path: string) => {
         return mount((
             <MemoryRouter initialEntries={[path as LocationDescriptor]}>
-                <Routes tokenService={instance(tokenService)}/>
+                <Routes tokenService={instance(tokenService)} apiClient={instance(apiClient)}/>
             </MemoryRouter>
         ));
     };

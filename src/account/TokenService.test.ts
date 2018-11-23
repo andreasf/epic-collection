@@ -86,6 +86,16 @@ describe("TokenService", () => {
             verify(history.push("/")).once();
         });
     });
+
+    describe("getToken", () => {
+        it("returns the token from LocalStorage", () => {
+            when(localStorage.getItem(anything())).thenReturn("expected token");
+
+            const actualToken = tokenService.getToken();
+
+            expect(actualToken).toEqual("expected token");
+        });
+    });
 });
 
 // IDE-generated implementation of interface because Mockito complained
