@@ -1,6 +1,2 @@
-language: node_js
-node_js:
-  - "10.4.0"
-script: |
-  cd frontend
-  CI=1 npm test
+language: java
+script: CI=1 ./gradlew clean npm_test test

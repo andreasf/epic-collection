@@ -13,6 +13,14 @@ buildscript {
 	}
 }
 
+plugins {
+	id "com.moowork.node" version "1.2.0"
+}
+
+project.ext {
+	nodeVersion = '11.2.0'
+}
+
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
@@ -39,6 +47,35 @@ repositories {
 	mavenCentral()
 }
 
+task buildFrontend(type: NpmTask) {
+	args = ['run', 'build']
+
+	inputs.file("$projectDir/frontend/package-lock.json")
+	inputs.dir("$projectDir/frontend/src")
+	inputs.dir("$projectDir/frontend/public")
+
+	outputs.dir("$projectDir/frontend/build")
+	outputs.cacheIf { true }
+}
+
+task cleanFrontend(type: Delete) {
+	delete "$projectDir/frontend/build"
+}
+
+compileKotlin {
+	dependsOn buildFrontend
+}
+
+clean {
+	dependsOn cleanFrontend
+}
+
+node {
+	version = '11.2.0'
+	npmVersion = '6.4.1'
+	download = true
+	nodeModulesDir = file("${project.projectDir}/frontend")
+}
 
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter')
