@@ -1,3 +1,3 @@
 language: java
 script: CI=1 ./gradlew clean npm_test test
-install: false
+install: true
