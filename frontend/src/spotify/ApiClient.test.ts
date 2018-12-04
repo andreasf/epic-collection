@@ -34,7 +34,7 @@ describe("ApiClient", () => {
     describe("getTrackCount", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
-                state: "foo",
+                state: "with 3 tracks",
                 uponReceiving: "GET /v1/me/tracks (page 1)",
                 withRequest: {
                     method: "GET",
@@ -67,7 +67,7 @@ describe("ApiClient", () => {
     describe("getUsername", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
-                state: "foo",
+                state: "with test user",
                 uponReceiving: "GET /v1/me",
                 withRequest: {
                     method: "GET",
@@ -104,7 +104,7 @@ describe("ApiClient", () => {
 
 function preflightRequestFor(interaction: InteractionObject): InteractionObject {
     const headers = interaction.withRequest.headers;
-    const allowedHeaders = headers ? Object.keys(headers).join(", ") : "*";
+    const allowedHeaders = headers ? Object.keys(headers).join(", ").toLowerCase() : "*";
 
     return {
         state: interaction.state,
@@ -112,11 +112,16 @@ function preflightRequestFor(interaction: InteractionObject): InteractionObject 
         withRequest: {
             method: "OPTIONS",
             path: interaction.withRequest.path,
+            headers: {
+                "Origin": "http://localhost",
+                "Access-Control-Request-Method": interaction.withRequest.method,
+                "Access-Control-Request-Headers": `${allowedHeaders}`,
+            }
         },
         willRespondWith: {
             status: 200,
             headers: {
-                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Origin": 'http://localhost',
                 "Access-Control-Allow-Credentials": "true",
                 "Access-Control-Allow-Headers": `${allowedHeaders}`,
             },

@@ -8,23 +8,28 @@
   "interactions": [
     {
       "description": "OPTIONS /v1/me/tracks",
-      "providerState": "foo",
+      "providerState": "with 3 tracks",
       "request": {
         "method": "OPTIONS",
-        "path": "/v1/me/tracks"
+        "path": "/v1/me/tracks",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "GET",
+          "Access-Control-Request-Headers": "authorization"
+        }
       },
       "response": {
         "status": 200,
         "headers": {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "http://localhost",
           "Access-Control-Allow-Credentials": "true",
-          "Access-Control-Allow-Headers": "Authorization"
+          "Access-Control-Allow-Headers": "authorization"
         }
       }
     },
     {
       "description": "GET /v1/me/tracks (page 1)",
-      "providerState": "foo",
+      "providerState": "with 3 tracks",
       "request": {
         "method": "GET",
         "path": "/v1/me/tracks",
@@ -45,23 +50,28 @@
     },
     {
       "description": "OPTIONS /v1/me",
-      "providerState": "foo",
+      "providerState": "with test user",
       "request": {
         "method": "OPTIONS",
-        "path": "/v1/me"
+        "path": "/v1/me",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "GET",
+          "Access-Control-Request-Headers": "authorization"
+        }
       },
       "response": {
         "status": 200,
         "headers": {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "http://localhost",
           "Access-Control-Allow-Credentials": "true",
-          "Access-Control-Allow-Headers": "Authorization"
+          "Access-Control-Allow-Headers": "authorization"
         }
       }
     },
     {
       "description": "GET /v1/me",
-      "providerState": "foo",
+      "providerState": "with test user",
       "request": {
         "method": "GET",
         "path": "/v1/me",
