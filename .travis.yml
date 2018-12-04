@@ -1,7 +1,7 @@
 language: java
 addons:
   firefox: "latest"
-script: CI=1 MOZ_HEADLESS=1 ./gradlew clean npm_install npm_test test
+script: CI=1 MOZ_HEADLESS=1 ./gradlew --info clean npm_install npm_test test
 cache:
   directories:
   - $HOME/.gradle/caches
