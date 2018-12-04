@@ -1,9 +1,6 @@
 package com.snoutify.snoutify.acceptance
 
-import io.github.bonigarcia.wdm.Shell.runAndWait
 import io.github.bonigarcia.wdm.WebDriverManager
-import org.apache.commons.lang3.SystemUtils.IS_OS_LINUX
-import org.apache.commons.lang3.SystemUtils.IS_OS_MAC
 import org.assertj.core.api.Assertions.assertThat
 import org.fluentlenium.adapter.junit.FluentTest
 import org.junit.BeforeClass
@@ -29,12 +26,7 @@ class LoginTest : FluentTest() {
         @BeforeClass
         @JvmStatic
         fun setup() {
-            println("IS_OS_LINUX: $IS_OS_LINUX")
-            println("IS_OS_MAC: $IS_OS_MAC")
-
-            val version = runAndWait("firefox", "-v")
-            println("version output according to wdm helper: $version")
-
+            System.setProperty("wdm.avoidAutoVersion", "true")
             WebDriverManager.firefoxdriver().setup()
         }
     }
