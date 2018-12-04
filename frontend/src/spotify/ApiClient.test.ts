@@ -92,7 +92,7 @@ describe("ApiClient", () => {
         it("returns the username", async () => {
             const username = await apiClient.getUsername();
 
-            expect(username).toEqual("JM Wizzler");
+            expect(username).toEqual("Test User");
         });
     });
 

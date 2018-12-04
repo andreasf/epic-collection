@@ -1,8 +1,7 @@
 import {TokenService} from "./TokenService";
 import {anything, instance, mock, verify, when} from "ts-mockito";
-import {clientId} from "../config/Config";
-import {Action, History, LocationDescriptorObject, UnregisterCallback} from "history";
-import {Location as RouterLocation} from "history";
+import {config} from "../config/Config";
+import {Action, History, Location as RouterLocation, LocationDescriptorObject, UnregisterCallback} from "history";
 import TransitionPromptHook = History.TransitionPromptHook;
 import Href = History.Href;
 import LocationListener = History.LocationListener;
@@ -45,7 +44,7 @@ describe("TokenService", () => {
             tokenService.redirectToLogin();
 
             const authUri = "https://accounts.spotify.com/authorize" +
-                `?client_id=${clientId}` +
+                `?client_id=${config.clientId}` +
                 "&redirect_uri=http://localhost:3000/oauth/callback" +
                 "&scope=user-library-read" +
                 "&response_type=token";

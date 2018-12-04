@@ -5,11 +5,11 @@ import {Routes} from "./router/Routes";
 import {TokenService} from "./account/TokenService";
 import createBrowserHistory from "history/createBrowserHistory";
 import {ApiClient} from "./spotify/ApiClient";
-import {apiPrefix} from "./config/Config";
+import {config} from "./config/Config";
 
 const history = createBrowserHistory();
 const tokenService = new TokenService(localStorage, location, history);
-const apiClient = new ApiClient(apiPrefix, window, tokenService);
+const apiClient = new ApiClient(config.apiPrefix, window, tokenService);
 
 ReactDOM.render((
         <Router history={history}>

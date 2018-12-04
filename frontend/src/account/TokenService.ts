@@ -1,4 +1,4 @@
-import {callbackPath, clientId, redirectUri, scopes} from "../config/Config";
+import {config} from "../config/Config";
 import {parse} from "query-string";
 import {History} from "history";
 
@@ -24,7 +24,7 @@ export class TokenService {
     }
 
     public isOauthCallback(): boolean {
-        return this.location.pathname === callbackPath;
+        return this.location.pathname === config.callbackPath;
     }
 
     public handleOauthCallback(): void {
@@ -34,10 +34,10 @@ export class TokenService {
     }
 
     public redirectToLogin() {
-        const spaceSeparatedScopes = scopes.join(" ");
-        const authUri = "https://accounts.spotify.com/authorize" +
-            `?client_id=${clientId}` +
-            `&redirect_uri=${redirectUri}` +
+        const spaceSeparatedScopes = config.scopes.join(" ");
+        const authUri = config.authorizeUri +
+            `?client_id=${config.clientId}` +
+            `&redirect_uri=${config.redirectUri}` +
             `&scope=${spaceSeparatedScopes}` +
             "&response_type=token";
 

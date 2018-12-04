@@ -49,6 +49,7 @@ repositories {
 
 task buildFrontend(type: NpmTask) {
 	args = ['run', 'build']
+	environment REACT_APP_FAKE_API: "1"
 
 	inputs.file("$projectDir/frontend/package-lock.json")
 	inputs.dir("$projectDir/frontend/src")
