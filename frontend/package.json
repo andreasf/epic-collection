@@ -9,7 +9,7 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.3.1",
-    "react-scripts-ts": "2.17.0"
+    "react-scripts-ts": "^4.0.8"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -18,7 +18,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@pact-foundation/pact": "^5.9.1",
+    "@pact-foundation/pact": "^7.2.0",
     "@types/enzyme": "^3.1.13",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.3.1",
@@ -29,5 +29,11 @@
     "enzyme-adapter-react-16": "^1.2.0",
     "ts-mockito": "^2.3.1",
     "typescript": "^3.0.1"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
