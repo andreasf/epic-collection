@@ -7,3 +7,7 @@ data class ProfileResponse(
         val displayName: String,
         val id: String
 )
+
+data class TracksResponse(
+        val total: Long
+)

@@ -20,6 +20,7 @@ class LoginTest : FluentTest() {
         goTo("http://localhost:$port")
         await().until(el(".main-page")).displayed()
         assertThat(el(".main-page").textContent()).contains("Test User")
+        assertThat(el(".track-count").textContent()).isEqualTo("2342")
     }
 
     companion object {
