@@ -71,6 +71,12 @@ clean {
 	dependsOn cleanFrontend
 }
 
+test {
+	testLogging {
+		exceptionFormat = 'full'
+	}
+}
+
 node {
 	version = '11.2.0'
 	npmVersion = '6.4.1'
