@@ -2,6 +2,7 @@ import * as React from "react";
 import {ReactNode} from "react";
 import {LibraryService} from "../spotify/LibraryService";
 import "./MainPage.css";
+import {Spinner} from "../components/Spinner";
 
 interface MainPageProps {
     libraryService: LibraryService;
@@ -12,6 +13,7 @@ interface MainPageState {
     remaining: number;
     trackCount: number;
     username: string;
+    loading: boolean;
 }
 
 export class MainPage extends React.Component<MainPageProps, MainPageState> {
@@ -22,6 +24,7 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
             remaining: 0,
             trackCount: 0,
             username: '',
+            loading: true,
         };
     }
 
@@ -36,12 +39,16 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
             remaining: stats.remaining,
             trackCount: stats.tracks,
             username,
+            loading: false,
         });
     }
 
     public render(): ReactNode {
+        const spinner = this.state.loading ? <Spinner/> : null;
+
         return (
             <div className="main-page">
+                {spinner}
                 <div className="top">
                     <div className="user-info">
                         Hello <span className="username">{this.state.username}</span>.
