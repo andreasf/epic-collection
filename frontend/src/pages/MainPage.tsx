@@ -1,6 +1,7 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import {LibraryService} from "../spotify/LibraryService";
+import "./MainPage.css";
 
 interface MainPageProps {
     libraryService: LibraryService;
@@ -41,16 +42,21 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
     public render(): ReactNode {
         return (
             <div className="main-page">
-                <div className="user-info">
-                    Hello <span className="username">{this.state.username}</span>.
-                </div>
-                <div className="counts">
-                    You have <span className="album-count">{this.state.albumCount}</span> albums
-                    and <span className="track-count">{this.state.trackCount}</span> tracks in your library.
+                <div className="top">
+                    <div className="user-info">
+                        Hello <span className="username">{this.state.username}</span>.
+                    </div>
+                    <div className="counts">
+                        You have <span className="album-count">{this.state.albumCount}</span> albums
+                        and <span className="track-count">{this.state.trackCount}</span> tracks in your library.
+                    </div>
                 </div>
                 <div className="remaining">
                     <div className="remaining-items">{this.state.remaining}</div>
                     <span className="remaining-label">tracks remaining</span>
+                </div>
+                <div className="bottom">
+                    &nbsp;
                 </div>
             </div>
         );

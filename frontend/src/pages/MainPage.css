@@ -1,0 +1,49 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 20px;
+}
+
+.main-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.top {
+    padding-top: 2rem;
+    font-weight: 300;
+}
+
+.album-count, .track-count {
+    font-weight: 400;
+}
+
+.main-page .remaining {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    text-align: center;
+    flex-grow: 1;
+}
+
+.main-page .remaining-items {
+    font-size: 400%;
+    font-weight: 300;
+}
+
+.main-page .remaining-label {
+    font-weight: 300;
+}
+
+.main-page .bottom {
+    padding-bottom: 2rem;
+}
