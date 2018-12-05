@@ -8,10 +8,12 @@ import {ApiClient} from "./spotify/ApiClient";
 import {config} from "./config/Config";
 import {LibraryService} from "./spotify/LibraryService";
 import {ErrorMessageService} from "./errors/ErrorMessageService";
+import {ErrorHandlingFetch} from "./spotify/ErrorHandlingFetch";
 
 const history = createBrowserHistory();
 const tokenService = new TokenService(localStorage, location, history);
-const apiClient = new ApiClient(config.apiPrefix, window, tokenService);
+const errorHandlingFetch = new ErrorHandlingFetch(window);
+const apiClient = new ApiClient(config.apiPrefix, errorHandlingFetch, tokenService);
 const libraryService = new LibraryService(apiClient);
 const errorMessageService = new ErrorMessageService();
 
