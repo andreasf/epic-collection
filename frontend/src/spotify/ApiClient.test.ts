@@ -30,7 +30,7 @@ describe("ApiClient", () => {
         tokenService = mock(TokenService);
         when(tokenService.getToken()).thenReturn("real-access-token");
 
-        const errorHandlingFetch = new ErrorHandlingFetch(window);
+        const errorHandlingFetch = new ErrorHandlingFetch(window, tokenService);
         fetchSpy = spyOn(errorHandlingFetch, "fetch").and.callThrough();
 
         apiClient = new ApiClient(

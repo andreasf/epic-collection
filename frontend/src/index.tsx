@@ -12,7 +12,7 @@ import {ErrorHandlingFetch} from "./spotify/ErrorHandlingFetch";
 
 const history = createBrowserHistory();
 const tokenService = new TokenService(localStorage, location, history);
-const errorHandlingFetch = new ErrorHandlingFetch(window);
+const errorHandlingFetch = new ErrorHandlingFetch(window, tokenService);
 const apiClient = new ApiClient(config.apiPrefix, errorHandlingFetch, tokenService);
 const libraryService = new LibraryService(apiClient);
 const errorMessageService = new ErrorMessageService();

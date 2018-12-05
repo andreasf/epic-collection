@@ -1,13 +1,16 @@
 import {ErrorHandlingFetch} from "./ErrorHandlingFetch";
 import {anything, instance, mock, verify, when} from "ts-mockito";
+import {TokenService} from "../account/TokenService";
 
 describe("ErrorHandlingFetch", () => {
     let globalFetch: GlobalFetch;
     let errorHandlingFetch: ErrorHandlingFetch;
+    let tokenService: TokenService;
 
     beforeEach(() => {
         globalFetch = mock(MockFetch);
-        errorHandlingFetch = new ErrorHandlingFetch(instance(globalFetch));
+        tokenService = mock(TokenService);
+        errorHandlingFetch = new ErrorHandlingFetch(instance(globalFetch), instance(tokenService));
     });
 
     it("resolves when the response is ok", async () => {
@@ -40,6 +43,21 @@ describe("ErrorHandlingFetch", () => {
             fail("should have rejected the promise");
         } catch (e) {
             expect(e.message).toEqual("requested error message: 500 status text");
+        }
+    });
+
+    it("rejects with an error and asks to refresh the token when receiving 401", async () => {
+        const expectedResponse = new Response("bad response", {
+            status: 401
+        });
+        when(globalFetch.fetch(anything(), anything())).thenResolve(expectedResponse);
+
+        try {
+            await errorHandlingFetch.fetch("requested error message", "url");
+            fail("should have rejected the promise");
+        } catch (e) {
+            expect(e.message).toEqual("invalid or expired access token");
+            verify(tokenService.redirectToLogin()).called();
         }
     });
 });
