@@ -1,9 +1,9 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {ApiClient} from "../spotify/ApiClient";
+import {LibraryService} from "../spotify/LibraryService";
 
 interface MainPageProps {
-    apiClient: ApiClient;
+    libraryService: LibraryService;
 }
 
 interface MainPageState {
@@ -23,13 +23,14 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
     }
 
     public async componentDidMount() {
-        const albumCount = await this.props.apiClient.getAlbumCount();
-        const trackCount = await this.props.apiClient.getTrackCount();
-        const username = await this.props.apiClient.getUsername();
+        const [stats, username] = await Promise.all([
+            this.props.libraryService.getStats(),
+            this.props.libraryService.getUsername()
+        ]);
 
         this.setState({
-            albumCount,
-            trackCount,
+            albumCount: stats.albums,
+            trackCount: stats.tracks,
             username,
         });
     }

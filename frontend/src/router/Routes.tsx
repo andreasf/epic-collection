@@ -4,11 +4,11 @@ import {StaticContext} from "react-router";
 import {Route, RouteComponentProps, Switch} from "react-router-dom";
 import {MainPage} from "../pages/MainPage";
 import {TokenService} from "../account/TokenService";
-import {ApiClient} from "../spotify/ApiClient";
+import {LibraryService} from "../spotify/LibraryService";
 
 interface RoutesProps {
-    tokenService: TokenService,
-    apiClient: ApiClient
+    tokenService: TokenService;
+    libraryService: LibraryService;
 }
 
 export class Routes extends React.Component<RoutesProps, {}> {
@@ -27,7 +27,7 @@ export class Routes extends React.Component<RoutesProps, {}> {
     }
 
     public renderMain(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
-        return <MainPage apiClient={this.props.apiClient} />;
+        return <MainPage libraryService={this.props.libraryService} />;
     }
 
     public render(): ReactNode {
