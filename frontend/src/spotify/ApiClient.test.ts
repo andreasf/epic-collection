@@ -5,6 +5,7 @@ import {ApiClient} from "./ApiClient";
 import {meResponse} from "./test_resources/me_response";
 import {TokenService} from "../account/TokenService";
 import {instance, mock, when} from "ts-mockito";
+import {meAlbumsResponse} from "./test_resources/me_albums_response";
 
 const mockServerPort = 8123;
 
@@ -31,6 +32,39 @@ describe("ApiClient", () => {
         await provider.removeInteractions();
     });
 
+    describe("getAlbumCount", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "with 2 albums",
+                uponReceiving: "GET /v1/me/albums (page 1)",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/me/albums",
+                    query: "offset=0&limit=1",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: meAlbumsResponse
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("returns the number of albums", async () => {
+            const count = await apiClient.getAlbumCount();
+
+            expect(count).toEqual(2);
+        });
+    });
+
     describe("getTrackCount", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
@@ -39,7 +73,7 @@ describe("ApiClient", () => {
                 withRequest: {
                     method: "GET",
                     path: "/v1/me/tracks",
-                    query: "offset=0&limit=2",
+                    query: "offset=0&limit=1",
                     headers: {
                         Authorization: "Bearer real-access-token"
                     }

@@ -1,3 +1,19 @@
+export interface PaginatedLibraryAlbums {
+    href: string;
+    items: LibraryAlbum[],
+    limit: number;
+    offset: number;
+    total: number;
+    next: string;
+    previous: string;
+}
+
+export interface LibraryAlbum {
+    artists: Artist[];
+    id: string;
+    name: string;
+}
+
 export interface PaginatedLibraryTracks {
     href: string;
     items: LibraryTrack[],

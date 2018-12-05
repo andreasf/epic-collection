@@ -17,10 +17,27 @@ class LoginTest : FluentTest() {
 
     @Test
     fun user_can_login() {
+        when_i_open_the_app()
+        then_i_see_my_username()
+        and_i_see_the_track_count()
+        and_i_see_the_album_count()
+    }
+
+    private fun when_i_open_the_app() {
         goTo("http://localhost:$port")
         await().until(el(".main-page")).displayed()
+    }
+
+    private fun then_i_see_my_username() {
         assertThat(el(".main-page").textContent()).contains("Test User")
+    }
+
+    private fun and_i_see_the_track_count() {
         assertThat(el(".track-count").textContent()).isEqualTo("3")
+    }
+
+    private fun and_i_see_the_album_count() {
+        assertThat(el(".album-count").textContent()).isEqualTo("2")
     }
 
     companion object {

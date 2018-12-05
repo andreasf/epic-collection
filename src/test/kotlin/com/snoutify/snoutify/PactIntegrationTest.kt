@@ -28,6 +28,10 @@ open class PactIntegrationTest {
     fun to3TracksState() {
     }
 
+    @State("with 2 albums")
+    fun to2AlbumsState() {
+    }
+
     companion object {
         val port = 8081
 

@@ -11,3 +11,7 @@ data class ProfileResponse(
 data class TracksResponse(
         val total: Long
 )
+
+data class AlbumsResponse(
+        val total: Long
+)

@@ -17,14 +17,18 @@ describe("MainPage", () => {
     it("shows the current username and track count", async () => {
         const getUsernamePromise = Promise.resolve("expected username");
         const getTrackCountPromise = Promise.resolve(2342);
+        const getAlbumCountPromise = Promise.resolve(5);
         when(apiClient.getUsername()).thenReturn(getUsernamePromise);
         when(apiClient.getTrackCount()).thenReturn(getTrackCountPromise);
+        when(apiClient.getAlbumCount()).thenReturn(getAlbumCountPromise);
 
         const wrapper = shallow(<MainPage apiClient={instance(apiClient)}/>);
         await getUsernamePromise;
         await getTrackCountPromise;
+        await getAlbumCountPromise;
 
         expect(wrapper.find('.username').text()).toEqual("expected username");
         expect(wrapper.find('.track-count').text()).toEqual("2342");
+        expect(wrapper.find('.album-count').text()).toEqual("5");
     });
 });

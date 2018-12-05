@@ -7,6 +7,48 @@
   },
   "interactions": [
     {
+      "description": "OPTIONS /v1/me/albums",
+      "providerState": "with 2 albums",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/v1/me/albums",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "GET",
+          "Access-Control-Request-Headers": "authorization"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "http://localhost",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "authorization"
+        }
+      }
+    },
+    {
+      "description": "GET /v1/me/albums (page 1)",
+      "providerState": "with 2 albums",
+      "request": {
+        "method": "GET",
+        "path": "/v1/me/albums",
+        "query": "offset=0&limit=1",
+        "headers": {
+          "Authorization": "Bearer real-access-token"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "total": 2
+        }
+      }
+    },
+    {
       "description": "OPTIONS /v1/me/tracks",
       "providerState": "with 3 tracks",
       "request": {
@@ -33,7 +75,7 @@
       "request": {
         "method": "GET",
         "path": "/v1/me/tracks",
-        "query": "offset=0&limit=2",
+        "query": "offset=0&limit=1",
         "headers": {
           "Authorization": "Bearer real-access-token"
         }

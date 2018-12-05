@@ -8,6 +8,7 @@ interface MainPageProps {
 
 interface MainPageState {
     username: string;
+    albumCount: number;
     trackCount: number;
 }
 
@@ -15,18 +16,21 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
     constructor(props: MainPageProps, context?: any) {
         super(props, context);
         this.state = {
+            albumCount: 0,
+            trackCount: 0,
             username: '',
-            trackCount: 0
         };
     }
 
     public async componentDidMount() {
-        const username = await this.props.apiClient.getUsername();
+        const albumCount = await this.props.apiClient.getAlbumCount();
         const trackCount = await this.props.apiClient.getTrackCount();
+        const username = await this.props.apiClient.getUsername();
 
         this.setState({
+            albumCount,
+            trackCount,
             username,
-            trackCount
         });
     }
 
@@ -37,7 +41,8 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
                     Hello <span className="username">{this.state.username}</span>.
                 </div>
                 <div className="counts">
-                    You have <span className="track-count">{this.state.trackCount}</span>tracks in your library.
+                    You have <span className="album-count">{this.state.albumCount}</span> albums
+                    and <span className="track-count">{this.state.trackCount}</span> tracks in your library.
                 </div>
             </div>
         );

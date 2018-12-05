@@ -1,4 +1,4 @@
-import {PaginatedLibraryTracks, UserProfile} from "./model";
+import {PaginatedLibraryAlbums, PaginatedLibraryTracks, UserProfile} from "./model";
 import {TokenService} from "../account/TokenService";
 
 export class ApiClient {
@@ -12,21 +12,35 @@ export class ApiClient {
         this.tokenService = tokenService;
     }
 
-    public async getTrackCount(): Promise<number> {
-        const url = `${this.apiPrefix}/v1/me/tracks?offset=0&limit=2`;
-        const response = await this.fetch.fetch(url,{
+    public async getAlbumCount(): Promise<number> {
+        const url = `${this.apiPrefix}/v1/me/albums?offset=0&limit=1`;
+        const response = await this.fetch.fetch(url, {
             headers: {
                 "Authorization": `Bearer ${this.tokenService.getToken()}`
             },
             credentials: "include",
         });
+
+        const paginatedLibraryTracks = await response.json() as PaginatedLibraryAlbums;
+        return paginatedLibraryTracks.total;
+    }
+
+    public async getTrackCount(): Promise<number> {
+        const url = `${this.apiPrefix}/v1/me/tracks?offset=0&limit=1`;
+        const response = await this.fetch.fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${this.tokenService.getToken()}`
+            },
+            credentials: "include",
+        });
+
         const paginatedLibraryTracks = await response.json() as PaginatedLibraryTracks;
         return paginatedLibraryTracks.total;
     }
 
     public async getUsername(): Promise<string> {
         const url = `${this.apiPrefix}/v1/me`;
-        const response = await this.fetch.fetch(url,{
+        const response = await this.fetch.fetch(url, {
             headers: {
                 "Authorization": `Bearer ${this.tokenService.getToken()}`
             },
