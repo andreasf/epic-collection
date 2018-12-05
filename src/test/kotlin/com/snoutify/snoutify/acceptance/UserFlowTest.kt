@@ -1,11 +1,14 @@
 package com.snoutify.snoutify.acceptance
 
+import com.snoutify.snoutify.FakeProfileController
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.assertj.core.api.Assertions.assertThat
 import org.fluentlenium.adapter.junit.FluentTest
+import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 
@@ -15,6 +18,14 @@ import org.springframework.test.context.junit4.SpringRunner
 class UserFlowTest : FluentTest() {
     val port = 3000
 
+    @Autowired
+    lateinit var fakeProfileController: FakeProfileController
+
+    @After
+    fun afterEach() {
+        fakeProfileController.setCrash(false)
+    }
+
     @Test
     fun user_can_login() {
         when_i_open_the_app()
@@ -22,6 +33,14 @@ class UserFlowTest : FluentTest() {
         and_i_see_the_track_count()
         and_i_see_the_album_count()
         and_i_see_the_remaining_count()
+    }
+
+    @Test
+    fun app_shows_error_messages() {
+        fakeProfileController.setCrash(true)
+
+        when_i_open_the_app()
+        then_i_see_an_error_message()
     }
 
     private fun when_i_open_the_app() {
@@ -43,6 +62,11 @@ class UserFlowTest : FluentTest() {
 
     private fun and_i_see_the_remaining_count() {
         assertThat(el(".remaining-items").textContent()).isEqualTo("9995")
+    }
+
+    private fun then_i_see_an_error_message() {
+        assertThat(el(".error-message .message .text").textContent().trim())
+                .isEqualTo("error retrieving username: 500")
     }
 
     companion object {

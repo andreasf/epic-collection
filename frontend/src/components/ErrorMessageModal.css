@@ -1,0 +1,25 @@
+.error-message .message {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 2rem;
+
+    background-color: #8b2100;
+    color: white;
+}
+
+.error-message .message .text {
+    padding-top: 2rem;
+    flex-grow: 1;
+    font-weight: 300;
+}
+
+.error-message .message .close-button {
+    text-align: center;
+}

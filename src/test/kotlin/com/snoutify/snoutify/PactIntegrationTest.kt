@@ -6,6 +6,7 @@ import au.com.dius.pact.provider.junit.State
 import au.com.dius.pact.provider.junit.loader.PactFolder
 import au.com.dius.pact.provider.junit.target.HttpTarget
 import au.com.dius.pact.provider.junit.target.TestTarget
+import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.runner.RunWith
@@ -30,6 +31,18 @@ open class PactIntegrationTest {
 
     @State("with 2 albums")
     fun to2AlbumsState() {
+    }
+
+    @State("endpoints returning 500")
+    fun toErrorState() {
+        context.getBean(FakeProfileController::class.java).setCrash(true)
+        context.getBean(FakeLibraryController::class.java).setCrash(true)
+    }
+
+    @After
+    fun afterEach() {
+        context.getBean(FakeProfileController::class.java).setCrash(false)
+        context.getBean(FakeLibraryController::class.java).setCrash(false)
     }
 
     companion object {

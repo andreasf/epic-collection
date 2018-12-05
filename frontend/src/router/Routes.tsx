@@ -5,10 +5,13 @@ import {Route, RouteComponentProps, Switch} from "react-router-dom";
 import {MainPage} from "../pages/MainPage";
 import {TokenService} from "../account/TokenService";
 import {LibraryService} from "../spotify/LibraryService";
+import {ErrorMessageService} from "../errors/ErrorMessageService";
+import {ErrorMessageModal} from "../components/ErrorMessageModal";
 
 interface RoutesProps {
     tokenService: TokenService;
     libraryService: LibraryService;
+    errorMessageService: ErrorMessageService;
 }
 
 export class Routes extends React.Component<RoutesProps, {}> {
@@ -27,7 +30,8 @@ export class Routes extends React.Component<RoutesProps, {}> {
     }
 
     public renderMain(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
-        return <MainPage libraryService={this.props.libraryService} />;
+        return <MainPage errorMessageService={this.props.errorMessageService}
+                         libraryService={this.props.libraryService}/>;
     }
 
     public render(): ReactNode {
@@ -36,6 +40,7 @@ export class Routes extends React.Component<RoutesProps, {}> {
                 <Switch>
                     <Route exact={true} path="/" render={(props) => this.renderMain(props)}/>
                 </Switch>
+                <ErrorMessageModal errorMessageService={this.props.errorMessageService}/>
             </div>
         );
     }

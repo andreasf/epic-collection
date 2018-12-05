@@ -1,10 +1,12 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import {LibraryService} from "../spotify/LibraryService";
-import "./MainPage.css";
 import {Spinner} from "../components/Spinner";
+import {ErrorMessageService} from "../errors/ErrorMessageService";
+import "./MainPage.css";
 
 interface MainPageProps {
+    errorMessageService: ErrorMessageService;
     libraryService: LibraryService;
 }
 
@@ -29,20 +31,23 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
     }
 
     public async componentDidMount() {
-        const [stats, username] = await Promise.all([
-            this.props.libraryService.getStats(),
-            this.props.libraryService.getUsername()
-        ]);
+        try {
+            const [stats, username] = await Promise.all([
+                this.props.libraryService.getStats(),
+                this.props.libraryService.getUsername()
+            ]);
 
-        this.setState({
-            albumCount: stats.albums,
-            remaining: stats.remaining,
-            trackCount: stats.tracks,
-            username,
-            loading: false,
-        });
+            this.setState({
+                albumCount: stats.albums,
+                remaining: stats.remaining,
+                trackCount: stats.tracks,
+                username,
+                loading: false,
+            });
+        } catch (e) {
+            this.props.errorMessageService.show(e.message);
+        }
     }
-
     public render(): ReactNode {
         const spinner = this.state.loading ? <Spinner/> : null;
 

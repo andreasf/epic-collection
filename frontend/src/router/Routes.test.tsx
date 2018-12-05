@@ -8,16 +8,19 @@ import {Routes} from "./Routes";
 import {TokenService} from "../account/TokenService";
 import {instance, mock, verify, when} from "ts-mockito";
 import {LibraryService, LibraryStats} from "../spotify/LibraryService";
+import {ErrorMessageService} from "../errors/ErrorMessageService";
 
 configure({adapter: new Adapter()});
 
 describe("Routes", () => {
     let tokenService: TokenService;
     let libraryService: LibraryService;
+    let errorMessageService: ErrorMessageService;
 
     beforeEach(() => {
         tokenService = mock(TokenService);
         libraryService = mock(LibraryService);
+        errorMessageService = mock(ErrorMessageService);
         when(tokenService.isLoggedIn()).thenReturn(true);
         when(tokenService.isOauthCallback()).thenReturn(false);
         when(libraryService.getStats()).thenReturn(Promise.resolve({
@@ -30,7 +33,9 @@ describe("Routes", () => {
     const renderAt = (path: string) => {
         return mount((
             <MemoryRouter initialEntries={[path as LocationDescriptor]}>
-                <Routes tokenService={instance(tokenService)} libraryService={instance(libraryService)}/>
+                <Routes errorMessageService={instance(errorMessageService)}
+                        libraryService={instance(libraryService)}
+                        tokenService={instance(tokenService)}/>
             </MemoryRouter>
         ));
     };

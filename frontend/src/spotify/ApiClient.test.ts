@@ -32,7 +32,7 @@ describe("ApiClient", () => {
         await provider.removeInteractions();
     });
 
-    describe("getAlbumCount", () => {
+    describe("getAlbumCount (success)", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
                 state: "with 2 albums",
@@ -65,7 +65,39 @@ describe("ApiClient", () => {
         });
     });
 
-    describe("getTrackCount", () => {
+    describe("getAlbumCount (error)", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "endpoints returning 500",
+                uponReceiving: "GET /v1/me/albums",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/me/albums",
+                    query: "offset=0&limit=1",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 500
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("throws an error", async () => {
+            try {
+                await apiClient.getAlbumCount();
+                fail("should have thrown an error");
+            } catch (e) {
+                expect(e.message).toEqual("error retrieving album count: 500 Internal Server Error");
+            }
+        });
+    });
+
+    describe("getTrackCount (success)", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
                 state: "with 3 tracks",
@@ -98,7 +130,39 @@ describe("ApiClient", () => {
         });
     });
 
-    describe("getUsername", () => {
+    describe("getTrackCount (error)", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "endpoints returning 500",
+                uponReceiving: "GET /v1/me/tracks",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/me/tracks",
+                    query: "offset=0&limit=1",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 500,
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("throws an error", async () => {
+            try {
+                await apiClient.getTrackCount();
+                fail("should have thrown an error");
+            } catch (e) {
+                expect(e.message).toEqual("error retrieving track count: 500 Internal Server Error");
+            }
+        });
+    });
+
+    describe("getUsername (success)", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
                 state: "with test user",
@@ -127,6 +191,37 @@ describe("ApiClient", () => {
             const username = await apiClient.getUsername();
 
             expect(username).toEqual("Test User");
+        });
+    });
+
+    describe("getUsername (error)", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "endpoints returning 500",
+                uponReceiving: "GET /v1/me",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/me",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 500,
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("throws an error", async () => {
+            try {
+                await apiClient.getUsername();
+                fail("should have thrown an error");
+            } catch (e) {
+                expect(e.message).toEqual("error retrieving username: 500 Internal Server Error");
+            }
         });
     });
 

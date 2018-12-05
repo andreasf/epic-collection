@@ -49,6 +49,44 @@
       }
     },
     {
+      "description": "OPTIONS /v1/me/albums",
+      "providerState": "endpoints returning 500",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/v1/me/albums",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "GET",
+          "Access-Control-Request-Headers": "authorization"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "http://localhost",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "authorization"
+        }
+      }
+    },
+    {
+      "description": "GET /v1/me/albums",
+      "providerState": "endpoints returning 500",
+      "request": {
+        "method": "GET",
+        "path": "/v1/me/albums",
+        "query": "offset=0&limit=1",
+        "headers": {
+          "Authorization": "Bearer real-access-token"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+        }
+      }
+    },
+    {
       "description": "OPTIONS /v1/me/tracks",
       "providerState": "with 3 tracks",
       "request": {
@@ -91,6 +129,44 @@
       }
     },
     {
+      "description": "OPTIONS /v1/me/tracks",
+      "providerState": "endpoints returning 500",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/v1/me/tracks",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "GET",
+          "Access-Control-Request-Headers": "authorization"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "http://localhost",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "authorization"
+        }
+      }
+    },
+    {
+      "description": "GET /v1/me/tracks",
+      "providerState": "endpoints returning 500",
+      "request": {
+        "method": "GET",
+        "path": "/v1/me/tracks",
+        "query": "offset=0&limit=1",
+        "headers": {
+          "Authorization": "Bearer real-access-token"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+        }
+      }
+    },
+    {
       "description": "OPTIONS /v1/me",
       "providerState": "with test user",
       "request": {
@@ -129,6 +205,43 @@
         "body": {
           "display_name": "Test User",
           "id": "testuser"
+        }
+      }
+    },
+    {
+      "description": "OPTIONS /v1/me",
+      "providerState": "endpoints returning 500",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/v1/me",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "GET",
+          "Access-Control-Request-Headers": "authorization"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "http://localhost",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "authorization"
+        }
+      }
+    },
+    {
+      "description": "GET /v1/me",
+      "providerState": "endpoints returning 500",
+      "request": {
+        "method": "GET",
+        "path": "/v1/me",
+        "headers": {
+          "Authorization": "Bearer real-access-token"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
         }
       }
     }

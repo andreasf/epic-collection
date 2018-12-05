@@ -20,6 +20,10 @@ export class ApiClient {
             },
         });
 
+        if (!response.ok) {
+            throw new Error(`error retrieving album count: ${response.status} ${response.statusText.trim()}`);
+        }
+
         const paginatedLibraryTracks = await response.json() as PaginatedLibraryAlbums;
         return paginatedLibraryTracks.total;
     }
@@ -32,6 +36,10 @@ export class ApiClient {
             },
         });
 
+        if (!response.ok) {
+            throw new Error(`error retrieving track count: ${response.status} ${response.statusText.trim()}`);
+        }
+
         const paginatedLibraryTracks = await response.json() as PaginatedLibraryTracks;
         return paginatedLibraryTracks.total;
     }
@@ -43,6 +51,11 @@ export class ApiClient {
                 "Authorization": `Bearer ${this.tokenService.getToken()}`
             },
         });
+
+        if (!response.ok) {
+            throw new Error(`error retrieving username: ${response.status} ${response.statusText.trim()}`);
+        }
+
         const userProfileReponse = await response.json() as UserProfile;
         return userProfileReponse.display_name;
     }
