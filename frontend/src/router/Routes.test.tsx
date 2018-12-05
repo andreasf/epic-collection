@@ -9,6 +9,7 @@ import {TokenService} from "../account/TokenService";
 import {instance, mock, verify, when} from "ts-mockito";
 import {LibraryService, LibraryStats} from "../spotify/LibraryService";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
+import {AlbumPage} from "../pages/AlbumPage";
 
 configure({adapter: new Adapter()});
 
@@ -45,6 +46,10 @@ describe("Routes", () => {
             {
                 component: MainPage,
                 path: "/",
+            },
+            {
+                component: AlbumPage,
+                path: "/find-albums",
             }
         ];
 

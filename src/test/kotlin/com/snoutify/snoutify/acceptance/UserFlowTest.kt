@@ -27,12 +27,15 @@ class UserFlowTest : FluentTest() {
     }
 
     @Test
-    fun user_can_login() {
+    fun user_can_login_and_find_albums_to_remove() {
         when_i_open_the_app()
         then_i_see_my_username()
         and_i_see_the_track_count()
         and_i_see_the_album_count()
         and_i_see_the_remaining_count()
+
+        and_when_i_click_find()
+        then_i_can_see_the_album_page()
     }
 
     @Test
@@ -67,6 +70,14 @@ class UserFlowTest : FluentTest() {
     private fun then_i_see_an_error_message() {
         assertThat(el(".error-message .message .text").textContent().trim())
                 .isEqualTo("error retrieving username: 500")
+    }
+
+    private fun and_when_i_click_find() {
+        el(".find-albums").click();
+    }
+
+    private fun then_i_can_see_the_album_page() {
+        await().until(el(".album-page")).displayed()
     }
 
     companion object {

@@ -6,20 +6,25 @@ import {anyString, instance, mock, verify, when} from "ts-mockito";
 import {LibraryService, LibraryStats} from "../spotify/LibraryService";
 import {Spinner} from "../components/Spinner";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
+import {History} from "history";
+import {NiceHistory} from "../test_doubles/test_doubles";
 
 configure({adapter: new Adapter()});
 
 describe("MainPage", () => {
     let libraryService: LibraryService;
     let errorMessageService: ErrorMessageService;
+    let history: History;
 
     beforeEach(() => {
         libraryService = mock(LibraryService);
         errorMessageService = mock(ErrorMessageService);
+        history = mock(NiceHistory);
     });
 
     const shallowRender = () => {
         return shallow(<MainPage errorMessageService={instance(errorMessageService)}
+                                 history={instance(history)}
                                  libraryService={instance(libraryService)}/>);
     };
 
@@ -67,5 +72,23 @@ describe("MainPage", () => {
         }
 
         verify(errorMessageService.show(anyString())).once();
+    });
+
+    it("redirects to the albums page when clicking 'find albums'", async () => {
+        const getUsernamePromise = Promise.resolve("expected username");
+        const getStatsPromise = Promise.resolve({
+            albums: 5,
+            tracks: 2342,
+            remaining: 23
+        } as LibraryStats);
+        when(libraryService.getUsername()).thenReturn(getUsernamePromise);
+        when(libraryService.getStats()).thenReturn(getStatsPromise);
+
+        const wrapper = shallowRender();
+        await getUsernamePromise;
+        await getStatsPromise;
+
+        wrapper.find(".find-albums").simulate("click");
+        verify(history.push("/find-albums")).called();
     });
 });

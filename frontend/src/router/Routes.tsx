@@ -7,6 +7,7 @@ import {TokenService} from "../account/TokenService";
 import {LibraryService} from "../spotify/LibraryService";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
 import {ErrorMessageModal} from "../components/ErrorMessageModal";
+import {AlbumPage} from "../pages/AlbumPage";
 
 interface RoutesProps {
     tokenService: TokenService;
@@ -29,19 +30,25 @@ export class Routes extends React.Component<RoutesProps, {}> {
         }
     }
 
-    public renderMain(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
-        return <MainPage errorMessageService={this.props.errorMessageService}
-                         libraryService={this.props.libraryService}/>;
-    }
-
     public render(): ReactNode {
         return (
             <div className="router">
                 <Switch>
                     <Route exact={true} path="/" render={(props) => this.renderMain(props)}/>
+                    <Route exact={true} path="/find-albums" render={(props) => this.renderAlbumPage(props)}/>
                 </Switch>
                 <ErrorMessageModal errorMessageService={this.props.errorMessageService}/>
             </div>
         );
+    }
+
+    private renderMain(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
+        return <MainPage errorMessageService={this.props.errorMessageService}
+                         libraryService={this.props.libraryService}
+                         history={props.history}/>;
+    }
+
+    private renderAlbumPage(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
+        return <AlbumPage/>;
     }
 }

@@ -3,11 +3,13 @@ import {ReactNode} from "react";
 import {LibraryService} from "../spotify/LibraryService";
 import {Spinner} from "../components/Spinner";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
+import {History} from "history";
 import "./MainPage.css";
 
 interface MainPageProps {
     errorMessageService: ErrorMessageService;
     libraryService: LibraryService;
+    history: History;
 }
 
 interface MainPageState {
@@ -48,6 +50,7 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
             this.props.errorMessageService.show(e.message);
         }
     }
+
     public render(): ReactNode {
         const spinner = this.state.loading ? <Spinner/> : null;
 
@@ -68,9 +71,15 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
                     <span className="remaining-label">tracks remaining</span>
                 </div>
                 <div className="bottom">
-                    &nbsp;
+                    <button className="find-albums" onClick={() => this.onFindAlbumsClicked()}>
+                        find albums to remove
+                    </button>
                 </div>
             </div>
         );
+    }
+
+    private onFindAlbumsClicked() {
+        this.props.history.push("/find-albums");
     }
 }
