@@ -3,7 +3,6 @@ interface Config {
     apiPrefix: string;
     authorizeUri: string;
     callbackPath: string;
-    redirectUri: string;
     scopes: string[];
 }
 
@@ -12,7 +11,6 @@ const realConfig: Config = {
     apiPrefix: "https://api.spotify.com",
     authorizeUri: "https://accounts.spotify.com/authorize",
     callbackPath: "/oauth/callback",
-    redirectUri: `http://localhost:3000/oauth/callback`,
     scopes: [
         "user-library-read",
     ]
@@ -23,7 +21,6 @@ const fakeConfig: Config = {
     apiPrefix: "http://localhost:3000/fake",
     authorizeUri: "http://localhost:3000/fake/authorize",
     callbackPath: "/oauth/callback",
-    redirectUri: "http://localhost:3000/oauth/callback",
     scopes: [
         "user-library-read",
     ]

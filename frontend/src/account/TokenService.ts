@@ -35,9 +35,10 @@ export class TokenService {
 
     public redirectToLogin() {
         const spaceSeparatedScopes = config.scopes.join(" ");
+        const redirectUri = this.location.origin + config.callbackPath;
         const authUri = config.authorizeUri +
             `?client_id=${config.clientId}` +
-            `&redirect_uri=${config.redirectUri}` +
+            `&redirect_uri=${redirectUri}` +
             `&scope=${spaceSeparatedScopes}` +
             "&response_type=token";
 

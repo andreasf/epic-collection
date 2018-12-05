@@ -41,11 +41,13 @@ describe("TokenService", () => {
 
     describe("redirectToLogin", () => {
         it("redirects", () => {
+            when(location.origin).thenReturn("https://where-this-is-deployed:1234");
+
             tokenService.redirectToLogin();
 
             const authUri = "https://accounts.spotify.com/authorize" +
                 `?client_id=${config.clientId}` +
-                "&redirect_uri=http://localhost:3000/oauth/callback" +
+                "&redirect_uri=https://where-this-is-deployed:1234/oauth/callback" +
                 "&scope=user-library-read" +
                 "&response_type=token";
 
