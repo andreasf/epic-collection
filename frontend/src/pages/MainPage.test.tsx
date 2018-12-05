@@ -14,7 +14,7 @@ describe("MainPage", () => {
         libraryService = mock(LibraryService);
     });
 
-    it("shows the current username and track count", async () => {
+    it("shows the current username and library stats", async () => {
         const getUsernamePromise = Promise.resolve("expected username");
         const getStatsPromise = Promise.resolve({
             albums: 5,
@@ -31,5 +31,6 @@ describe("MainPage", () => {
         expect(wrapper.find('.username').text()).toEqual("expected username");
         expect(wrapper.find('.track-count').text()).toEqual("2342");
         expect(wrapper.find('.album-count').text()).toEqual("5");
+        expect(wrapper.find('.remaining-items').text()).toEqual("23");
     });
 });

@@ -7,9 +7,10 @@ interface MainPageProps {
 }
 
 interface MainPageState {
-    username: string;
     albumCount: number;
+    remaining: number;
     trackCount: number;
+    username: string;
 }
 
 export class MainPage extends React.Component<MainPageProps, MainPageState> {
@@ -17,6 +18,7 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
         super(props, context);
         this.state = {
             albumCount: 0,
+            remaining: 0,
             trackCount: 0,
             username: '',
         };
@@ -30,6 +32,7 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
 
         this.setState({
             albumCount: stats.albums,
+            remaining: stats.remaining,
             trackCount: stats.tracks,
             username,
         });
@@ -44,6 +47,10 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
                 <div className="counts">
                     You have <span className="album-count">{this.state.albumCount}</span> albums
                     and <span className="track-count">{this.state.trackCount}</span> tracks in your library.
+                </div>
+                <div className="remaining">
+                    <div className="remaining-items">{this.state.remaining}</div>
+                    <span className="remaining-label">tracks remaining</span>
                 </div>
             </div>
         );
