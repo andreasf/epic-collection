@@ -18,7 +18,6 @@ export class ApiClient {
             headers: {
                 "Authorization": `Bearer ${this.tokenService.getToken()}`
             },
-            credentials: "include",
         });
 
         const paginatedLibraryTracks = await response.json() as PaginatedLibraryAlbums;
@@ -31,7 +30,6 @@ export class ApiClient {
             headers: {
                 "Authorization": `Bearer ${this.tokenService.getToken()}`
             },
-            credentials: "include",
         });
 
         const paginatedLibraryTracks = await response.json() as PaginatedLibraryTracks;
@@ -44,7 +42,6 @@ export class ApiClient {
             headers: {
                 "Authorization": `Bearer ${this.tokenService.getToken()}`
             },
-            credentials: "same-origin",
         });
         const userProfileReponse = await response.json() as UserProfile;
         return userProfileReponse.display_name;
