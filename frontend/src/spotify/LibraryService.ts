@@ -7,6 +7,7 @@ const maxLibrarySize = 10000;
 export class LibraryService {
     private apiClient: ApiClient;
     private randomChoice: RandomChoice;
+    private albumCount: number;
 
     constructor(apiClient: ApiClient, randomChoice: RandomChoice) {
         this.apiClient = apiClient;
@@ -15,9 +16,11 @@ export class LibraryService {
 
     public async getStats(): Promise<LibraryStats> {
         const [albums, tracks] = await Promise.all([
-            this.apiClient.getAlbumCount(),
+            this.getAlbumCount(false),
             this.apiClient.getTrackCount()
         ]);
+
+        this.albumCount = albums;
 
         return {
             albums,
@@ -31,7 +34,7 @@ export class LibraryService {
     }
 
     public async getRandomAlbum(): Promise<Album> {
-        const albumCount = await this.apiClient.getAlbumCount();
+        const albumCount = await this.getAlbumCount();
         const offset = this.randomChoice.randomInt(albumCount);
         const album = await this.apiClient.getAlbumByOffset(offset);
 
@@ -41,6 +44,14 @@ export class LibraryService {
             cover: album.images[0].url,
             artists: this.formatArtists(album.artists),
         };
+    }
+
+    private async getAlbumCount(cache: boolean = true): Promise<number> {
+        if (!this.albumCount || !cache) {
+            this.albumCount = await this.apiClient.getAlbumCount();
+        }
+
+        return Promise.resolve(this.albumCount);
     }
 
     private formatArtists(artists: Artist[]): string {

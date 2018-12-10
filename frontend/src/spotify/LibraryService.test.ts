@@ -1,6 +1,6 @@
 import {Album, LibraryService, LibraryStats} from "./LibraryService";
 import {ApiClient} from "./ApiClient";
-import {anything, instance, mock, verify, when} from "ts-mockito";
+import {anything, instance, mock, reset, verify, when} from "ts-mockito";
 import {ApiAlbum} from "./model";
 import {RandomChoice} from "../RandomChoice";
 
@@ -67,8 +67,24 @@ describe("LibraryService", () => {
         });
 
         describe("when the album count is cached", () => {
-            xit("retrieves a random album", () => {
-                fail();
+            beforeEach(async () => {
+                when(apiClient.getAlbumCount()).thenReturn(Promise.resolve(23));
+                when(apiClient.getTrackCount()).thenReturn(Promise.resolve(42));
+                await libraryService.getStats();
+                reset(apiClient);
+            });
+
+            it("does not retrieve the count again", async () => {
+                const totallyRandomNumber = 5;
+                when(randomChoice.randomInt(anything())).thenReturn(totallyRandomNumber);
+                when(apiClient.getAlbumByOffset(anything())).thenReturn(Promise.resolve(apiAlbum1));
+
+                const album = await libraryService.getRandomAlbum();
+
+                verify(apiClient.getAlbumCount()).never();
+                verify(randomChoice.randomInt(23)).once();
+                verify(apiClient.getAlbumByOffset(totallyRandomNumber)).once();
+                expect(album).toEqual(expectedAlbum1);
             });
         });
 
