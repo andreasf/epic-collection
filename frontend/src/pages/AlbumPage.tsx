@@ -56,7 +56,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                     </div>
                     <div className="album-name">{this.state.name}</div>
                     <div className="artists">
-                        Album by <span className="album-artists">{this.state.artists}</span>
+                        <span className="album-artists">{this.state.artists}</span>
                     </div>
                 </div>
             </div>
