@@ -49,6 +49,7 @@ export class Routes extends React.Component<RoutesProps, {}> {
     }
 
     private renderAlbumPage(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
-        return <AlbumPage libraryService={this.props.libraryService}/>;
+        return <AlbumPage errorMessageService={this.props.errorMessageService}
+                          libraryService={this.props.libraryService}/>;
     }
 }

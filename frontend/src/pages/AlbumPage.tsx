@@ -3,8 +3,10 @@ import {ReactNode} from "react";
 import {LibraryService} from "../spotify/LibraryService";
 import {Spinner} from "../components/Spinner";
 import "./AlbumPage.css";
+import {ErrorMessageService} from "../errors/ErrorMessageService";
 
 interface AlbumPageProps {
+    errorMessageService: ErrorMessageService;
     libraryService: LibraryService;
 }
 
@@ -33,15 +35,20 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
     }
 
     public async componentDidMount() {
-        const album = await this.props.libraryService.getRandomAlbum();
+        try {
+            const album = await this.props.libraryService.getRandomAlbum();
 
-        this.setState({
-            name: album.name,
-            artists: album.artists,
-            cover: album.cover,
-            id: album.id,
-            loading: false,
-        });
+            this.setState({
+                name: album.name,
+                artists: album.artists,
+                cover: album.cover,
+                id: album.id,
+                loading: false,
+            });
+
+        } catch (e) {
+            this.props.errorMessageService.show(`error retrieving album: ${e.message}`);
+        }
     }
 
     public render(): ReactNode {

@@ -1,10 +1,11 @@
 import * as React from "react";
 import {Album, LibraryService} from "../spotify/LibraryService";
-import {instance, mock, verify, when} from "ts-mockito";
+import {anyString, instance, mock, verify, when} from "ts-mockito";
 import {configure, shallow} from "enzyme";
 import {AlbumPage} from "./AlbumPage";
 import * as Adapter from "enzyme-adapter-react-16";
 import {Spinner} from "../components/Spinner";
+import {ErrorMessageService} from "../errors/ErrorMessageService";
 
 configure({adapter: new Adapter()});
 
@@ -16,14 +17,17 @@ const album = {
 } as Album;
 
 describe("AlbumPage", () => {
+    let errorMessageService: ErrorMessageService;
     let libraryService: LibraryService;
 
     beforeEach(() => {
+        errorMessageService = mock(ErrorMessageService);
         libraryService = mock(LibraryService);
     });
 
     const shallowRender = () =>
-        shallow(<AlbumPage libraryService={instance(libraryService)}/>);
+        shallow(<AlbumPage errorMessageService={instance(errorMessageService)}
+                           libraryService={instance(libraryService)}/>);
 
     it("retrieves a random album and shows the information", async () => {
         const albumPromise = Promise.resolve(album);
@@ -67,5 +71,21 @@ describe("AlbumPage", () => {
 
         wrapper.find(".album-cover img").simulate("load");
         expect(wrapper.find(Spinner).exists()).toBeFalsy();
+    });
+
+    it("shows an error message if retrieving album data fails", async () => {
+        const albumPromise = Promise.reject(new Error("boo"));
+        when(libraryService.getRandomAlbum()).thenReturn(albumPromise);
+
+        shallowRender();
+        try {
+            await albumPromise;
+            fail("promise should have been rejected");
+        } catch (e) {
+            // promise always rejects
+        }
+
+        verify(errorMessageService.show(anyString())).once();
+        verify(errorMessageService.show("error retrieving album: boo")).once();
     });
 });
