@@ -31,6 +31,7 @@ describe("AlbumPage", () => {
 
         const wrapper = shallowRender();
         await albumPromise;
+        wrapper.find(".album-cover img").simulate("load");
 
         verify(libraryService.getRandomAlbum()).once();
 
@@ -41,7 +42,7 @@ describe("AlbumPage", () => {
         expect(wrapper.find(Spinner).exists()).toBeFalsy();
     });
 
-    it("shows a spinner while the album is loading", () => {
+    it("shows a spinner while the data is loading", () => {
         when(libraryService.getRandomAlbum()).thenReturn(new Promise((() => null)));
 
         const wrapper = shallowRender();
@@ -49,5 +50,22 @@ describe("AlbumPage", () => {
         verify(libraryService.getRandomAlbum()).once();
 
         expect(wrapper.find(Spinner).exists()).toBeTruthy();
+    });
+
+    it("shows a spinner while the cover image is loading", async () => {
+        const albumPromise = Promise.resolve(album);
+        when(libraryService.getRandomAlbum()).thenReturn(albumPromise);
+
+        const wrapper = shallowRender();
+        await albumPromise;
+
+        verify(libraryService.getRandomAlbum()).once();
+
+        expect(wrapper.find(Spinner).exists()).toBeTruthy();
+        expect(wrapper.find(".album-cover img").get(0).props)
+            .toHaveProperty("src", "cover.jpg");
+
+        wrapper.find(".album-cover img").simulate("load");
+        expect(wrapper.find(Spinner).exists()).toBeFalsy();
     });
 });

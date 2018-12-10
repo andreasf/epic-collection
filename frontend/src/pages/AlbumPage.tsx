@@ -14,6 +14,7 @@ interface AlbumPageState {
     cover: string;
     id: string;
     loading: boolean;
+    coverLoading: boolean;
 }
 
 export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
@@ -27,6 +28,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
             cover: "",
             id: "",
             loading: true,
+            coverLoading: true
         };
     }
 
@@ -43,14 +45,14 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
     }
 
     public render(): ReactNode {
-        const spinner = this.state.loading ? <Spinner/> : null;
+        const spinner = this.state.loading || this.state.coverLoading ? <Spinner/> : null;
 
         return (
             <div className="album-page">
                 {spinner}
                 <div className="top">
                     <div className="album-cover">
-                        <img src={this.state.cover}/>
+                        <img src={this.state.cover} onLoad={() => this.coverLoaded()}/>
                     </div>
                     <div className="album-name">{this.state.name}</div>
                     <div className="artists">
@@ -59,5 +61,11 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                 </div>
             </div>
         );
+    }
+
+    private coverLoaded() {
+        this.setState({
+            coverLoading: false
+        });
     }
 }
