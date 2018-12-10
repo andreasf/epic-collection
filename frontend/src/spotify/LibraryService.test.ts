@@ -1,6 +1,6 @@
 import {Album, LibraryService, LibraryStats} from "./LibraryService";
 import {ApiClient} from "./ApiClient";
-import {anything, instance, mock, reset, verify, when} from "ts-mockito";
+import {anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {ApiAlbum} from "./model";
 import {RandomChoice} from "../RandomChoice";
 
@@ -46,13 +46,13 @@ describe("LibraryService", () => {
             const test = async (apiAlbum: ApiAlbum, expectedAlbum: Album) => {
                 const totallyRandomNumber = 5;
                 when(apiClient.getAlbumCount()).thenReturn(Promise.resolve(23));
-                when(randomChoice.randomInt(anything())).thenReturn(totallyRandomNumber);
+                when(randomChoice.randomInt(anything(), anything())).thenReturn(totallyRandomNumber);
                 when(apiClient.getAlbumByOffset(anything())).thenReturn(Promise.resolve(apiAlbum));
 
                 const album = await libraryService.getRandomAlbum();
 
                 verify(apiClient.getAlbumCount()).once();
-                verify(randomChoice.randomInt(23)).once();
+                verify(randomChoice.randomInt(23, deepEqual([]))).once();
                 verify(apiClient.getAlbumByOffset(totallyRandomNumber)).once();
                 expect(album).toEqual(expectedAlbum);
             };
@@ -76,20 +76,31 @@ describe("LibraryService", () => {
 
             it("does not retrieve the count again", async () => {
                 const totallyRandomNumber = 5;
-                when(randomChoice.randomInt(anything())).thenReturn(totallyRandomNumber);
+                when(randomChoice.randomInt(anything(), anything())).thenReturn(totallyRandomNumber);
                 when(apiClient.getAlbumByOffset(anything())).thenReturn(Promise.resolve(apiAlbum1));
 
                 const album = await libraryService.getRandomAlbum();
 
                 verify(apiClient.getAlbumCount()).never();
-                verify(randomChoice.randomInt(23)).once();
+                verify(randomChoice.randomInt(23, deepEqual([]))).once();
                 verify(apiClient.getAlbumByOffset(totallyRandomNumber)).once();
                 expect(album).toEqual(expectedAlbum1);
             });
         });
 
-        xit("does not return the same album twice", () => {
-            fail();
+        it("does not return the same album twice", async () => {
+            const firstRandomNumber = 3;
+            when(randomChoice.randomInt(anything(), anything())).thenReturn(firstRandomNumber);
+            when(apiClient.getAlbumCount()).thenReturn(Promise.resolve(23));
+            when(apiClient.getAlbumByOffset(anything())).thenReturn(Promise.resolve(apiAlbum1));
+
+            await libraryService.getRandomAlbum();
+            verify(randomChoice.randomInt(23, deepEqual([]))).once();
+
+            reset(randomChoice);
+            when(randomChoice.randomInt(anything(), anything())).thenReturn(3);
+            await libraryService.getRandomAlbum();
+            verify(randomChoice.randomInt(23, deepEqual([firstRandomNumber]))).once();
         });
     });
 });

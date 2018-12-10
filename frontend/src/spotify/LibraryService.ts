@@ -8,6 +8,7 @@ export class LibraryService {
     private apiClient: ApiClient;
     private randomChoice: RandomChoice;
     private albumCount: number;
+    private visitedAlbums: number[] = [];
 
     constructor(apiClient: ApiClient, randomChoice: RandomChoice) {
         this.apiClient = apiClient;
@@ -35,7 +36,8 @@ export class LibraryService {
 
     public async getRandomAlbum(): Promise<Album> {
         const albumCount = await this.getAlbumCount();
-        const offset = this.randomChoice.randomInt(albumCount);
+        const offset = this.randomChoice.randomInt(albumCount, this.visitedAlbums);
+        this.markVisited(offset);
         const album = await this.apiClient.getAlbumByOffset(offset);
 
         return {
@@ -63,6 +65,14 @@ export class LibraryService {
         const artistN = names.pop();
         const artistsNMinus1 = names.join(", ");
         return [artistsNMinus1, artistN].join(" & ");
+    }
+
+    private markVisited(offset: number) {
+        // don't modify this.visitedAlbums directly, because ts-mockito currently does *not* make a copy of arguments
+        // at call time.
+        const visitedAlbums = Array.from(this.visitedAlbums);
+        visitedAlbums.push(offset);
+        this.visitedAlbums = visitedAlbums;
     }
 }
 

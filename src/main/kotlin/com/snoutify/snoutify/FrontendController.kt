@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class FrontendController {
     @RequestMapping(
             "/",
+            "/find-albums",
             "/oauth/callback")
     fun frontend(): String {
         return "/index.html"
