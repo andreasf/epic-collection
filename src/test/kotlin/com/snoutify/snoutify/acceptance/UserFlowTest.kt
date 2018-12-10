@@ -75,7 +75,7 @@ class UserFlowTest : FluentTest() {
     }
 
     private fun and_when_i_click_find() {
-        el(".find-albums").click();
+        el(".find-albums").click()
     }
 
     private fun then_i_can_see_the_album_page() {
