@@ -29,20 +29,20 @@ open class PactIntegrationTest {
     fun to3TracksState() {
     }
 
-    @State("with 2 albums")
-    fun to2AlbumsState() {
+    @State("with 3 albums")
+    fun to3AlbumsState() {
     }
 
     @State("endpoints returning 500")
     fun toErrorState() {
         context.getBean(FakeProfileController::class.java).setCrash(true)
-        context.getBean(FakeLibraryController::class.java).setCrash(true)
+        context.getBean(FakeLibraryService::class.java).setCrash(true)
     }
 
     @After
     fun afterEach() {
         context.getBean(FakeProfileController::class.java).setCrash(false)
-        context.getBean(FakeLibraryController::class.java).setCrash(false)
+        context.getBean(FakeLibraryService::class.java).setCrash(false)
     }
 
     companion object {

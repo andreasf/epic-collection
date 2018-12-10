@@ -1,0 +1,38 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 20px;
+}
+
+.album-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+    text-align: center;
+}
+
+.album-page .top {
+    padding-top: 2rem;
+    font-weight: 300;
+}
+
+.album-page .album-cover {
+    padding-bottom: 1rem;
+}
+
+.album-page .album-cover img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.album-page .album-name {
+    font-weight: 400;
+}

@@ -1,3 +1,5 @@
+import {BadMath} from "../test_doubles/test_doubles";
+
 interface Config {
     clientId: string;
     apiPrefix: string;
@@ -27,3 +29,5 @@ const fakeConfig: Config = {
 };
 
 export const config = process.env.REACT_APP_FAKE_API ? fakeConfig : realConfig;
+
+export const math = process.env.REACT_APP_FAKE_API ? new BadMath() : Math;

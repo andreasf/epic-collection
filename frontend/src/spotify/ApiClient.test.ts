@@ -7,6 +7,7 @@ import {TokenService} from "../account/TokenService";
 import {instance, mock, when} from "ts-mockito";
 import {meAlbumsResponse} from "./test_resources/me_albums_response";
 import {ErrorHandlingFetch} from "./ErrorHandlingFetch";
+import {ApiAlbum} from "./model";
 import Spy = jasmine.Spy;
 
 const mockServerPort = 8123;
@@ -44,7 +45,7 @@ describe("ApiClient", () => {
     describe("getAlbumCount", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
-                state: "with 2 albums",
+                state: "with 3 albums",
                 uponReceiving: "GET /v1/me/albums (page 1)",
                 withRequest: {
                     method: "GET",
@@ -70,8 +71,52 @@ describe("ApiClient", () => {
         it("returns the number of albums", async () => {
             const count = await apiClient.getAlbumCount();
 
-            expect(count).toEqual(2);
+            expect(count).toEqual(3);
             expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error retrieving album count");
+        });
+    });
+
+    describe("getAlbumByOffset", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "with 3 albums",
+                uponReceiving: "GET /v1/me/albums (by offset)",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/me/albums",
+                    query: "offset=0&limit=1",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: meAlbumsResponse
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("returns the album", async () => {
+            const album = await apiClient.getAlbumByOffset(0);
+
+            expect(album).toEqual({
+                id: "album-1-id",
+                name: "album-1-name",
+                artists: [
+                    {name: "artist-1"},
+                    {name: "artist-2"},
+                ],
+                images: [
+                    {width: 480, height: 480, url: "/images/album-1.png"}
+                ]
+            } as ApiAlbum);
+            expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error retrieving album");
         });
     });
 
@@ -146,7 +191,7 @@ describe("ApiClient", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
                 state: "endpoints returning 500",
-                uponReceiving: "GET /v1/me",
+                uponReceiving: "GET /v1/me (error)",
                 withRequest: {
                     method: "GET",
                     path: "/v1/me",

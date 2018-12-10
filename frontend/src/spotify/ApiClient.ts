@@ -1,4 +1,4 @@
-import {PaginatedLibraryAlbums, PaginatedLibraryTracks, UserProfile} from "./model";
+import {ApiAlbum, PaginatedLibraryAlbums, PaginatedLibraryTracks, UserProfile} from "./model";
 import {TokenService} from "../account/TokenService";
 import {ErrorHandlingFetch} from "./ErrorHandlingFetch";
 
@@ -47,5 +47,17 @@ export class ApiClient {
 
         const userProfileReponse = await response.json() as UserProfile;
         return userProfileReponse.display_name;
+    }
+
+    public async getAlbumByOffset(offset: number): Promise<ApiAlbum> {
+        const url = `${this.apiPrefix}/v1/me/albums?offset=${offset}&limit=1`;
+        const response = await this.errorHandlingFetch.fetch("error retrieving album", url, {
+            headers: {
+                "Authorization": `Bearer ${this.tokenService.getToken()}`
+            },
+        });
+
+        const paginatedLibraryTracks = await response.json() as PaginatedLibraryAlbums;
+        return paginatedLibraryTracks.items[0].album;
     }
 }

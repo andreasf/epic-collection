@@ -9,9 +9,7 @@ export interface PaginatedLibraryAlbums {
 }
 
 export interface LibraryAlbum {
-    artists: Artist[];
-    id: string;
-    name: string;
+    album: ApiAlbum;
 }
 
 export interface PaginatedLibraryTracks {
@@ -30,7 +28,7 @@ export interface LibraryTrack {
 }
 
 export interface Track {
-    album: Album;
+    album: ApiAlbum;
     artists: Artist[];
     available_markets: string[];
     disc_number: number;
@@ -46,20 +44,17 @@ export interface Track {
     uri: string;
 }
 
-export interface Album {
-    album_type: string;
+export interface ApiAlbum {
     artists: Artist[];
-    available_markets: string[];
-    external_urls: ExternalUrls;
-    href: string;
     id: string;
-    images: Thumbnail[];
     name: string;
-    release_date: string;
-    release_date_precision: string;
-    total_tracks: number;
-    type: string;
-    uri: string;
+    images: Image[];
+}
+
+export interface Image {
+    width: number;
+    height: number;
+    url: string;
 }
 
 export interface Artist {
@@ -73,12 +68,6 @@ export interface Artist {
 
 export interface ExternalUrls {
     spotify: string;
-}
-
-export interface Thumbnail {
-    height: number;
-    width: number;
-    url: string;
 }
 
 export interface UserProfile {

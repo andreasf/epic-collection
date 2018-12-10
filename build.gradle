@@ -89,6 +89,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0')
 	testImplementation 'au.com.dius:pact-jvm-provider-junit_2.12:3.6.0'
 	testImplementation("io.github.bonigarcia:webdrivermanager:3.0.0")
     testImplementation('org.fluentlenium:fluentlenium-core:3.7.1')

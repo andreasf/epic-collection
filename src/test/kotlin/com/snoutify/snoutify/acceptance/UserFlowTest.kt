@@ -36,6 +36,8 @@ class UserFlowTest : FluentTest() {
 
         and_when_i_click_find()
         then_i_can_see_the_album_page()
+        and_i_see_the_album("album-1-name", "artist-1 & artist-2")
+        and_i_see_the_cover("http://localhost:$port/images/album-1.png")
     }
 
     @Test
@@ -60,11 +62,11 @@ class UserFlowTest : FluentTest() {
     }
 
     private fun and_i_see_the_album_count() {
-        assertThat(el(".album-count").textContent()).isEqualTo("2")
+        assertThat(el(".album-count").textContent()).isEqualTo("3")
     }
 
     private fun and_i_see_the_remaining_count() {
-        assertThat(el(".remaining-items").textContent()).isEqualTo("9995")
+        assertThat(el(".remaining-items").textContent()).isEqualTo("9994")
     }
 
     private fun then_i_see_an_error_message() {
@@ -78,6 +80,16 @@ class UserFlowTest : FluentTest() {
 
     private fun then_i_can_see_the_album_page() {
         await().until(el(".album-page")).displayed()
+    }
+
+    private fun and_i_see_the_album(albumName: String, artist: String) {
+        assertThat(el(".album-name").text()).isEqualTo(albumName)
+        assertThat(el(".album-artists").text()).isEqualTo(artist)
+    }
+
+    private fun and_i_see_the_cover(url: String) {
+        assertThat(el(".album-cover img").attribute("src"))
+                .isEqualTo(url)
     }
 
     companion object {

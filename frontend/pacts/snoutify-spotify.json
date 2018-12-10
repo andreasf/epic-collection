@@ -8,7 +8,7 @@
   "interactions": [
     {
       "description": "OPTIONS /v1/me/albums",
-      "providerState": "with 2 albums",
+      "providerState": "with 3 albums",
       "request": {
         "method": "OPTIONS",
         "path": "/v1/me/albums",
@@ -29,7 +29,7 @@
     },
     {
       "description": "GET /v1/me/albums (page 1)",
-      "providerState": "with 2 albums",
+      "providerState": "with 3 albums",
       "request": {
         "method": "GET",
         "path": "/v1/me/albums",
@@ -44,7 +44,74 @@
           "Content-Type": "application/json"
         },
         "body": {
-          "total": 2
+          "items": [
+            {
+              "album": {
+                "id": "album-1-id",
+                "name": "album-1-name",
+                "artists": [
+                  {
+                    "name": "artist-1"
+                  },
+                  {
+                    "name": "artist-2"
+                  }
+                ],
+                "images": [
+                  {
+                    "width": 480,
+                    "height": 480,
+                    "url": "/images/album-1.png"
+                  }
+                ]
+              }
+            }
+          ],
+          "total": 3
+        }
+      }
+    },
+    {
+      "description": "GET /v1/me/albums (by offset)",
+      "providerState": "with 3 albums",
+      "request": {
+        "method": "GET",
+        "path": "/v1/me/albums",
+        "query": "offset=0&limit=1",
+        "headers": {
+          "Authorization": "Bearer real-access-token"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "items": [
+            {
+              "album": {
+                "id": "album-1-id",
+                "name": "album-1-name",
+                "artists": [
+                  {
+                    "name": "artist-1"
+                  },
+                  {
+                    "name": "artist-2"
+                  }
+                ],
+                "images": [
+                  {
+                    "width": 480,
+                    "height": 480,
+                    "url": "/images/album-1.png"
+                  }
+                ]
+              }
+            }
+          ],
+          "total": 3
         }
       }
     },
@@ -154,7 +221,7 @@
       }
     },
     {
-      "description": "GET /v1/me",
+      "description": "GET /v1/me (error)",
       "providerState": "endpoints returning 500",
       "request": {
         "method": "GET",
