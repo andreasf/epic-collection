@@ -6,6 +6,8 @@ import {AlbumPage} from "./AlbumPage";
 import * as Adapter from "enzyme-adapter-react-16";
 import {Spinner} from "../components/Spinner";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
+import {History} from "history";
+import {NiceHistory} from "../test_doubles/test_doubles";
 
 configure({adapter: new Adapter()});
 
@@ -27,15 +29,18 @@ const album2 = {
 
 describe("AlbumPage", () => {
     let errorMessageService: ErrorMessageService;
+    let history: History;
     let libraryService: LibraryService;
 
     beforeEach(() => {
         errorMessageService = mock(ErrorMessageService);
+        history = mock(NiceHistory);
         libraryService = mock(LibraryService);
     });
 
     const shallowRender = () =>
         shallow(<AlbumPage errorMessageService={instance(errorMessageService)}
+                           history={instance(history)}
                            libraryService={instance(libraryService)}/>);
 
     it("retrieves a random album and shows the information", async () => {
@@ -193,6 +198,20 @@ describe("AlbumPage", () => {
         it("shows the '# tracks selected' counter", () => {
             // number of tracks + number of albums
             expect(wrapper.find(".selected-count").text()).toEqual("42 tracks selected");
+        });
+    });
+
+    describe("when clicking 'back'", () => {
+        it("clears the selection and navigates to the main page", () => {
+            const albumPromise = Promise.resolve(album1);
+            when(libraryService.getRandomAlbum()).thenReturn(albumPromise);
+
+            const wrapper = shallowRender();
+
+            wrapper.find(".back-button").simulate("click");
+
+            verify(history.push("/")).called();
+            verify(libraryService.clearSelection()).called();
         });
     });
 });

@@ -50,6 +50,7 @@ export class Routes extends React.Component<RoutesProps, {}> {
 
     private renderAlbumPage(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
         return <AlbumPage errorMessageService={this.props.errorMessageService}
+                          history={props.history}
                           libraryService={this.props.libraryService}/>;
     }
 }

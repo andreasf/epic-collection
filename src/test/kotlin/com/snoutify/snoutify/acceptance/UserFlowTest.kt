@@ -54,6 +54,32 @@ class UserFlowTest : FluentTest() {
     }
 
     @Test
+    fun user_can_cancel() {
+        when_i_open_the_app()
+        then_i_see_my_username()
+        and_i_see_the_track_count()
+        and_i_see_the_album_count()
+        and_i_see_the_remaining_count()
+
+        and_when_i_click_find()
+        then_i_can_see_the_album_page()
+        and_i_see_tracks_selected(0)
+
+        and_when_i_click_select_for_removal()
+        then_i_can_see_the_album_page()
+        and_i_see_tracks_selected(4)
+
+        and_when_i_click_back()
+        then_i_see_the_main_page()
+
+        and_when_i_click_find()
+        then_i_can_see_the_album_page()
+        and_i_see_the_album("album-1-name", "artist-1 & artist-2")
+        and_i_see_the_cover("http://localhost:$port/images/album-1.png")
+        and_i_see_tracks_selected(0)
+    }
+
+    @Test
     fun app_shows_error_messages() {
         fakeProfileController.setCrash(true)
 
@@ -115,6 +141,14 @@ class UserFlowTest : FluentTest() {
 
     private fun and_when_i_click_keep() {
         el("button.keep-album").click()
+    }
+
+    private fun and_when_i_click_back() {
+        el(".back-button").click()
+    }
+
+    private fun then_i_see_the_main_page() {
+        await().until(el(".main-page")).displayed()
     }
 
     companion object {

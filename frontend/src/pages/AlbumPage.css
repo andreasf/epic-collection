@@ -23,6 +23,12 @@ body {
     text-align: center;
 }
 
+.album-page .action-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .album-page .album {
     position: relative;
     font-weight: 300;

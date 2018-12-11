@@ -15,6 +15,37 @@ describe("LibraryService", () => {
         libraryService = new LibraryService(instance(apiClient), instance(randomChoice));
     });
 
+    describe("clearSelection", () => {
+        it("clears the current selection", () => {
+            expect(libraryService.getSelectedCount()).toEqual(0);
+
+            libraryService.selectForRemoval(expectedAlbum1);
+            expect(libraryService.getSelectedCount()).toEqual(1 + expectedAlbum1.tracks);
+
+            libraryService.clearSelection();
+            expect(libraryService.getSelectedCount()).toEqual(0);
+        });
+
+        it("clears the list of viewed albums", async () => {
+            const firstRandomNumber = 3;
+            when(randomChoice.randomInt(anything(), anything())).thenReturn(firstRandomNumber);
+            when(apiClient.getAlbumCount()).thenReturn(Promise.resolve(23));
+            when(apiClient.getAlbumByOffset(anything())).thenReturn(Promise.resolve(apiAlbum1));
+
+            // first call adds entry to visited albums list
+            await libraryService.getRandomAlbum();
+            verify(randomChoice.randomInt(23, deepEqual([]))).once();
+
+            libraryService.clearSelection();
+
+            // second call after clearSelection() passes empty list to randomInt()
+            reset(randomChoice);
+            when(randomChoice.randomInt(anything(), anything())).thenReturn(3);
+            await libraryService.getRandomAlbum();
+            verify(randomChoice.randomInt(23, deepEqual([]))).once();
+        });
+    });
+
     describe("getStats", () => {
         it("returns album and track counts and remaining items", async () => {
             when(apiClient.getAlbumCount()).thenReturn(Promise.resolve(23));

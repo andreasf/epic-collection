@@ -4,10 +4,13 @@ import {Album, LibraryService} from "../spotify/LibraryService";
 import {Spinner} from "../components/Spinner";
 import "./AlbumPage.css";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
+import {History} from "history";
+
 
 interface AlbumPageProps {
     errorMessageService: ErrorMessageService;
     libraryService: LibraryService;
+    history: History;
 }
 
 interface AlbumPageState {
@@ -47,6 +50,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
         return (
             <div className="album-page">
                 <div className="action-bar">
+                    <div className="back-button" onClick={() => this.onBackClicked()}>back</div>
                     <div className="selected-count">
                         <span className="count">{this.props.libraryService.getSelectedCount()}</span> tracks selected
                     </div>
@@ -102,6 +106,11 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
         this.setState({
             coverLoading: false
         });
+    }
+
+    private onBackClicked() {
+        this.props.libraryService.clearSelection();
+        this.props.history.push("/");
     }
 
     private onRemoveAlbumClicked() {

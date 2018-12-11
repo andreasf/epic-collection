@@ -16,6 +16,11 @@ export class LibraryService {
         this.randomChoice = randomChoice;
     }
 
+    public clearSelection() {
+        this.visitedAlbums = [];
+        this.selectedAlbums = {};
+    }
+
     public async getStats(): Promise<LibraryStats> {
         const [albums, tracks] = await Promise.all([
             this.getAlbumCount(false),
