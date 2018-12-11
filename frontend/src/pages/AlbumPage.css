@@ -29,6 +29,13 @@ body {
     justify-content: space-between;
 }
 
+.album-page .back-button {
+    padding: 0;
+    border: none;
+    background-color: inherit;
+    font-weight: 300;
+}
+
 .album-page .album {
     position: relative;
     font-weight: 300;

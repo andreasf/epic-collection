@@ -50,7 +50,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
         return (
             <div className="album-page">
                 <div className="action-bar">
-                    <div className="back-button" onClick={() => this.onBackClicked()}>back</div>
+                    <button className="back-button" onClick={() => this.onBackClicked()}>back</button>
                     <div className="selected-count">
                         <span className="count">{this.props.libraryService.getSelectedCount()}</span> tracks selected
                     </div>
