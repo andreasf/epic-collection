@@ -41,17 +41,18 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
     }
 
     public render(): ReactNode {
-        const spinner = this.state.loading || this.state.coverLoading ? <Spinner/> : null;
+        const loading = this.state.loading || this.state.coverLoading;
+        const spinner = loading ? <Spinner/> : null;
 
         return (
             <div className="album-page">
-                {spinner}
                 <div className="action-bar">
                     <div className="selected-count">
                         <span className="count">{this.props.libraryService.getSelectedCount()}</span> tracks selected
                     </div>
                 </div>
                 <div className="album">
+                    {spinner}
                     <div className="album-cover">
                         <img src={this.state.album.cover} onLoad={() => this.coverLoaded()}/>
                     </div>
@@ -60,12 +61,16 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                 </div>
                 <div className="buttons">
                     <div className="remove">
-                        <button className="remove-album" onClick={() => this.onRemoveAlbumClicked()}>
+                        <button className="remove-album"
+                                onClick={() => this.onRemoveAlbumClicked()}
+                                disabled={loading}>
                             select for removal
                         </button>
                     </div>
                     <div className="keep">
-                        <button className="keep-album" onClick={() => this.onKeepAlbumClicked()}>
+                        <button className="keep-album"
+                                onClick={() => this.onKeepAlbumClicked()}
+                                disabled={loading}>
                             keep
                         </button>
                     </div>
