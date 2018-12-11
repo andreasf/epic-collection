@@ -25,16 +25,28 @@ body {
 }
 
 .album-page .album-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     padding-bottom: 1rem;
+    height: 50vh;
 }
 
 .album-page .album-cover img {
     width: 100%;
+    max-height: 50vh;
     object-fit: contain;
 }
 
 .album-page .album-name {
     font-weight: 400;
+}
+
+.album-page .artists, .album-page .album-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .album-page .remove {
