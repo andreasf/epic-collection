@@ -19,7 +19,8 @@ data class AlbumResponse(
         val id: String,
         val name: String,
         val artists: List<ArtistResponse>,
-        val images: List<ImageResponse>)
+        val images: List<ImageResponse>,
+        val tracks: PaginatedLibraryTracks)
 
 data class ArtistResponse(val name: String)
 
@@ -27,3 +28,5 @@ data class ImageResponse(
         val width: Int,
         val height: Int,
         val url: String)
+
+data class PaginatedLibraryTracks(val total: Int)

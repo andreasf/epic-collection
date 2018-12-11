@@ -63,7 +63,10 @@
                     "height": 480,
                     "url": "/images/album-1.png"
                   }
-                ]
+                ],
+                "tracks": {
+                  "total": 3
+                }
               }
             }
           ],
@@ -107,7 +110,10 @@
                     "height": 480,
                     "url": "/images/album-1.png"
                   }
-                ]
+                ],
+                "tracks": {
+                  "total": 3
+                }
               }
             }
           ],

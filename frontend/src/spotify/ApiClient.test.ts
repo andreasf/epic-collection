@@ -114,7 +114,10 @@ describe("ApiClient", () => {
                 ],
                 images: [
                     {width: 480, height: 480, url: "/images/album-1.png"}
-                ]
+                ],
+                tracks: {
+                    total: 3
+                }
             } as ApiAlbum);
             expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error retrieving album");
         });

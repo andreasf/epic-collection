@@ -7,7 +7,8 @@ val album1 = AlbumResponse(
                 ArtistResponse("artist-1"),
                 ArtistResponse("artist-2")
         ),
-        images = listOf(ImageResponse(480, 480, "/images/album-1.png"))
+        images = listOf(ImageResponse(480, 480, "/images/album-1.png")),
+        tracks = PaginatedLibraryTracks(3)
 )
 
 val album2 = AlbumResponse(
@@ -18,12 +19,14 @@ val album2 = AlbumResponse(
                 ArtistResponse("artist-3"),
                 ArtistResponse("artist-4")
         ),
-        images = listOf(ImageResponse(320, 240, "/images/album-2.jpg"))
+        images = listOf(ImageResponse(320, 240, "/images/album-2.jpg")),
+        tracks = PaginatedLibraryTracks(1)
 )
 
 val album3 = AlbumResponse(
         id = "album-3-id",
         name = "album-3-name",
         artists = listOf(ArtistResponse("artist-1")),
-        images = listOf(ImageResponse(320, 240, "/images/album-3.jpg"))
+        images = listOf(ImageResponse(320, 240, "/images/album-3.jpg")),
+        tracks = PaginatedLibraryTracks(1)
 )

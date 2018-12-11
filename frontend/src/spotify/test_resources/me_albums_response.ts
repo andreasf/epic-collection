@@ -10,7 +10,10 @@ export const meAlbumsResponse = {
                 ],
                 "images": [
                     {"width": 480, "height": 480, "url": "/images/album-1.png"}
-                ]
+                ],
+                "tracks": {
+                    "total": 3
+                }
             }
         }
     ],

@@ -49,6 +49,7 @@ export interface ApiAlbum {
     id: string;
     name: string;
     images: Image[];
+    tracks: PaginatedLibraryTracks;
 }
 
 export interface Image {
