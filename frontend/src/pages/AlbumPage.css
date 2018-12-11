@@ -36,3 +36,16 @@ body {
 .album-page .album-name {
     font-weight: 400;
 }
+
+.album-page .remove {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.album-page button {
+    font-size: inherit;
+    border: 1px solid #a5a5a5;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    font-weight: 300;
+}

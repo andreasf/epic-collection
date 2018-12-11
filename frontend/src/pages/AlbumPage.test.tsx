@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Album, LibraryService} from "../spotify/LibraryService";
 import {anyString, instance, mock, verify, when} from "ts-mockito";
-import {configure, shallow} from "enzyme";
+import {configure, shallow, ShallowWrapper} from "enzyme";
 import {AlbumPage} from "./AlbumPage";
 import * as Adapter from "enzyme-adapter-react-16";
 import {Spinner} from "../components/Spinner";
@@ -9,11 +9,18 @@ import {ErrorMessageService} from "../errors/ErrorMessageService";
 
 configure({adapter: new Adapter()});
 
-const album = {
+const album1 = {
     name: "album-name",
     artists: "artists",
     cover: "cover.jpg",
     id: "album-id"
+} as Album;
+
+const album2 = {
+    name: "second-album-name",
+    artists: "other-artists",
+    cover: "cover-2.jpg",
+    id: "album-2-id"
 } as Album;
 
 describe("AlbumPage", () => {
@@ -30,7 +37,7 @@ describe("AlbumPage", () => {
                            libraryService={instance(libraryService)}/>);
 
     it("retrieves a random album and shows the information", async () => {
-        const albumPromise = Promise.resolve(album);
+        const albumPromise = Promise.resolve(album1);
         when(libraryService.getRandomAlbum()).thenReturn(albumPromise);
 
         const wrapper = shallowRender();
@@ -57,7 +64,7 @@ describe("AlbumPage", () => {
     });
 
     it("shows a spinner while the cover image is loading", async () => {
-        const albumPromise = Promise.resolve(album);
+        const albumPromise = Promise.resolve(album1);
         when(libraryService.getRandomAlbum()).thenReturn(albumPromise);
 
         const wrapper = shallowRender();
@@ -87,5 +94,46 @@ describe("AlbumPage", () => {
 
         verify(errorMessageService.show(anyString())).once();
         verify(errorMessageService.show("error retrieving album: boo")).once();
+    });
+
+    describe("when clicking 'remove'", () => {
+        let wrapper: ShallowWrapper;
+
+        beforeEach(async () => {
+            // first album
+            const album1Promise = Promise.resolve(album1);
+            when(libraryService.getRandomAlbum()).thenReturn(album1Promise);
+
+            wrapper = shallowRender();
+
+            await album1Promise;
+            wrapper.find(".album-cover img").simulate("load");
+            expect(wrapper.find(".album-name").text()).toEqual("album-name");
+
+            // second album
+            const album2Promise = Promise.resolve(album2);
+            when(libraryService.getRandomAlbum()).thenReturn(album2Promise);
+
+            wrapper.find("button.remove-album").simulate("click");
+
+            verify(libraryService.getRandomAlbum()).twice();
+            await album2Promise;
+        });
+
+        it("loads another album", () => {
+            expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
+            expect(wrapper.find(".album-artists").text()).toEqual("other-artists");
+            expect(wrapper.find(".album-cover img").get(0).props)
+                .toHaveProperty("src", "cover-2.jpg");
+        });
+
+        it("shows a spinner while cover and data are still loading", () => {
+            expect(wrapper.find(Spinner).exists()).toBeTruthy();
+        });
+
+        it("hides the spinner once data and image are loaded", () => {
+            wrapper.find(".album-cover img").simulate("load");
+            expect(wrapper.find(Spinner).exists()).toBeFalsy();
+        });
     });
 });

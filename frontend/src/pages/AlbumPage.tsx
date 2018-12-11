@@ -35,20 +35,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
     }
 
     public async componentDidMount() {
-        try {
-            const album = await this.props.libraryService.getRandomAlbum();
-
-            this.setState({
-                name: album.name,
-                artists: album.artists,
-                cover: album.cover,
-                id: album.id,
-                loading: false,
-            });
-
-        } catch (e) {
-            this.props.errorMessageService.show(`error retrieving album: ${e.message}`);
-        }
+        await this.loadAlbum();
     }
 
     public render(): ReactNode {
@@ -66,13 +53,45 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                         <span className="album-artists">{this.state.artists}</span>
                     </div>
                 </div>
+                <div className="remove">
+                    <button className="remove-album" onClick={() => this.onRemoveAlbumClicked()}>
+                        select for removal
+                    </button>
+                </div>
             </div>
         );
+    }
+
+    private async loadAlbum() {
+        try {
+            this.setState({
+                loading: true,
+                coverLoading: true
+            });
+            
+            const album = await this.props.libraryService.getRandomAlbum();
+
+            this.setState({
+                name: album.name,
+                artists: album.artists,
+                cover: album.cover,
+                id: album.id,
+                loading: false,
+            });
+
+        } catch (e) {
+            this.props.errorMessageService.show(`error retrieving album: ${e.message}`);
+        }
     }
 
     private coverLoaded() {
         this.setState({
             coverLoading: false
         });
+    }
+
+    private onRemoveAlbumClicked() {
+
+        return this.loadAlbum();
     }
 }
