@@ -48,6 +48,16 @@ body {
     border-radius: .5rem;
     padding: .5rem 1rem;
     font-weight: 300;
+    background-color: #ececec;
+    user-select: none;
+}
+
+.album-page button:focus {
+    outline: none;
+}
+
+.album-page button:active {
+    background-color: #dedede;
 }
 
 .album-page .action-bar {
