@@ -49,3 +49,7 @@ body {
     padding: .5rem 1rem;
     font-weight: 300;
 }
+
+.album-page .action-bar {
+    font-weight: 300;
+}

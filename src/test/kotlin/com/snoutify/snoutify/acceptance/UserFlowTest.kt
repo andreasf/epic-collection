@@ -38,6 +38,13 @@ class UserFlowTest : FluentTest() {
         then_i_can_see_the_album_page()
         and_i_see_the_album("album-1-name", "artist-1 & artist-2")
         and_i_see_the_cover("http://localhost:$port/images/album-1.png")
+        and_i_see_tracks_selected(0)
+
+        and_when_i_click_select_for_removal()
+        then_i_can_see_the_album_page()
+        and_i_see_the_album("album-2-name", "artist-2, artist-3 & artist-4")
+        and_i_see_the_cover("http://localhost:$port/images/album-2.png")
+        and_i_see_tracks_selected(4)
     }
 
     @Test
@@ -90,6 +97,14 @@ class UserFlowTest : FluentTest() {
     private fun and_i_see_the_cover(url: String) {
         assertThat(el(".album-cover img").attribute("src"))
                 .isEqualTo(url)
+    }
+
+    private fun and_i_see_tracks_selected(tracksSelected: Int) {
+        assertThat(el(".selected-count .count").text()).isEqualTo(tracksSelected.toString())
+    }
+
+    private fun and_when_i_click_select_for_removal() {
+        el("button.remove-album").click()
     }
 
     companion object {

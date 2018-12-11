@@ -13,14 +13,16 @@ const album1 = {
     name: "album-name",
     artists: "artists",
     cover: "cover.jpg",
-    id: "album-id"
+    id: "album-id",
+    tracks: 23
 } as Album;
 
 const album2 = {
     name: "second-album-name",
     artists: "other-artists",
     cover: "cover-2.jpg",
-    id: "album-2-id"
+    id: "album-2-id",
+    tracks: 5
 } as Album;
 
 describe("AlbumPage", () => {
@@ -113,6 +115,7 @@ describe("AlbumPage", () => {
             // second album
             const album2Promise = Promise.resolve(album2);
             when(libraryService.getRandomAlbum()).thenReturn(album2Promise);
+            when(libraryService.getSelectedCount()).thenReturn(42);
 
             wrapper.find("button.remove-album").simulate("click");
 
@@ -120,7 +123,9 @@ describe("AlbumPage", () => {
             await album2Promise;
         });
 
-        it("loads another album", () => {
+        it("selects the album for removal and loads another album", () => {
+            verify(libraryService.selectForRemoval(album1)).called();
+
             expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
             expect(wrapper.find(".album-artists").text()).toEqual("other-artists");
             expect(wrapper.find(".album-cover img").get(0).props)
@@ -134,6 +139,11 @@ describe("AlbumPage", () => {
         it("hides the spinner once data and image are loaded", () => {
             wrapper.find(".album-cover img").simulate("load");
             expect(wrapper.find(Spinner).exists()).toBeFalsy();
+        });
+
+        it("shows the '# tracks selected' counter", () => {
+            // number of tracks + number of albums
+            expect(wrapper.find(".selected-count").text()).toEqual("42 tracks selected");
         });
     });
 });

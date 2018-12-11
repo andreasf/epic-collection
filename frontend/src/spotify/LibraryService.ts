@@ -9,6 +9,7 @@ export class LibraryService {
     private randomChoice: RandomChoice;
     private albumCount: number;
     private visitedAlbums: number[] = [];
+    private selectedAlbums: SelectedAlbums = {};
 
     constructor(apiClient: ApiClient, randomChoice: RandomChoice) {
         this.apiClient = apiClient;
@@ -45,7 +46,22 @@ export class LibraryService {
             id: album.id,
             cover: album.images[0].url,
             artists: this.formatArtists(album.artists),
+            tracks: album.tracks.total,
         };
+    }
+
+    public selectForRemoval(album: Album) {
+        this.selectedAlbums[album.id] = album;
+    }
+
+    public getSelectedCount(): number {
+        let count = 0;
+
+        for (const key of Object.keys(this.selectedAlbums)) {
+            count += 1 + this.selectedAlbums[key].tracks;
+        }
+
+        return count;
     }
 
     private async getAlbumCount(cache: boolean = true): Promise<number> {
@@ -87,4 +103,9 @@ export interface Album {
     artists: string;
     cover: string;
     id: string;
+    tracks: number;
+}
+
+interface SelectedAlbums {
+    [id: string]: Album;
 }

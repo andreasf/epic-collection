@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {LibraryService} from "../spotify/LibraryService";
+import {Album, LibraryService} from "../spotify/LibraryService";
 import {Spinner} from "../components/Spinner";
 import "./AlbumPage.css";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
@@ -11,13 +11,18 @@ interface AlbumPageProps {
 }
 
 interface AlbumPageState {
-    name: string;
-    artists: string;
-    cover: string;
-    id: string;
+    album: Album;
     loading: boolean;
     coverLoading: boolean;
 }
+
+const emptyAlbum = {
+    name: "",
+    artists: "",
+    cover: "",
+    id: "",
+    tracks: 0,
+} as Album;
 
 export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
 
@@ -25,12 +30,9 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
         super(props, context);
 
         this.state = {
-            name: "",
-            artists: "",
-            cover: "",
-            id: "",
+            album: emptyAlbum,
             loading: true,
-            coverLoading: true
+            coverLoading: true,
         };
     }
 
@@ -44,13 +46,18 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
         return (
             <div className="album-page">
                 {spinner}
+                <div className="action-bar">
+                    <div className="selected-count">
+                        <span className="count">{this.props.libraryService.getSelectedCount()}</span> tracks selected
+                    </div>
+                </div>
                 <div className="top">
                     <div className="album-cover">
-                        <img src={this.state.cover} onLoad={() => this.coverLoaded()}/>
+                        <img src={this.state.album.cover} onLoad={() => this.coverLoaded()}/>
                     </div>
-                    <div className="album-name">{this.state.name}</div>
+                    <div className="album-name">{this.state.album.name}</div>
                     <div className="artists">
-                        <span className="album-artists">{this.state.artists}</span>
+                        <span className="album-artists">{this.state.album.artists}</span>
                     </div>
                 </div>
                 <div className="remove">
@@ -68,14 +75,11 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                 loading: true,
                 coverLoading: true
             });
-            
+
             const album = await this.props.libraryService.getRandomAlbum();
 
             this.setState({
-                name: album.name,
-                artists: album.artists,
-                cover: album.cover,
-                id: album.id,
+                album,
                 loading: false,
             });
 
@@ -91,7 +95,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
     }
 
     private onRemoveAlbumClicked() {
-
+        this.props.libraryService.selectForRemoval(this.state.album);
         return this.loadAlbum();
     }
 }

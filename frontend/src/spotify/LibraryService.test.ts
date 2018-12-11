@@ -103,17 +103,32 @@ describe("LibraryService", () => {
             verify(randomChoice.randomInt(23, deepEqual([firstRandomNumber]))).once();
         });
     });
+
+    describe("getSelectedCount", () => {
+        it("returns the number of selected albums and tracks", () => {
+            expect(libraryService.getSelectedCount()).toEqual(0);
+
+            libraryService.selectForRemoval(expectedAlbum1);
+            expect(libraryService.getSelectedCount()).toEqual(1 + expectedAlbum1.tracks);
+
+
+            libraryService.selectForRemoval(expectedAlbum3);
+            expect(libraryService.getSelectedCount())
+                .toEqual(2 + expectedAlbum1.tracks + expectedAlbum3.tracks);
+        });
+    });
 });
 
 const expectedAlbum3 = {
     name: "album-name",
     artists: "artist-1, artist-2 & artist-3",
     cover: "http://example.com/image-1.jpg",
-    id: "album-id"
+    id: "album-3-id",
+    tracks: 42
 } as Album;
 
 const apiAlbum3 = {
-    id: "album-id",
+    id: "album-3-id",
     name: "album-name",
     artists: [
         {name: "artist-1"},
@@ -131,18 +146,22 @@ const apiAlbum3 = {
             height: 768,
             url: "http://example.com/image-2.jpg",
         }
-    ]
+    ],
+    tracks: {
+        total: 42
+    }
 } as ApiAlbum;
 
 const expectedAlbum1 = {
     name: "album-name",
     artists: "artist-1",
     cover: "http://example.com/image-1.jpg",
-    id: "album-id"
+    id: "album-1-id",
+    tracks: 23
 } as Album;
 
 const apiAlbum1 = {
-    id: "album-id",
+    id: "album-1-id",
     name: "album-name",
     artists: [
         {name: "artist-1"},
@@ -158,5 +177,8 @@ const apiAlbum1 = {
             height: 768,
             url: "http://example.com/image-2.jpg",
         }
-    ]
+    ],
+    tracks: {
+        total: 23
+    }
 } as ApiAlbum;
