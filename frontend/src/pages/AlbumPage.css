@@ -25,17 +25,11 @@ body {
 }
 
 .album-page .album-cover {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
     padding-bottom: 1rem;
-    height: 50vh;
 }
 
 .album-page .album-cover img {
-    width: 100%;
-    max-height: 50vh;
+    max-height: 46vh;
     object-fit: contain;
 }
 
