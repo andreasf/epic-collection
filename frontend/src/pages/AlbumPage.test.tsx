@@ -103,7 +103,7 @@ describe("AlbumPage", () => {
         verify(errorMessageService.show("error retrieving album: boo")).once();
     });
 
-    describe("when clicking 'remove'", () => {
+    describe("when clicking 'select'", () => {
         let wrapper: ShallowWrapper;
 
         beforeEach(async () => {
@@ -122,7 +122,7 @@ describe("AlbumPage", () => {
             when(libraryService.getRandomAlbum()).thenReturn(album2Promise);
             when(libraryService.getSelectedCount()).thenReturn(42);
 
-            wrapper.find("button.remove-album").simulate("click");
+            wrapper.find("button.select").simulate("click");
 
             verify(libraryService.getRandomAlbum()).twice();
             await album2Promise;
@@ -148,7 +148,7 @@ describe("AlbumPage", () => {
 
         it("shows the '# tracks selected' counter", () => {
             // number of tracks + number of albums
-            expect(wrapper.find(".selected-count").text()).toEqual("42 tracks selected");
+            expect(wrapper.find(".selected-count").text()).toEqual("42 selected");
         });
     });
 
@@ -171,7 +171,7 @@ describe("AlbumPage", () => {
             when(libraryService.getRandomAlbum()).thenReturn(album2Promise);
             when(libraryService.getSelectedCount()).thenReturn(42);
 
-            wrapper.find("button.keep-album").simulate("click");
+            wrapper.find("button.keep").simulate("click");
 
             verify(libraryService.getRandomAlbum()).twice();
             await album2Promise;
@@ -197,7 +197,7 @@ describe("AlbumPage", () => {
 
         it("shows the '# tracks selected' counter", () => {
             // number of tracks + number of albums
-            expect(wrapper.find(".selected-count").text()).toEqual("42 tracks selected");
+            expect(wrapper.find(".selected-count").text()).toEqual("42 selected");
         });
     });
 
@@ -212,6 +212,19 @@ describe("AlbumPage", () => {
 
             verify(history.push("/")).called();
             verify(libraryService.clearSelection()).called();
+        });
+    });
+
+    describe("when clicking 'remove'", () => {
+        it("navigates to the confirmation page", () => {
+            const albumPromise = Promise.resolve(album1);
+            when(libraryService.getRandomAlbum()).thenReturn(albumPromise);
+
+            const wrapper = shallowRender();
+
+            wrapper.find(".remove-button").simulate("click");
+
+            verify(history.push("/confirm-removal")).called();
         });
     });
 });

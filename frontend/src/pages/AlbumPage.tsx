@@ -52,8 +52,9 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                 <div className="action-bar">
                     <button className="back-button" onClick={() => this.onBackClicked()}>back</button>
                     <div className="selected-count">
-                        <span className="count">{this.props.libraryService.getSelectedCount()}</span> tracks selected
+                        <span className="count">{this.props.libraryService.getSelectedCount()}</span> selected
                     </div>
+                    <button className="remove-button" onClick={() => this.onRemoveClicked()}>remove</button>
                 </div>
                 <div className="album">
                     {spinner}
@@ -116,5 +117,9 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
 
     private onKeepClicked() {
         return this.loadAlbum();
+    }
+
+    private onRemoveClicked() {
+        this.props.history.push("/confirm-removal");
     }
 }

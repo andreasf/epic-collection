@@ -51,6 +51,9 @@ class UserFlowTest : FluentTest() {
         and_i_see_the_album("album-3-name", "artist-1")
         and_i_see_the_cover("http://localhost:$port/images/album-3.png")
         and_i_see_tracks_selected(4)
+
+        and_when_i_click_remove()
+        then_i_see_the_confirmation_page()
     }
 
     @Test
@@ -136,11 +139,11 @@ class UserFlowTest : FluentTest() {
     }
 
     private fun and_when_i_click_select_for_removal() {
-        el("button.remove-album").click()
+        el("button.select").click()
     }
 
     private fun and_when_i_click_keep() {
-        el("button.keep-album").click()
+        el("button.keep").click()
     }
 
     private fun and_when_i_click_back() {
@@ -149,6 +152,14 @@ class UserFlowTest : FluentTest() {
 
     private fun then_i_see_the_main_page() {
         await().until(el(".main-page")).displayed()
+    }
+
+    private fun and_when_i_click_remove() {
+        el(".remove-button").click()
+    }
+
+    private fun then_i_see_the_confirmation_page() {
+        await().until(el(".confirmation-page")).displayed()
     }
 
     companion object {

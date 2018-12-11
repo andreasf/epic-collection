@@ -7,9 +7,10 @@ import {MainPage} from "../pages/MainPage";
 import {Routes} from "./Routes";
 import {TokenService} from "../account/TokenService";
 import {instance, mock, verify, when} from "ts-mockito";
-import {LibraryService, LibraryStats} from "../spotify/LibraryService";
+import {LibraryService} from "../spotify/LibraryService";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
 import {AlbumPage} from "../pages/AlbumPage";
+import {ConfirmationPage} from "../pages/ConfirmationPage";
 
 configure({adapter: new Adapter()});
 
@@ -24,11 +25,8 @@ describe("Routes", () => {
         errorMessageService = mock(ErrorMessageService);
         when(tokenService.isLoggedIn()).thenReturn(true);
         when(tokenService.isOauthCallback()).thenReturn(false);
-        when(libraryService.getStats()).thenReturn(Promise.resolve({
-            albums: 23,
-            tracks: 42,
-            remaining: 5
-        } as LibraryStats));
+        when(libraryService.getStats()).thenReturn(new Promise(() => null));
+        when(libraryService.getRandomAlbum()).thenReturn(new Promise(() => null));
     });
 
     const renderAt = (path: string) => {
@@ -50,6 +48,10 @@ describe("Routes", () => {
             {
                 component: AlbumPage,
                 path: "/find-albums",
+            },
+            {
+                component: ConfirmationPage,
+                path: "/confirm-removal",
             }
         ];
 

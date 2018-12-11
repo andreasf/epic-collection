@@ -8,6 +8,7 @@ import {LibraryService} from "../spotify/LibraryService";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
 import {ErrorMessageModal} from "../components/ErrorMessageModal";
 import {AlbumPage} from "../pages/AlbumPage";
+import {ConfirmationPage} from "../pages/ConfirmationPage";
 
 interface RoutesProps {
     tokenService: TokenService;
@@ -36,6 +37,7 @@ export class Routes extends React.Component<RoutesProps, {}> {
                 <Switch>
                     <Route exact={true} path="/" render={(props) => this.renderMain(props)}/>
                     <Route exact={true} path="/find-albums" render={(props) => this.renderAlbumPage(props)}/>
+                    <Route exact={true} path="/confirm-removal" render={(props) => this.renderConfirmationPage(props)}/>
                 </Switch>
                 <ErrorMessageModal errorMessageService={this.props.errorMessageService}/>
             </div>
@@ -52,5 +54,9 @@ export class Routes extends React.Component<RoutesProps, {}> {
         return <AlbumPage errorMessageService={this.props.errorMessageService}
                           history={props.history}
                           libraryService={this.props.libraryService}/>;
+    }
+
+    private renderConfirmationPage(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
+        return <ConfirmationPage/>;
     }
 }
