@@ -64,20 +64,16 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                     <div className="album-artists">{this.state.album.artists}</div>
                 </div>
                 <div className="buttons">
-                    <div className="remove">
-                        <button className="remove-album"
-                                onClick={() => this.onRemoveAlbumClicked()}
-                                disabled={loading}>
-                            select for removal
-                        </button>
-                    </div>
-                    <div className="keep">
-                        <button className="keep-album"
-                                onClick={() => this.onKeepAlbumClicked()}
-                                disabled={loading}>
-                            keep
-                        </button>
-                    </div>
+                    <button className="select"
+                            onClick={() => this.onSelectClicked()}
+                            disabled={loading}>
+                        select for removal
+                    </button>
+                    <button className="keep"
+                            onClick={() => this.onKeepClicked()}
+                            disabled={loading}>
+                        keep
+                    </button>
                 </div>
             </div>
         );
@@ -113,12 +109,12 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
         this.props.history.push("/");
     }
 
-    private onRemoveAlbumClicked() {
+    private onSelectClicked() {
         this.props.libraryService.selectForRemoval(this.state.album);
         return this.loadAlbum();
     }
 
-    private onKeepAlbumClicked() {
+    private onKeepClicked() {
         return this.loadAlbum();
     }
 }

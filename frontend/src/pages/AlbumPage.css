@@ -23,10 +23,30 @@ body {
     text-align: center;
 }
 
+.album-page button {
+    font-family: inherit;
+    font-size: inherit;
+    border: 1px solid #a5a5a5;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    background-color: #ececec;
+    user-select: none;
+}
+
+.album-page button:focus {
+    outline: none;
+}
+
+.album-page button:active {
+    background-color: #dedede;
+}
+
 .album-page .action-bar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    font-weight: 300;
 }
 
 .album-page .back-button {
@@ -48,6 +68,7 @@ body {
 }
 
 .album-page .album-cover img {
+    max-width: 100%;
     max-height: 46vh;
     object-fit: contain;
 }
@@ -62,34 +83,22 @@ body {
     overflow: hidden;
 }
 
-.album-page .remove {
-    margin-bottom: calc(var(--margin) / 2);
+.album-page .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.album-page button {
-    font-family: inherit;
-    font-size: inherit;
-    border: 1px solid #a5a5a5;
-    border-radius: .5rem;
-    padding: .5rem 1rem;
-    background-color: #ececec;
-    user-select: none;
+.album-page .buttons button {
+    display: block;
 }
 
-.album-page .keep-album {
+.album-page .keep {
     border: none;
     background-color: inherit;
     font-weight: 300;
 }
 
-.album-page button:focus {
-    outline: none;
-}
-
-.album-page button:active {
-    background-color: #dedede;
-}
-
-.album-page .action-bar {
-    font-weight: 300;
+.album-page .select {
+    margin-bottom: calc(var(--margin) / 2);
 }
