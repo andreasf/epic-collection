@@ -1,3 +1,7 @@
+:root {
+    --margin: 2rem;
+}
+
 body {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 20px;
@@ -10,18 +14,19 @@ body {
     right: 0;
     bottom: 0;
 
-    padding: 2rem;
+    padding: var(--margin);
 
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
 
     text-align: center;
 }
 
-.album-page .top {
-    padding-top: 2rem;
+.album-page .album {
     font-weight: 300;
+    margin-top: var(--margin);
+    margin-bottom: var(--margin);
 }
 
 .album-page .album-cover {
@@ -37,25 +42,30 @@ body {
     font-weight: 400;
 }
 
-.album-page .artists, .album-page .album-name {
+.album-page .album-artists, .album-page .album-name {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
 .album-page .remove {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    margin-bottom: calc(var(--margin) / 2);
 }
 
 .album-page button {
+    font-family: inherit;
     font-size: inherit;
     border: 1px solid #a5a5a5;
     border-radius: .5rem;
     padding: .5rem 1rem;
-    font-weight: 300;
     background-color: #ececec;
     user-select: none;
+}
+
+.album-page .keep-album {
+    border: none;
+    background-color: inherit;
+    font-weight: 300;
 }
 
 .album-page button:focus {

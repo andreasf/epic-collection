@@ -51,19 +51,24 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                         <span className="count">{this.props.libraryService.getSelectedCount()}</span> tracks selected
                     </div>
                 </div>
-                <div className="top">
+                <div className="album">
                     <div className="album-cover">
                         <img src={this.state.album.cover} onLoad={() => this.coverLoaded()}/>
                     </div>
                     <div className="album-name">{this.state.album.name}</div>
-                    <div className="artists">
-                        <span className="album-artists">{this.state.album.artists}</span>
-                    </div>
+                    <div className="album-artists">{this.state.album.artists}</div>
                 </div>
-                <div className="remove">
-                    <button className="remove-album" onClick={() => this.onRemoveAlbumClicked()}>
-                        select for removal
-                    </button>
+                <div className="buttons">
+                    <div className="remove">
+                        <button className="remove-album" onClick={() => this.onRemoveAlbumClicked()}>
+                            select for removal
+                        </button>
+                    </div>
+                    <div className="keep">
+                        <button className="keep-album" onClick={() => this.onKeepAlbumClicked()}>
+                            keep
+                        </button>
+                    </div>
                 </div>
             </div>
         );
@@ -96,6 +101,10 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
 
     private onRemoveAlbumClicked() {
         this.props.libraryService.selectForRemoval(this.state.album);
+        return this.loadAlbum();
+    }
+
+    private onKeepAlbumClicked() {
         return this.loadAlbum();
     }
 }

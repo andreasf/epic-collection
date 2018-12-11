@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Album, LibraryService} from "../spotify/LibraryService";
-import {anyString, instance, mock, verify, when} from "ts-mockito";
+import {anyString, anything, instance, mock, verify, when} from "ts-mockito";
 import {configure, shallow, ShallowWrapper} from "enzyme";
 import {AlbumPage} from "./AlbumPage";
 import * as Adapter from "enzyme-adapter-react-16";
@@ -125,6 +125,55 @@ describe("AlbumPage", () => {
 
         it("selects the album for removal and loads another album", () => {
             verify(libraryService.selectForRemoval(album1)).called();
+
+            expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
+            expect(wrapper.find(".album-artists").text()).toEqual("other-artists");
+            expect(wrapper.find(".album-cover img").get(0).props)
+                .toHaveProperty("src", "cover-2.jpg");
+        });
+
+        it("shows a spinner while cover and data are still loading", () => {
+            expect(wrapper.find(Spinner).exists()).toBeTruthy();
+        });
+
+        it("hides the spinner once data and image are loaded", () => {
+            wrapper.find(".album-cover img").simulate("load");
+            expect(wrapper.find(Spinner).exists()).toBeFalsy();
+        });
+
+        it("shows the '# tracks selected' counter", () => {
+            // number of tracks + number of albums
+            expect(wrapper.find(".selected-count").text()).toEqual("42 tracks selected");
+        });
+    });
+
+    describe("when clicking 'keep'", () => {
+        let wrapper: ShallowWrapper;
+
+        beforeEach(async () => {
+            // first album
+            const album1Promise = Promise.resolve(album1);
+            when(libraryService.getRandomAlbum()).thenReturn(album1Promise);
+
+            wrapper = shallowRender();
+
+            await album1Promise;
+            wrapper.find(".album-cover img").simulate("load");
+            expect(wrapper.find(".album-name").text()).toEqual("album-name");
+
+            // second album
+            const album2Promise = Promise.resolve(album2);
+            when(libraryService.getRandomAlbum()).thenReturn(album2Promise);
+            when(libraryService.getSelectedCount()).thenReturn(42);
+
+            wrapper.find("button.keep-album").simulate("click");
+
+            verify(libraryService.getRandomAlbum()).twice();
+            await album2Promise;
+        });
+
+        it("does *not* select the album for removal but loads another album", () => {
+            verify(libraryService.selectForRemoval(anything())).never();
 
             expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
             expect(wrapper.find(".album-artists").text()).toEqual("other-artists");
