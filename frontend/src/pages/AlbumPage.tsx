@@ -26,6 +26,7 @@ const emptyAlbum = {
     cover: "",
     id: "",
     tracks: [],
+    offset: -1,
 } as Album;
 
 export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
@@ -117,6 +118,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
     }
 
     private onKeepClicked() {
+        this.props.libraryService.keepAlbum(this.state.album);
         return this.loadAlbum();
     }
 

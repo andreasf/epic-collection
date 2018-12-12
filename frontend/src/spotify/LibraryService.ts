@@ -53,7 +53,6 @@ export class LibraryService {
     public async getRandomAlbum(): Promise<Album> {
         const albumCount = await this.getAlbumCount();
         const offset = this.randomChoice.randomInt(albumCount, this.visitedAlbums);
-        this.markVisited(offset);
         const album = await this.apiClient.getAlbumByOffset(offset);
 
         return {
@@ -62,10 +61,16 @@ export class LibraryService {
             cover: album.images[0].url,
             artists: this.formatArtists(album.artists),
             tracks: album.tracks.items.map(track => track.id),
+            offset,
         };
     }
 
+    public keepAlbum(album: Album) {
+        this.markVisited(album.offset);
+    }
+
     public selectForRemoval(album: Album) {
+        this.markVisited(album.offset);
         this.selectedAlbums[album.id] = album;
     }
 
@@ -135,6 +140,7 @@ export interface Album {
     cover: string;
     id: string;
     tracks: string[];
+    offset: number;
 }
 
 interface SelectedAlbums {

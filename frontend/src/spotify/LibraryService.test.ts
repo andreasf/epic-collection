@@ -152,14 +152,31 @@ describe("LibraryService", () => {
             });
         });
 
-        it("does not return the same album twice", async () => {
+        it("does not return selected albums again", async () => {
             const firstRandomNumber = 3;
             when(randomChoice.randomInt(anything(), anything())).thenReturn(firstRandomNumber);
             when(apiClient.getAlbumCount()).thenReturn(Promise.resolve(23));
             when(apiClient.getAlbumByOffset(anything())).thenReturn(Promise.resolve(apiAlbum1));
 
-            await libraryService.getRandomAlbum();
+            const firstAlbum = await libraryService.getRandomAlbum();
             verify(randomChoice.randomInt(23, deepEqual([]))).once();
+            libraryService.selectForRemoval(firstAlbum);
+
+            reset(randomChoice);
+            when(randomChoice.randomInt(anything(), anything())).thenReturn(3);
+            await libraryService.getRandomAlbum();
+            verify(randomChoice.randomInt(23, deepEqual([firstRandomNumber]))).once();
+        });
+
+        it("does not return 'kept' albums again", async () => {
+            const firstRandomNumber = 3;
+            when(randomChoice.randomInt(anything(), anything())).thenReturn(firstRandomNumber);
+            when(apiClient.getAlbumCount()).thenReturn(Promise.resolve(23));
+            when(apiClient.getAlbumByOffset(anything())).thenReturn(Promise.resolve(apiAlbum1));
+
+            const firstAlbum = await libraryService.getRandomAlbum();
+            verify(randomChoice.randomInt(23, deepEqual([]))).once();
+            libraryService.keepAlbum(firstAlbum);
 
             reset(randomChoice);
             when(randomChoice.randomInt(anything(), anything())).thenReturn(3);
@@ -190,7 +207,8 @@ const expectedAlbum3 = {
     id: "album-3-id",
     tracks: [
         "album-3-track-1", "album-3-track-2", "album-3-track-3"
-    ]
+    ],
+    offset: 5
 } as Album;
 
 const apiAlbum3 = {
@@ -230,7 +248,8 @@ const expectedAlbum1 = {
     id: "album-1-id",
     tracks: [
         "album-1-track-1", "album-1-track-2"
-    ]
+    ],
+    offset: 5
 } as Album;
 
 const apiAlbum1 = {

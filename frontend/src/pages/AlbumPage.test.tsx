@@ -12,10 +12,10 @@ import {NiceHistory} from "../test_doubles/test_doubles";
 configure({adapter: new Adapter()});
 
 const album1 = {
-    name: "album-name",
+    name: "album-1-name",
     artists: "artists",
     cover: "cover.jpg",
-    id: "album-id",
+    id: "album-1-id",
     tracks: ["track-1", "track-2"]
 } as Album;
 
@@ -53,7 +53,7 @@ describe("AlbumPage", () => {
 
         verify(libraryService.getRandomAlbum()).once();
 
-        expect(wrapper.find(".album-name").text()).toEqual("album-name");
+        expect(wrapper.find(".album-name").text()).toEqual("album-1-name");
         expect(wrapper.find(".album-artists").text()).toEqual("artists");
         expect(wrapper.find(".album-cover img").get(0).props)
             .toHaveProperty("src", "cover.jpg");
@@ -115,7 +115,7 @@ describe("AlbumPage", () => {
 
             await album1Promise;
             wrapper.find(".album-cover img").simulate("load");
-            expect(wrapper.find(".album-name").text()).toEqual("album-name");
+            expect(wrapper.find(".album-name").text()).toEqual("album-1-name");
 
             // second album
             const album2Promise = Promise.resolve(album2);
@@ -164,7 +164,7 @@ describe("AlbumPage", () => {
 
             await album1Promise;
             wrapper.find(".album-cover img").simulate("load");
-            expect(wrapper.find(".album-name").text()).toEqual("album-name");
+            expect(wrapper.find(".album-name").text()).toEqual("album-1-name");
 
             // second album
             const album2Promise = Promise.resolve(album2);
@@ -177,8 +177,9 @@ describe("AlbumPage", () => {
             await album2Promise;
         });
 
-        it("does *not* select the album for removal but loads another album", () => {
+        it("tells LibraryService to keep the album and loads another one", () => {
             verify(libraryService.selectForRemoval(anything())).never();
+            verify(libraryService.keepAlbum(album1)).called();
 
             expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
             expect(wrapper.find(".album-artists").text()).toEqual("other-artists");
