@@ -63,6 +63,10 @@ class UserFlowTest : FluentTest() {
         then_i_see_the_main_page()
         and_i_see_the_track_count(2)
         and_i_see_the_album_count(2)
+
+        and_when_i_click_find()
+        then_i_can_see_the_album_page()
+        and_i_see_tracks_selected(0)
     }
 
     @Test

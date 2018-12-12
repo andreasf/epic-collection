@@ -51,6 +51,8 @@ describe("LibraryService", () => {
             resolveAddTracks();
             await commitPromise;
             verify(apiClient.deleteAlbums(deepEqual(["album-1-id", "album-3-id"]))).once();
+
+            expect(libraryService.getSelectedCount()).toEqual(0);
         });
     });
 

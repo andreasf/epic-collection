@@ -29,6 +29,8 @@ export class LibraryService {
         await this.apiClient.addToPlaylist(playlistId, this.getSelectedTrackUris());
 
         await this.apiClient.deleteAlbums(this.getSelectedAlbumIds());
+
+        this.clearSelection();
     }
 
     public async getStats(): Promise<LibraryStats> {
