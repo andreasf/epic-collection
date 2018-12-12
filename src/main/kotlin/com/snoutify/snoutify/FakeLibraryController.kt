@@ -36,6 +36,14 @@ class FakeLibraryController(private val fakeLibraryService: FakeLibraryService) 
     fun createPlaylist(): ResponseEntity<CreatePlaylistResponse> {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(CreatePlaylistResponse("new-playlist-id"));
+                .body(CreatePlaylistResponse("new-playlist-id"))
+    }
+
+    @PostMapping("/fake/v1/playlists/{id}/tracks")
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = ["Authorization", "Content-Type"])
+    fun addToPlaylist(@PathVariable id: String): ResponseEntity<CreatePlaylistResponse> {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build()
     }
 }

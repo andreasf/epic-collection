@@ -7,6 +7,50 @@
   },
   "interactions": [
     {
+      "description": "OPTIONS /v1/playlists/playlist-id/tracks",
+      "providerState": "with 3 albums",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/v1/playlists/playlist-id/tracks",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "POST",
+          "Access-Control-Request-Headers": "authorization"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "http://localhost",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "authorization"
+        }
+      }
+    },
+    {
+      "description": "POST /v1/playlists/:id/tracks",
+      "providerState": "with 3 albums",
+      "request": {
+        "method": "POST",
+        "path": "/v1/playlists/playlist-id/tracks",
+        "headers": {
+          "Authorization": "Bearer real-access-token",
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        "body": {
+          "uris": [
+            "spotify:track:track-id-1",
+            "spotify:track:track-id-2"
+          ]
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+        }
+      }
+    },
+    {
       "description": "OPTIONS /v1/me/playlists",
       "providerState": "with 3 albums",
       "request": {

@@ -43,6 +43,44 @@ describe("ApiClient", () => {
         await provider.removeInteractions();
     });
 
+    describe("addToPlaylist", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "with 3 albums",
+                uponReceiving: "POST /v1/playlists/:id/tracks",
+                withRequest: {
+                    method: "POST",
+                    path: "/v1/playlists/playlist-id/tracks",
+                    headers: {
+                        Authorization: "Bearer real-access-token",
+                        "Content-Type": "application/json;charset=utf-8",
+                    },
+                    body: {
+                        uris: [
+                            "spotify:track:track-id-1",
+                            "spotify:track:track-id-2",
+                        ]
+                    }
+                },
+                willRespondWith: {
+                    status: 201,
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("adds tracks to the playlist", async () => {
+            await apiClient.addToPlaylist("playlist-id", [
+                "spotify:track:track-id-1",
+                "spotify:track:track-id-2"
+            ]);
+
+            expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error adding tracks to playlist");
+        });
+    });
+
     describe("createPlaylist", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {

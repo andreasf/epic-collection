@@ -27,7 +27,13 @@ describe("LibraryService", () => {
             const createPlaylistPromise = Promise.resolve("playlist-id");
             when(apiClient.createPlaylist(anything(), anything())).thenReturn(createPlaylistPromise);
             when(apiClient.addToPlaylist(anything(), anything())).thenReturn(addTracksPromise);
-            const tracks = expectedAlbum1.tracks.concat(expectedAlbum3.tracks);
+            const trackUris = [
+                "spotify:track:album-1-track-1",
+                "spotify:track:album-1-track-2",
+                "spotify:track:album-3-track-1",
+                "spotify:track:album-3-track-2",
+                "spotify:track:album-3-track-3",
+            ];
 
             libraryService.selectForRemoval(expectedAlbum1);
             libraryService.selectForRemoval(expectedAlbum3);
@@ -39,7 +45,7 @@ describe("LibraryService", () => {
                 "Tracks removed from library")).once();
 
             await createPlaylistPromise;
-            verify(apiClient.addToPlaylist("playlist-id", deepEqual(tracks))).once();
+            verify(apiClient.addToPlaylist("playlist-id", deepEqual(trackUris))).once();
             verify(apiClient.deleteAlbums(anything())).never();
 
             resolveAddTracks();
@@ -206,7 +212,9 @@ const expectedAlbum3 = {
     cover: "http://example.com/image-1.jpg",
     id: "album-3-id",
     tracks: [
-        "album-3-track-1", "album-3-track-2", "album-3-track-3"
+        "album-3-track-1",
+        "album-3-track-2",
+        "album-3-track-3"
     ],
     offset: 5
 } as Album;
@@ -247,7 +255,8 @@ const expectedAlbum1 = {
     cover: "http://example.com/image-1.jpg",
     id: "album-1-id",
     tracks: [
-        "album-1-track-1", "album-1-track-2"
+        "album-1-track-1",
+        "album-1-track-2"
     ],
     offset: 5
 } as Album;

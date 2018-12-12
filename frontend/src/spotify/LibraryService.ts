@@ -26,7 +26,7 @@ export class LibraryService {
         const description = `Tracks removed from library`;
         const playlistId = await this.apiClient.createPlaylist(name, description);
 
-        await this.apiClient.addToPlaylist(playlistId, this.getSelectedTrackIds());
+        await this.apiClient.addToPlaylist(playlistId, this.getSelectedTrackUris());
 
         await this.apiClient.deleteAlbums(this.getSelectedAlbumIds());
     }
@@ -111,12 +111,12 @@ export class LibraryService {
         this.visitedAlbums = visitedAlbums;
     }
 
-    private getSelectedTrackIds(): string[] {
+    private getSelectedTrackUris(): string[] {
         const selectedTracks = [];
 
         for (const albumId of Object.keys(this.selectedAlbums)) {
-            for (const track of this.selectedAlbums[albumId].tracks) {
-                selectedTracks.push(track);
+            for (const trackId of this.selectedAlbums[albumId].tracks) {
+                selectedTracks.push("spotify:track:" + trackId);
             }
         }
 

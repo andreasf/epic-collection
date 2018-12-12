@@ -13,8 +13,20 @@ export class ApiClient {
         this.tokenService = tokenService;
     }
 
-    public async addToPlaylist(id: string, tracks: string[]): Promise<void> {
-        throw new Error("not implemented");
+    public async addToPlaylist(id: string, trackUris: string[]): Promise<void> {
+        const url = `${this.apiPrefix}/v1/playlists/${id}/tracks`;
+        const body = {
+            uris: trackUris
+        } as AddToPlaylistRequest;
+
+        await this.errorHandlingFetch.fetch("error adding tracks to playlist", url, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${this.tokenService.getToken()}`,
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(body),
+        });
     }
 
     public async createPlaylist(name: string, description: string): Promise<string> {
@@ -95,4 +107,8 @@ interface CreatePlaylistRequest {
     name: string;
     description: string;
     public: boolean;
+}
+
+interface AddToPlaylistRequest {
+    uris: string[];
 }
