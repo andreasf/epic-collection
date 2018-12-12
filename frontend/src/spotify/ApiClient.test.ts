@@ -122,6 +122,35 @@ describe("ApiClient", () => {
         });
     });
 
+    describe("deleteAlbums", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "with 3 albums",
+                uponReceiving: "DELETE /v1/me/albums",
+                withRequest: {
+                    method: "DELETE",
+                    path: "/v1/me/albums",
+                    query: "ids=album-1-id,album-2-id",
+                    headers: {
+                        Authorization: "Bearer real-access-token",
+                    },
+                },
+                willRespondWith: {
+                    status: 200,
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("deletes the albums", async () => {
+            await apiClient.deleteAlbums(["album-1-id", "album-2-id"]);
+
+            expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error deleting albums");
+        });
+    });
+
     describe("getAlbumCount", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
@@ -318,7 +347,7 @@ function preflightRequestFor(interaction: InteractionObject): InteractionObject 
 
     return {
         state: interaction.state,
-        uponReceiving: `OPTIONS ${interaction.withRequest.path}`,
+        uponReceiving: `OPTIONS ${interaction.withRequest.path} (${interaction.withRequest.method})`,
         withRequest: {
             method: "OPTIONS",
             path: interaction.withRequest.path,

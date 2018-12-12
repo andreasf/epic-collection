@@ -7,7 +7,7 @@
   },
   "interactions": [
     {
-      "description": "OPTIONS /v1/playlists/playlist-id/tracks",
+      "description": "OPTIONS /v1/playlists/playlist-id/tracks (POST)",
       "providerState": "with 3 albums",
       "request": {
         "method": "OPTIONS",
@@ -51,7 +51,7 @@
       }
     },
     {
-      "description": "OPTIONS /v1/me/playlists",
+      "description": "OPTIONS /v1/me/playlists (POST)",
       "providerState": "with 3 albums",
       "request": {
         "method": "OPTIONS",
@@ -98,7 +98,45 @@
       }
     },
     {
-      "description": "OPTIONS /v1/me/albums",
+      "description": "OPTIONS /v1/me/albums (DELETE)",
+      "providerState": "with 3 albums",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/v1/me/albums",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "DELETE",
+          "Access-Control-Request-Headers": "authorization"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "http://localhost",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "authorization"
+        }
+      }
+    },
+    {
+      "description": "DELETE /v1/me/albums",
+      "providerState": "with 3 albums",
+      "request": {
+        "method": "DELETE",
+        "path": "/v1/me/albums",
+        "query": "ids=album-1-id,album-2-id",
+        "headers": {
+          "Authorization": "Bearer real-access-token"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "OPTIONS /v1/me/albums (GET)",
       "providerState": "with 3 albums",
       "request": {
         "method": "OPTIONS",
@@ -235,7 +273,7 @@
       }
     },
     {
-      "description": "OPTIONS /v1/me/tracks",
+      "description": "OPTIONS /v1/me/tracks (GET)",
       "providerState": "with 5 tracks",
       "request": {
         "method": "OPTIONS",
@@ -277,7 +315,7 @@
       }
     },
     {
-      "description": "OPTIONS /v1/me",
+      "description": "OPTIONS /v1/me (GET)",
       "providerState": "with test user",
       "request": {
         "method": "OPTIONS",
@@ -319,7 +357,7 @@
       }
     },
     {
-      "description": "OPTIONS /v1/me",
+      "description": "OPTIONS /v1/me (GET)",
       "providerState": "endpoints returning 500",
       "request": {
         "method": "OPTIONS",

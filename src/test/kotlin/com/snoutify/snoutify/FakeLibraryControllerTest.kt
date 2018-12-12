@@ -6,6 +6,7 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -58,6 +59,15 @@ class FakeLibraryControllerTest {
 
         mockMvc.perform(get("/fake/v1/me/albums?limit=1&offset=2342"))
                 .andExpect(status().isInternalServerError)
+    }
+
+    @Test
+    fun deleteAlbum_deletesAndReturns200() {
+        mockMvc.perform(delete("/fake/v1/me/albums?ids=album-id-1,album-id-2"))
+                .andExpect(status().isOk)
+
+        verify(fakeLibraryService).deleteAlbum("album-id-1")
+        verify(fakeLibraryService).deleteAlbum("album-id-2")
     }
 
     companion object {

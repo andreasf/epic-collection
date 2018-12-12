@@ -9,7 +9,7 @@ class FakeLibraryController(private val fakeLibraryService: FakeLibraryService) 
     @GetMapping("/fake/v1/me/tracks")
     @CrossOrigin(allowCredentials = "true", allowedHeaders = ["Authorization"])
     fun tracks(): ResponseEntity<TracksResponse> {
-        val trackCount = this.fakeLibraryService.albums
+        val trackCount = this.fakeLibraryService.getAlbums()
                 .map { it.tracks.total }
                 .reduce { totalTracks, albumTracks -> totalTracks + albumTracks }
 
@@ -44,6 +44,20 @@ class FakeLibraryController(private val fakeLibraryService: FakeLibraryService) 
     fun addToPlaylist(@PathVariable id: String): ResponseEntity<CreatePlaylistResponse> {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .build()
+    }
+
+    @DeleteMapping("/fake/v1/me/albums")
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = ["Authorization"])
+    fun deleteAlbums(@RequestParam ids: String): ResponseEntity<Void> {
+        val idList = ids.split(',')
+
+        for (id in idList) {
+            fakeLibraryService.deleteAlbum(id)
+        }
+
+        return ResponseEntity
+                .ok()
                 .build()
     }
 }

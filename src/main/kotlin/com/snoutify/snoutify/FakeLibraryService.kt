@@ -3,7 +3,7 @@ package com.snoutify.snoutify
 import org.springframework.stereotype.Service
 
 @Service
-class FakeLibraryService(var albums: List<AlbumResponse>) {
+class FakeLibraryService(private var albums: List<AlbumResponse>) {
     private var crash = false
 
     fun getAlbum(offset: Int): PaginatedLibraryAlbums {
@@ -22,5 +22,17 @@ class FakeLibraryService(var albums: List<AlbumResponse>) {
 
     fun setCrash(crash: Boolean) {
         this.crash = crash
+    }
+
+    fun deleteAlbum(albumId: String) {
+        albums = albums.filter { album -> album.id != albumId }
+    }
+
+    fun setAlbums(newAlbums: List<AlbumResponse>) {
+        this.albums = newAlbums
+    }
+
+    fun getAlbums(): List<AlbumResponse> {
+        return albums
     }
 }

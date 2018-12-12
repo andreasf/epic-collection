@@ -51,7 +51,14 @@ export class ApiClient {
     }
 
     public async deleteAlbums(albumIds: string[]): Promise<void> {
-        throw new Error("not implemented");
+        const url = `${this.apiPrefix}/v1/me/albums?ids=${albumIds.join(",")}`;
+
+        await this.errorHandlingFetch.fetch("error deleting albums", url, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${this.tokenService.getToken()}`,
+            },
+        });
     }
 
     public async getAlbumCount(): Promise<number> {

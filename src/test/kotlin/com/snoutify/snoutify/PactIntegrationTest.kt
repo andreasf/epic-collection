@@ -27,10 +27,12 @@ open class PactIntegrationTest {
 
     @State("with 5 tracks")
     fun to5TracksState() {
+        context.getBean(FakeLibraryService::class.java).setAlbums(listOf(album1, album2, album3))
     }
 
     @State("with 3 albums")
     fun to3AlbumsState() {
+        context.getBean(FakeLibraryService::class.java).setAlbums(listOf(album1, album2, album3))
     }
 
     @State("endpoints returning 500")
