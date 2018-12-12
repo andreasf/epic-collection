@@ -12,6 +12,17 @@ export const meAlbumsResponse = {
                     {"width": 480, "height": 480, "url": "/images/album-1.png"}
                 ],
                 "tracks": {
+                    "items": [
+                        {
+                            "id": "album-1-track-1"
+                        },
+                        {
+                            "id": "album-1-track-2"
+                        },
+                        {
+                            "id": "album-1-track-3"
+                        }
+                    ],
                     "total": 3
                 }
             }

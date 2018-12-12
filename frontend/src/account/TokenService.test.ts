@@ -44,7 +44,7 @@ describe("TokenService", () => {
             const authUri = "https://accounts.spotify.com/authorize" +
                 `?client_id=${config.clientId}` +
                 "&redirect_uri=https://where-this-is-deployed:1234/oauth/callback" +
-                "&scope=user-library-read" +
+                "&scope=user-library-read user-library-modify playlist-modify-private" +
                 "&response_type=token";
 
             verify(location.assign(authUri)).once();

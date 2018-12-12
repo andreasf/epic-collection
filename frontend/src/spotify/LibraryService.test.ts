@@ -15,12 +15,45 @@ describe("LibraryService", () => {
         libraryService = new LibraryService(instance(apiClient), instance(randomChoice));
     });
 
+    describe("commit", () => {
+        let resolveAddTracks: () => void;
+        let addTracksPromise: Promise<void>;
+
+        beforeEach(() => {
+            addTracksPromise = new Promise((resolve) => {resolveAddTracks = resolve});
+        });
+
+        it("creates a new playlist, adds all tracks and finally deletes albums", async () => {
+            const createPlaylistPromise = Promise.resolve("playlist-id");
+            when(apiClient.createPlaylist(anything(), anything())).thenReturn(createPlaylistPromise);
+            when(apiClient.addToPlaylist(anything(), anything())).thenReturn(addTracksPromise);
+            const tracks = expectedAlbum1.tracks.concat(expectedAlbum3.tracks);
+
+            libraryService.selectForRemoval(expectedAlbum1);
+            libraryService.selectForRemoval(expectedAlbum3);
+
+            const commitPromise = libraryService.commit();
+
+            verify(apiClient.createPlaylist(
+                "Epic Collection",
+                "Tracks removed from library")).once();
+
+            await createPlaylistPromise;
+            verify(apiClient.addToPlaylist("playlist-id", deepEqual(tracks))).once();
+            verify(apiClient.deleteAlbums(anything())).never();
+
+            resolveAddTracks();
+            await commitPromise;
+            verify(apiClient.deleteAlbums(deepEqual(["album-1-id", "album-3-id"]))).once();
+        });
+    });
+
     describe("clearSelection", () => {
         it("clears the current selection", () => {
             expect(libraryService.getSelectedCount()).toEqual(0);
 
             libraryService.selectForRemoval(expectedAlbum1);
-            expect(libraryService.getSelectedCount()).toEqual(1 + expectedAlbum1.tracks);
+            expect(libraryService.getSelectedCount()).toEqual(1 + expectedAlbum1.tracks.length);
 
             libraryService.clearSelection();
             expect(libraryService.getSelectedCount()).toEqual(0);
@@ -140,12 +173,12 @@ describe("LibraryService", () => {
             expect(libraryService.getSelectedCount()).toEqual(0);
 
             libraryService.selectForRemoval(expectedAlbum1);
-            expect(libraryService.getSelectedCount()).toEqual(1 + expectedAlbum1.tracks);
+            expect(libraryService.getSelectedCount()).toEqual(1 + expectedAlbum1.tracks.length);
 
 
             libraryService.selectForRemoval(expectedAlbum3);
             expect(libraryService.getSelectedCount())
-                .toEqual(2 + expectedAlbum1.tracks + expectedAlbum3.tracks);
+                .toEqual(2 + expectedAlbum1.tracks.length + expectedAlbum3.tracks.length);
         });
     });
 });
@@ -155,7 +188,9 @@ const expectedAlbum3 = {
     artists: "artist-1, artist-2 & artist-3",
     cover: "http://example.com/image-1.jpg",
     id: "album-3-id",
-    tracks: 42
+    tracks: [
+        "album-3-track-1", "album-3-track-2", "album-3-track-3"
+    ]
 } as Album;
 
 const apiAlbum3 = {
@@ -179,7 +214,12 @@ const apiAlbum3 = {
         }
     ],
     tracks: {
-        total: 42
+        items: [
+            {id: "album-3-track-1",},
+            {id: "album-3-track-2",},
+            {id: "album-3-track-3",},
+        ],
+        total: 3
     }
 } as ApiAlbum;
 
@@ -188,7 +228,9 @@ const expectedAlbum1 = {
     artists: "artist-1",
     cover: "http://example.com/image-1.jpg",
     id: "album-1-id",
-    tracks: 23
+    tracks: [
+        "album-1-track-1", "album-1-track-2"
+    ]
 } as Album;
 
 const apiAlbum1 = {
@@ -210,6 +252,10 @@ const apiAlbum1 = {
         }
     ],
     tracks: {
-        total: 23
+        items: [
+            {id: "album-1-track-1",},
+            {id: "album-1-track-2",},
+        ],
+        total: 2
     }
 } as ApiAlbum;

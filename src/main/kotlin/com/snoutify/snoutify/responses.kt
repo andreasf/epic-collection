@@ -7,7 +7,7 @@ data class ProfileResponse(
         val displayName: String,
         val id: String)
 
-data class TracksResponse(val total: Long)
+data class TracksResponse(val total: Int)
 
 data class PaginatedLibraryAlbums(
         val items: List<LibraryAlbum>,
@@ -20,7 +20,7 @@ data class AlbumResponse(
         val name: String,
         val artists: List<ArtistResponse>,
         val images: List<ImageResponse>,
-        val tracks: PaginatedLibraryTracks)
+        val tracks: PaginatedTracks)
 
 data class ArtistResponse(val name: String)
 
@@ -29,4 +29,10 @@ data class ImageResponse(
         val height: Int,
         val url: String)
 
-data class PaginatedLibraryTracks(val total: Int)
+data class PaginatedTracks(val items: List<Track>) {
+        val total: Int get() {
+                return items.size
+        }
+}
+
+data class Track(val id: String)

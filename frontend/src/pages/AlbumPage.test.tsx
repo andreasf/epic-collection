@@ -16,7 +16,7 @@ const album1 = {
     artists: "artists",
     cover: "cover.jpg",
     id: "album-id",
-    tracks: 23
+    tracks: ["track-1", "track-2"]
 } as Album;
 
 const album2 = {
@@ -24,7 +24,7 @@ const album2 = {
     artists: "other-artists",
     cover: "cover-2.jpg",
     id: "album-2-id",
-    tracks: 5
+    tracks: ["track-1", "track-2", "track-3"]
 } as Album;
 
 describe("AlbumPage", () => {

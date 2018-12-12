@@ -116,6 +116,11 @@ describe("ApiClient", () => {
                     {width: 480, height: 480, url: "/images/album-1.png"}
                 ],
                 tracks: {
+                    items: [
+                        {id: "album-1-track-1"},
+                        {id: "album-1-track-2"},
+                        {id: "album-1-track-3"},
+                    ],
                     total: 3
                 }
             } as ApiAlbum);
@@ -126,7 +131,7 @@ describe("ApiClient", () => {
     describe("getTrackCount", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
-                state: "with 3 tracks",
+                state: "with 5 tracks",
                 uponReceiving: "GET /v1/me/tracks (page 1)",
                 withRequest: {
                     method: "GET",
@@ -152,7 +157,7 @@ describe("ApiClient", () => {
         it("returns the number of tracks", async () => {
             const count = await apiClient.getTrackCount();
 
-            expect(count).toEqual(3);
+            expect(count).toEqual(5);
             expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error retrieving track count");
         });
     });

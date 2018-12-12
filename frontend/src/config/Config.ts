@@ -15,6 +15,8 @@ const realConfig: Config = {
     callbackPath: "/oauth/callback",
     scopes: [
         "user-library-read",
+        "user-library-modify",
+        "playlist-modify-private",
     ]
 };
 
@@ -25,6 +27,8 @@ const fakeConfig: Config = {
     callbackPath: "/oauth/callback",
     scopes: [
         "user-library-read",
+        "user-library-modify",
+        "playlist-modify-private",
     ]
 };
 

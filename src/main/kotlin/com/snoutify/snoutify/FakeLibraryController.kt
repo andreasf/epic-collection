@@ -12,7 +12,11 @@ class FakeLibraryController(private val fakeLibraryService: FakeLibraryService) 
     @GetMapping("/fake/v1/me/tracks")
     @CrossOrigin(allowCredentials = "true", allowedHeaders = ["Authorization"])
     fun tracks(): ResponseEntity<TracksResponse> {
-        return ResponseEntity.ok(TracksResponse(3))
+        val trackCount = this.fakeLibraryService.albums
+                .map { it.tracks.total }
+                .reduce { totalTracks, albumTracks -> totalTracks + albumTracks }
+
+        return ResponseEntity.ok(TracksResponse(trackCount))
     }
 
     @GetMapping("/fake/v1/me/albums")

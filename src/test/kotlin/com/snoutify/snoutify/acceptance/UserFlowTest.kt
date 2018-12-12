@@ -30,9 +30,9 @@ class UserFlowTest : FluentTest() {
     fun user_can_login_and_find_albums_to_remove() {
         when_i_open_the_app()
         then_i_see_my_username()
-        and_i_see_the_track_count()
-        and_i_see_the_album_count()
-        and_i_see_the_remaining_count()
+        and_i_see_the_track_count(5)
+        and_i_see_the_album_count(3)
+        and_i_see_the_remaining_count(9992)
 
         and_when_i_click_find()
         then_i_can_see_the_album_page()
@@ -56,15 +56,22 @@ class UserFlowTest : FluentTest() {
         then_i_see_the_confirmation_page()
         and_when_i_click_cancel()
         then_i_can_see_the_album_page()
+
+//        and_when_i_click_remove()
+//        then_i_see_the_confirmation_page()
+//        and_when_i_click_remove()
+//        then_i_see_the_main_page()
+//        and_i_see_the_track_count(1)
+//        and_i_see_the_album_count(1)
     }
 
     @Test
     fun user_can_cancel() {
         when_i_open_the_app()
         then_i_see_my_username()
-        and_i_see_the_track_count()
-        and_i_see_the_album_count()
-        and_i_see_the_remaining_count()
+        and_i_see_the_track_count(5)
+        and_i_see_the_album_count(3)
+        and_i_see_the_remaining_count(9992)
 
         and_when_i_click_find()
         then_i_can_see_the_album_page()
@@ -101,16 +108,16 @@ class UserFlowTest : FluentTest() {
         assertThat(el(".main-page").textContent()).contains("Test User")
     }
 
-    private fun and_i_see_the_track_count() {
-        assertThat(el(".track-count").textContent()).isEqualTo("3")
+    private fun and_i_see_the_track_count(trackCount: Int) {
+        assertThat(el(".track-count").textContent()).isEqualTo(trackCount.toString())
     }
 
-    private fun and_i_see_the_album_count() {
-        assertThat(el(".album-count").textContent()).isEqualTo("3")
+    private fun and_i_see_the_album_count(albumCount: Int) {
+        assertThat(el(".album-count").textContent()).isEqualTo(albumCount.toString())
     }
 
-    private fun and_i_see_the_remaining_count() {
-        assertThat(el(".remaining-items").textContent()).isEqualTo("9994")
+    private fun and_i_see_the_remaining_count(remaining: Int) {
+        assertThat(el(".remaining-items").textContent()).isEqualTo(remaining.toString())
     }
 
     private fun then_i_see_an_error_message() {

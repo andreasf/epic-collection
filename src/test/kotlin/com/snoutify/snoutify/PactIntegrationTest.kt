@@ -25,8 +25,8 @@ open class PactIntegrationTest {
     fun toTestUserState() {
     }
 
-    @State("with 3 tracks")
-    fun to3TracksState() {
+    @State("with 5 tracks")
+    fun to5TracksState() {
     }
 
     @State("with 3 albums")

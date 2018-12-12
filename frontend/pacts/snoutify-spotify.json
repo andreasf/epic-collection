@@ -65,6 +65,17 @@
                   }
                 ],
                 "tracks": {
+                  "items": [
+                    {
+                      "id": "album-1-track-1"
+                    },
+                    {
+                      "id": "album-1-track-2"
+                    },
+                    {
+                      "id": "album-1-track-3"
+                    }
+                  ],
                   "total": 3
                 }
               }
@@ -112,6 +123,17 @@
                   }
                 ],
                 "tracks": {
+                  "items": [
+                    {
+                      "id": "album-1-track-1"
+                    },
+                    {
+                      "id": "album-1-track-2"
+                    },
+                    {
+                      "id": "album-1-track-3"
+                    }
+                  ],
                   "total": 3
                 }
               }
@@ -123,7 +145,7 @@
     },
     {
       "description": "OPTIONS /v1/me/tracks",
-      "providerState": "with 3 tracks",
+      "providerState": "with 5 tracks",
       "request": {
         "method": "OPTIONS",
         "path": "/v1/me/tracks",
@@ -144,7 +166,7 @@
     },
     {
       "description": "GET /v1/me/tracks (page 1)",
-      "providerState": "with 3 tracks",
+      "providerState": "with 5 tracks",
       "request": {
         "method": "GET",
         "path": "/v1/me/tracks",
@@ -159,7 +181,7 @@
           "Content-Type": "application/json"
         },
         "body": {
-          "total": 3
+          "total": 5
         }
       }
     },

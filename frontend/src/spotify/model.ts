@@ -14,17 +14,12 @@ export interface LibraryAlbum {
 
 export interface PaginatedLibraryTracks {
     href: string;
-    items: LibraryTrack[],
+    items: Track[],
     limit: number;
     offset: number;
     total: number;
     next: string;
     previous: string;
-}
-
-export interface LibraryTrack {
-    added_at: string;
-    track: Track;
 }
 
 export interface Track {

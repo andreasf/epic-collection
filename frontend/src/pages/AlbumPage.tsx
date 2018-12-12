@@ -25,7 +25,7 @@ const emptyAlbum = {
     artists: "",
     cover: "",
     id: "",
-    tracks: 0,
+    tracks: [],
 } as Album;
 
 export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {

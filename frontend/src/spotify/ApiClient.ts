@@ -13,6 +13,18 @@ export class ApiClient {
         this.tokenService = tokenService;
     }
 
+    public async addToPlaylist(id: string, tracks: string[]): Promise<void> {
+        throw new Error("not implemented");
+    }
+
+    public async createPlaylist(name: string, description: string): Promise<string> {
+        throw new Error("not implemented");
+    }
+
+    public async deleteAlbums(albumIds: string[]): Promise<void> {
+        throw new Error("not implemented");
+    }
+
     public async getAlbumCount(): Promise<number> {
         const url = `${this.apiPrefix}/v1/me/albums?offset=0&limit=1`;
         const response = await this.errorHandlingFetch.fetch("error retrieving album count", url, {

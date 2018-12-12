@@ -21,8 +21,14 @@ export class LibraryService {
         this.selectedAlbums = {};
     }
 
-    public commit(): Promise<void> {
-        throw new Error("not implemented");
+    public async commit(): Promise<void> {
+        const name = `Epic Collection`;
+        const description = `Tracks removed from library`;
+        const playlistId = await this.apiClient.createPlaylist(name, description);
+
+        await this.apiClient.addToPlaylist(playlistId, this.getSelectedTrackIds());
+
+        await this.apiClient.deleteAlbums(this.getSelectedAlbumIds());
     }
 
     public async getStats(): Promise<LibraryStats> {
@@ -55,7 +61,7 @@ export class LibraryService {
             id: album.id,
             cover: album.images[0].url,
             artists: this.formatArtists(album.artists),
-            tracks: album.tracks.total,
+            tracks: album.tracks.items.map(track => track.id),
         };
     }
 
@@ -67,7 +73,7 @@ export class LibraryService {
         let count = 0;
 
         for (const key of Object.keys(this.selectedAlbums)) {
-            count += 1 + this.selectedAlbums[key].tracks;
+            count += 1 + this.selectedAlbums[key].tracks.length;
         }
 
         return count;
@@ -99,6 +105,22 @@ export class LibraryService {
         visitedAlbums.push(offset);
         this.visitedAlbums = visitedAlbums;
     }
+
+    private getSelectedTrackIds(): string[] {
+        const selectedTracks = [];
+
+        for (const albumId of Object.keys(this.selectedAlbums)) {
+            for (const track of this.selectedAlbums[albumId].tracks) {
+                selectedTracks.push(track);
+            }
+        }
+
+        return selectedTracks;
+    }
+
+    private getSelectedAlbumIds(): string[] {
+        return Object.keys(this.selectedAlbums);
+    }
 }
 
 export interface LibraryStats {
@@ -112,7 +134,7 @@ export interface Album {
     artists: string;
     cover: string;
     id: string;
-    tracks: number;
+    tracks: string[];
 }
 
 interface SelectedAlbums {
