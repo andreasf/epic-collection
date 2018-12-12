@@ -2,17 +2,20 @@ import {Album, LibraryService, LibraryStats} from "./LibraryService";
 import {ApiClient} from "./ApiClient";
 import {anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {ApiAlbum} from "./model";
-import {RandomChoice} from "../RandomChoice";
+import {RandomChoice} from "../util/RandomChoice";
+import {DateProvider} from "../util/DateProvider";
 
 describe("LibraryService", () => {
     let apiClient: ApiClient;
+    let dateProvider: DateProvider;
     let libraryService: LibraryService;
     let randomChoice: RandomChoice;
 
     beforeEach(() => {
         apiClient = mock(ApiClient);
+        dateProvider = mock(DateProvider);
         randomChoice = mock(RandomChoice);
-        libraryService = new LibraryService(instance(apiClient), instance(randomChoice));
+        libraryService = new LibraryService(instance(apiClient), instance(randomChoice), instance(dateProvider));
     });
 
     describe("commit", () => {
@@ -20,6 +23,7 @@ describe("LibraryService", () => {
         let addTracksPromise: Promise<void>;
 
         beforeEach(() => {
+            when(dateProvider.newDate()).thenReturn(new Date(2018, 11, 12, 9, 3, 0, 0));
             addTracksPromise = new Promise((resolve) => {
                 resolveAddTracks = resolve
             });
@@ -44,8 +48,8 @@ describe("LibraryService", () => {
             const commitPromise = libraryService.commit();
 
             verify(apiClient.createPlaylist(
-                "Epic Collection",
-                "Tracks removed from library")).once();
+                "Epic Collection Dec 12, 2018, 09:03",
+                "Tracks removed from library on Dec 12, 2018, 09:03")).once();
 
             await createPlaylistPromise;
             verify(apiClient.addToPlaylist("playlist-id", deepEqual(trackUris))).once();

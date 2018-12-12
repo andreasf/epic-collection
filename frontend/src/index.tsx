@@ -9,14 +9,15 @@ import {config, math} from "./config/Config";
 import {LibraryService} from "./spotify/LibraryService";
 import {ErrorMessageService} from "./errors/ErrorMessageService";
 import {ErrorHandlingFetch} from "./spotify/ErrorHandlingFetch";
-import {RandomChoice} from "./RandomChoice";
+import {RandomChoice} from "./util/RandomChoice";
+import {DateProvider} from "./util/DateProvider";
 
 const history = createBrowserHistory();
 const tokenService = new TokenService(localStorage, location, history);
 const errorHandlingFetch = new ErrorHandlingFetch(window, tokenService);
 const apiClient = new ApiClient(config.apiPrefix, errorHandlingFetch, tokenService);
 const randomChoice = new RandomChoice(math);
-const libraryService = new LibraryService(apiClient, randomChoice);
+const libraryService = new LibraryService(apiClient, randomChoice, new DateProvider());
 const errorMessageService = new ErrorMessageService();
 
 ReactDOM.render((

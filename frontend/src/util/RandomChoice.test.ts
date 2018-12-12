@@ -1,6 +1,6 @@
 import {RandomChoice} from "./RandomChoice";
 import {anything, instance, mock, when} from "ts-mockito";
-import {BadMath} from "./test_doubles/test_doubles";
+import {BadMath} from "../test_doubles/test_doubles";
 
 describe("RandomChoice", () => {
     let randomChoice: RandomChoice;

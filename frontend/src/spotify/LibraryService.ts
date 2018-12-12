@@ -1,6 +1,7 @@
 import {ApiClient} from "./ApiClient";
-import {RandomChoice} from "../RandomChoice";
+import {RandomChoice} from "../util/RandomChoice";
 import {Artist} from "./model";
+import {DateProvider} from "../util/DateProvider";
 
 const maxLibrarySize = 10000;
 const maxTracksPerAddRequest = 100;
@@ -12,10 +13,12 @@ export class LibraryService {
     private albumCount: number;
     private visitedAlbums: number[] = [];
     private selectedAlbums: SelectedAlbums = {};
+    private dateProvider: DateProvider;
 
-    constructor(apiClient: ApiClient, randomChoice: RandomChoice) {
+    constructor(apiClient: ApiClient, randomChoice: RandomChoice, dateProvider: DateProvider) {
         this.apiClient = apiClient;
         this.randomChoice = randomChoice;
+        this.dateProvider = dateProvider;
     }
 
     public clearSelection() {
@@ -24,8 +27,9 @@ export class LibraryService {
     }
 
     public async commit(): Promise<void> {
-        const name = `Epic Collection`;
-        const description = `Tracks removed from library`;
+        const timestamp = this.timestamp();
+        const name = `Epic Collection ${timestamp}`;
+        const description = `Tracks removed from library on ${timestamp}`;
         const playlistId = await this.apiClient.createPlaylist(name, description);
 
         for (const trackUris of this.splitList(this.getSelectedTrackUris(), maxTracksPerAddRequest)) {
@@ -143,6 +147,19 @@ export class LibraryService {
         }
 
         return lists;
+    }
+
+    private timestamp() {
+        const dateFormat = new Intl.DateTimeFormat(navigator.language, {
+            hour12: false,
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+
+        return dateFormat.format(this.dateProvider.newDate());
     }
 }
 
