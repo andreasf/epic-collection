@@ -9,6 +9,7 @@ import {meAlbumsResponse} from "./test_resources/me_albums_response";
 import {ErrorHandlingFetch} from "./ErrorHandlingFetch";
 import {ApiAlbum} from "./model";
 import Spy = jasmine.Spy;
+import {MatcherResult} from "@pact-foundation/pact/dsl/matchers";
 
 const mockServerPort = 8123;
 
@@ -40,6 +41,47 @@ describe("ApiClient", () => {
             instance(tokenService));
 
         await provider.removeInteractions();
+    });
+
+    describe("createPlaylist", () => {
+        beforeEach(async () => {
+            const interaction: InteractionObject = {
+                state: "with 3 albums",
+                uponReceiving: "POST /v1/me/playlists",
+                withRequest: {
+                    method: "POST",
+                    path: "/v1/me/playlists",
+                    headers: {
+                        Authorization: "Bearer real-access-token",
+                        "Content-Type": "application/json;charset=utf-8",
+                    },
+                    body: {
+                        name: "playlist-name",
+                        description: "playlist-description",
+                        public: false,
+                    }
+                },
+                willRespondWith: {
+                    status: 201,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: {
+                        id: "new-playlist-id"
+                    }
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(interaction));
+            await provider.addInteraction(interaction);
+        });
+
+        it("returns the playlist id", async () => {
+            const id = await apiClient.createPlaylist("playlist-name", "playlist-description");
+
+            expect(id).toEqual("new-playlist-id");
+            expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error creating playlist");
+        });
     });
 
     describe("getAlbumCount", () => {
@@ -234,7 +276,7 @@ describe("ApiClient", () => {
 
 function preflightRequestFor(interaction: InteractionObject): InteractionObject {
     const headers = interaction.withRequest.headers;
-    const allowedHeaders = headers ? Object.keys(headers).join(", ").toLowerCase() : "*";
+    const allowedHeaders = headers ? filterHeaders(headers).join(", ").toLowerCase() : "*";
 
     return {
         state: interaction.state,
@@ -257,4 +299,11 @@ function preflightRequestFor(interaction: InteractionObject): InteractionObject 
             },
         }
     };
+}
+
+// not what the spec says, but what JSDOM does...
+function filterHeaders(headers: { [name: string]: string | MatcherResult }) {
+    const nope = ["content-type"];
+    return Object.keys(headers)
+        .filter(header => nope.indexOf(header.toLowerCase()) === -1);
 }

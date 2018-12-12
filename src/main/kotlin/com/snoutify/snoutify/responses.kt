@@ -36,3 +36,5 @@ data class PaginatedTracks(val items: List<Track>) {
 }
 
 data class Track(val id: String)
+
+data class CreatePlaylistResponse(val id: String)

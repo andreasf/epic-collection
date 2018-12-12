@@ -1,4 +1,4 @@
-import {ApiAlbum, PaginatedLibraryAlbums, PaginatedLibraryTracks, UserProfile} from "./model";
+import {ApiAlbum, CreatePlaylistResponse, PaginatedLibraryAlbums, PaginatedLibraryTracks, UserProfile} from "./model";
 import {TokenService} from "../account/TokenService";
 import {ErrorHandlingFetch} from "./ErrorHandlingFetch";
 
@@ -18,7 +18,24 @@ export class ApiClient {
     }
 
     public async createPlaylist(name: string, description: string): Promise<string> {
-        throw new Error("not implemented");
+        const url = `${this.apiPrefix}/v1/me/playlists`;
+        const body = {
+            name,
+            description,
+            public: false
+        } as CreatePlaylistRequest;
+
+        const response = await this.errorHandlingFetch.fetch("error creating playlist", url, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${this.tokenService.getToken()}`,
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(body),
+        });
+
+        const playlist = await response.json() as CreatePlaylistResponse;
+        return playlist.id;
     }
 
     public async deleteAlbums(albumIds: string[]): Promise<void> {
@@ -72,4 +89,10 @@ export class ApiClient {
         const paginatedLibraryTracks = await response.json() as PaginatedLibraryAlbums;
         return paginatedLibraryTracks.items[0].album;
     }
+}
+
+interface CreatePlaylistRequest {
+    name: string;
+    description: string;
+    public: boolean;
 }

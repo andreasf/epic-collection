@@ -2,10 +2,7 @@ package com.snoutify.snoutify
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class FakeLibraryController(private val fakeLibraryService: FakeLibraryService) {
@@ -32,5 +29,13 @@ class FakeLibraryController(private val fakeLibraryService: FakeLibraryService) 
         } catch (e: RuntimeException) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
         }
+    }
+
+    @PostMapping("/fake/v1/me/playlists")
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = ["Authorization", "Content-Type"])
+    fun createPlaylist(): ResponseEntity<CreatePlaylistResponse> {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(CreatePlaylistResponse("new-playlist-id"));
     }
 }

@@ -69,3 +69,7 @@ export interface ExternalUrls {
 export interface UserProfile {
     display_name: string;
 }
+
+export interface CreatePlaylistResponse {
+    id: string;
+}

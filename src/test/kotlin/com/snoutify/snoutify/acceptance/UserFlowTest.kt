@@ -57,12 +57,12 @@ class UserFlowTest : FluentTest() {
         and_when_i_click_cancel()
         then_i_can_see_the_album_page()
 
-//        and_when_i_click_remove()
-//        then_i_see_the_confirmation_page()
-//        and_when_i_click_remove()
-//        then_i_see_the_main_page()
-//        and_i_see_the_track_count(1)
-//        and_i_see_the_album_count(1)
+        and_when_i_click_remove()
+        then_i_see_the_confirmation_page()
+        and_when_i_click_remove()
+        then_i_see_the_main_page()
+        and_i_see_the_track_count(2)
+        and_i_see_the_album_count(2)
     }
 
     @Test

@@ -7,6 +7,53 @@
   },
   "interactions": [
     {
+      "description": "OPTIONS /v1/me/playlists",
+      "providerState": "with 3 albums",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/v1/me/playlists",
+        "headers": {
+          "Origin": "http://localhost",
+          "Access-Control-Request-Method": "POST",
+          "Access-Control-Request-Headers": "authorization"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "http://localhost",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "authorization"
+        }
+      }
+    },
+    {
+      "description": "POST /v1/me/playlists",
+      "providerState": "with 3 albums",
+      "request": {
+        "method": "POST",
+        "path": "/v1/me/playlists",
+        "headers": {
+          "Authorization": "Bearer real-access-token",
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        "body": {
+          "name": "playlist-name",
+          "description": "playlist-description",
+          "public": false
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": "new-playlist-id"
+        }
+      }
+    },
+    {
       "description": "OPTIONS /v1/me/albums",
       "providerState": "with 3 albums",
       "request": {
