@@ -2,6 +2,7 @@ import * as React from "react";
 import {ReactNode} from "react";
 import {Album, LibraryService} from "../spotify/LibraryService";
 import {Spinner} from "../components/Spinner";
+import "./main.css";
 import "./AlbumPage.css";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
 import {History} from "history";

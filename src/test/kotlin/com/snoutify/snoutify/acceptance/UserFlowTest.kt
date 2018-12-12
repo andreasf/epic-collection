@@ -54,6 +54,8 @@ class UserFlowTest : FluentTest() {
 
         and_when_i_click_remove()
         then_i_see_the_confirmation_page()
+        and_when_i_click_cancel()
+        then_i_can_see_the_album_page()
     }
 
     @Test
@@ -160,6 +162,10 @@ class UserFlowTest : FluentTest() {
 
     private fun then_i_see_the_confirmation_page() {
         await().until(el(".confirmation-page")).displayed()
+    }
+
+    private fun and_when_i_click_cancel() {
+        el(".cancel-button").click()
     }
 
     companion object {

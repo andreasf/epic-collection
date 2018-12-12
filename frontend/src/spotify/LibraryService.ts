@@ -21,6 +21,10 @@ export class LibraryService {
         this.selectedAlbums = {};
     }
 
+    public commit(): Promise<void> {
+        throw new Error("not implemented");
+    }
+
     public async getStats(): Promise<LibraryStats> {
         const [albums, tracks] = await Promise.all([
             this.getAlbumCount(false),

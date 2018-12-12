@@ -57,6 +57,8 @@ export class Routes extends React.Component<RoutesProps, {}> {
     }
 
     private renderConfirmationPage(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
-        return <ConfirmationPage/>;
+        return <ConfirmationPage errorMessageService={this.props.errorMessageService}
+                                 history={props.history}
+                                 libraryService={this.props.libraryService}/>;
     }
 }
