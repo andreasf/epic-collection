@@ -3,6 +3,8 @@ import {RandomChoice} from "../RandomChoice";
 import {Artist} from "./model";
 
 const maxLibrarySize = 10000;
+const maxTracksPerAddRequest = 100;
+const maxAlbumsPerDeleteRequest = 50;
 
 export class LibraryService {
     private apiClient: ApiClient;
@@ -26,9 +28,13 @@ export class LibraryService {
         const description = `Tracks removed from library`;
         const playlistId = await this.apiClient.createPlaylist(name, description);
 
-        await this.apiClient.addToPlaylist(playlistId, this.getSelectedTrackUris());
+        for (const trackUris of this.splitList(this.getSelectedTrackUris(), maxTracksPerAddRequest)) {
+            await this.apiClient.addToPlaylist(playlistId, trackUris);
+        }
 
-        await this.apiClient.deleteAlbums(this.getSelectedAlbumIds());
+        for (const albumIds of this.splitList(this.getSelectedAlbumIds(), maxAlbumsPerDeleteRequest)) {
+            await this.apiClient.deleteAlbums(albumIds);
+        }
 
         this.clearSelection();
     }
@@ -127,6 +133,16 @@ export class LibraryService {
 
     private getSelectedAlbumIds(): string[] {
         return Object.keys(this.selectedAlbums);
+    }
+
+    private splitList(list: string[], maxItems: number): string[][] {
+        const lists: string[][] = [];
+
+        for (let offset = 0; offset < list.length; offset += maxItems) {
+            lists.push(list.slice(offset, offset + maxItems));
+        }
+
+        return lists;
     }
 }
 

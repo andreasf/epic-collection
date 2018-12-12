@@ -20,13 +20,16 @@ describe("LibraryService", () => {
         let addTracksPromise: Promise<void>;
 
         beforeEach(() => {
-            addTracksPromise = new Promise((resolve) => {resolveAddTracks = resolve});
+            addTracksPromise = new Promise((resolve) => {
+                resolveAddTracks = resolve
+            });
         });
 
         it("creates a new playlist, adds all tracks and finally deletes albums", async () => {
             const createPlaylistPromise = Promise.resolve("playlist-id");
             when(apiClient.createPlaylist(anything(), anything())).thenReturn(createPlaylistPromise);
             when(apiClient.addToPlaylist(anything(), anything())).thenReturn(addTracksPromise);
+            when(apiClient.deleteAlbums(anything())).thenResolve();
             const trackUris = [
                 "spotify:track:album-1-track-1",
                 "spotify:track:album-1-track-2",
@@ -53,6 +56,50 @@ describe("LibraryService", () => {
             verify(apiClient.deleteAlbums(deepEqual(["album-1-id", "album-3-id"]))).once();
 
             expect(libraryService.getSelectedCount()).toEqual(0);
+        });
+
+        it("adds up to 100 tracks at a time", async () => {
+            const largeAlbum1 = makeAlbum("album-1", 75);
+            const largeAlbum2 = makeAlbum("album-2", 75);
+            when(apiClient.createPlaylist(anything(), anything())).thenReturn(Promise.resolve("playlist-id"));
+            when(apiClient.addToPlaylist(anything(), anything())).thenResolve();
+            when(apiClient.deleteAlbums(anything())).thenResolve();
+
+            libraryService.selectForRemoval(largeAlbum1);
+            libraryService.selectForRemoval(largeAlbum2);
+
+            await libraryService.commit();
+
+            const allUris = trackUrisOf(largeAlbum1).concat(trackUrisOf(largeAlbum2));
+            const first100Tracks = allUris.slice(0, 100);
+            const next50Tracks = allUris.slice(100, 150);
+
+            verify(apiClient.addToPlaylist("playlist-id", deepEqual(first100Tracks))).once();
+            verify(apiClient.addToPlaylist("playlist-id", deepEqual(next50Tracks))).once();
+        });
+
+        it("deletes up to 50 albums at a time", async () => {
+            const albums: Album[] = [];
+            for (let i=0; i<75; i++) {
+                albums.push(makeAlbum(`album-${i + 1}`, 1));
+            }
+
+            when(apiClient.createPlaylist(anything(), anything())).thenReturn(Promise.resolve("playlist-id"));
+            when(apiClient.addToPlaylist(anything(), anything())).thenResolve();
+            when(apiClient.deleteAlbums(anything())).thenResolve();
+
+            for (const album of albums) {
+                libraryService.selectForRemoval(album);
+            }
+
+            await libraryService.commit();
+
+            const allAlbumIds = albums.map(album => album.id);
+            const first50AlbumIds = allAlbumIds.slice(0, 50);
+            const next25AlbumIds = allAlbumIds.slice(50);
+
+            verify(apiClient.deleteAlbums(deepEqual(first50AlbumIds))).once();
+            verify(apiClient.deleteAlbums(deepEqual(next25AlbumIds))).once();
         });
     });
 
@@ -289,3 +336,20 @@ const apiAlbum1 = {
         total: 2
     }
 } as ApiAlbum;
+
+const makeAlbum = (id: string, trackCount: number) => {
+    const tracks = [];
+    for (let i = 0; i < trackCount; i++) {
+        tracks.push(`${id}-track-${i + 1}`)
+    }
+
+    return {
+        id,
+        name: "album-1",
+        tracks
+    } as Album;
+};
+
+const trackUrisOf = (album: Album) => {
+    return album.tracks.map(trackId => "spotify:track:" + trackId);
+};
