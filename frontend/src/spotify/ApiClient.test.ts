@@ -1,15 +1,15 @@
 import {InteractionObject, Pact} from "@pact-foundation/pact";
 import * as path from "path";
-import {meTracksPage1} from "./test_resources/me_tracks_response";
+import {meTracksResponse} from "./test_resources/me_tracks_response";
 import {ApiClient} from "./ApiClient";
 import {meResponse} from "./test_resources/me_response";
 import {TokenService} from "../account/TokenService";
 import {instance, mock, when} from "ts-mockito";
 import {meAlbumsResponse} from "./test_resources/me_albums_response";
 import {ErrorHandlingFetch} from "./ErrorHandlingFetch";
-import {ApiAlbum} from "./model";
-import Spy = jasmine.Spy;
+import {ApiAlbum} from "./response_types";
 import {MatcherResult} from "@pact-foundation/pact/dsl/matchers";
+import Spy = jasmine.Spy;
 
 const mockServerPort = 8123;
 
@@ -255,7 +255,7 @@ describe("ApiClient", () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: meTracksPage1
+                    body: meTracksResponse
                 }
             };
 

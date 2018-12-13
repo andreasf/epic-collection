@@ -1,3 +1,5 @@
+import {PaginatedLibraryAlbums} from "../response_types";
+
 export const meAlbumsResponse = {
     "items": [
         {
@@ -29,4 +31,4 @@ export const meAlbumsResponse = {
         }
     ],
     "total": 3
-};
+} as PaginatedLibraryAlbums;

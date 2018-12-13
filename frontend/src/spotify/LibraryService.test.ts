@@ -1,7 +1,7 @@
 import {Album, LibraryService, LibraryStats} from "./LibraryService";
 import {ApiClient} from "./ApiClient";
 import {anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
-import {ApiAlbum} from "./model";
+import {ApiAlbum} from "./response_types";
 import {RandomChoice} from "../util/RandomChoice";
 import {DateProvider} from "../util/DateProvider";
 

@@ -1,4 +1,4 @@
-import {ApiAlbum, CreatePlaylistResponse, PaginatedLibraryAlbums, PaginatedLibraryTracks, UserProfile} from "./model";
+import {ApiAlbum, CreatePlaylistResponse, PaginatedLibraryAlbums, PaginatedTracks, UserProfile} from "./response_types";
 import {TokenService} from "../account/TokenService";
 import {ErrorHandlingFetch} from "./ErrorHandlingFetch";
 
@@ -81,7 +81,7 @@ export class ApiClient {
             },
         });
 
-        const paginatedLibraryTracks = await response.json() as PaginatedLibraryTracks;
+        const paginatedLibraryTracks = await response.json() as PaginatedTracks;
         return paginatedLibraryTracks.total;
     }
 

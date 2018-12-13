@@ -351,8 +351,7 @@
           "Content-Type": "application/json"
         },
         "body": {
-          "display_name": "Test User",
-          "id": "testuser"
+          "display_name": "Test User"
         }
       }
     },

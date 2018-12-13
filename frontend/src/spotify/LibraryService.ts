@@ -1,6 +1,6 @@
 import {ApiClient} from "./ApiClient";
 import {RandomChoice} from "../util/RandomChoice";
-import {Artist} from "./model";
+import {Artist} from "./response_types";
 import {DateProvider} from "../util/DateProvider";
 
 const maxLibrarySize = 10000;
