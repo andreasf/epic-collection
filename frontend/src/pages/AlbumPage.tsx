@@ -56,7 +56,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                     <div className="selected-count">
                         <span className="count">{this.props.libraryService.getSelectedCount()}</span> selected
                     </div>
-                    <button className="remove-button" onClick={() => this.onRemoveClicked()}>remove</button>
+                    <button className="move-button" onClick={() => this.onMoveClicked()}>move</button>
                 </div>
                 <div className="album">
                     {spinner}
@@ -70,7 +70,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                     <button className="select"
                             onClick={() => this.onSelectClicked()}
                             disabled={loading}>
-                        select for removal
+                        select for moving
                     </button>
                     <button className="keep"
                             onClick={() => this.onKeepClicked()}
@@ -113,7 +113,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
     }
 
     private onSelectClicked() {
-        this.props.libraryService.selectForRemoval(this.state.album);
+        this.props.libraryService.selectForMoving(this.state.album);
         return this.loadAlbum();
     }
 
@@ -122,7 +122,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
         return this.loadAlbum();
     }
 
-    private onRemoveClicked() {
-        this.props.history.push("/confirm-removal");
+    private onMoveClicked() {
+        this.props.history.push("/confirm-moving");
     }
 }

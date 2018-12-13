@@ -1,11 +1,11 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import "./main.css";
-import "./ConfirmationPage.css";
 import {LibraryService} from "../spotify/LibraryService";
 import {History} from "history";
 import {Spinner} from "../components/Spinner";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
+import "./main.css";
+import "./ConfirmationPage.css";
 
 interface ConfirmationPageProps {
     errorMessageService: ErrorMessageService;
@@ -14,7 +14,7 @@ interface ConfirmationPageProps {
 }
 
 interface ConfirmationState {
-    deleting: boolean;
+    moving: boolean;
 }
 
 export class ConfirmationPage extends React.Component<ConfirmationPageProps, ConfirmationState> {
@@ -22,24 +22,30 @@ export class ConfirmationPage extends React.Component<ConfirmationPageProps, Con
         super(props, context);
 
         this.state = {
-            deleting: false
+            moving: false
         };
     }
 
     public render(): ReactNode {
         const count = this.props.libraryService.getSelectedCount();
-        const spinner = this.state.deleting ? <Spinner/> : null;
+        const spinner = this.state.moving ? <Spinner/> : null;
 
         return (
             <div className="confirmation-page">
                 {spinner}
                 <div className="prompt">
-                    Remove <span className="selected-count">{count}</span> tracks
-                    and albums from library?
+                    <p>
+                        Move <span className="selected-count">{count}</span> tracks
+                        and albums from your library to a new playlist?
+                    </p>
+                    <p className="explanation">
+                        This will free up space and keep all tracks available
+                        through the playlist.
+                    </p>
                 </div>
                 <div className="buttons">
-                    <button className="remove-button" onClick={() => this.onRemoveClicked()}>
-                        remove
+                    <button className="move-button" onClick={() => this.onMoveClicked()}>
+                        move
                     </button>
                     <button className="cancel-button" onClick={() => this.onCancelClicked()}>
                         cancel
@@ -53,16 +59,16 @@ export class ConfirmationPage extends React.Component<ConfirmationPageProps, Con
         this.props.history.push("/find-albums");
     }
 
-    private async onRemoveClicked() {
-        this.setState({deleting: true});
+    private async onMoveClicked() {
+        this.setState({moving: true});
 
         try {
             await this.props.libraryService.commit();
             this.props.history.push("/");
 
         } catch (e) {
-            this.props.errorMessageService.show(`error removing albums: ${e.message}`);
-            this.setState({deleting: false});
+            this.props.errorMessageService.show(`error moving albums: ${e.message}`);
+            this.setState({moving: false});
         }
     }
 }

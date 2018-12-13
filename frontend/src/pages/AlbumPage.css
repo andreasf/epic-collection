@@ -20,7 +20,7 @@
     font-weight: 300;
 }
 
-.album-page .back-button, .album-page .remove-button {
+.album-page .back-button, .album-page .move-button {
     border: none;
     background-color: inherit;
     font-weight: 300;

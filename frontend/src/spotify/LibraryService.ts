@@ -29,7 +29,7 @@ export class LibraryService {
     public async commit(): Promise<void> {
         const timestamp = this.timestamp();
         const name = `Epic Collection ${timestamp}`;
-        const description = `Tracks removed from library on ${timestamp}`;
+        const description = `Tracks moved from library on ${timestamp}`;
         const playlistId = await this.apiClient.createPlaylist(name, description);
 
         for (const trackUris of this.splitList(this.getSelectedTrackUris(), maxTracksPerAddRequest)) {
@@ -81,7 +81,7 @@ export class LibraryService {
         this.markVisited(album.offset);
     }
 
-    public selectForRemoval(album: Album) {
+    public selectForMoving(album: Album) {
         this.markVisited(album.offset);
         this.selectedAlbums[album.id] = album;
     }

@@ -47,6 +47,7 @@ body {
 .main-page .bottom {
     padding-bottom: 2rem;
     text-align: center;
+    font-weight: 300;
 }
 
 .main-page button {
@@ -54,5 +55,8 @@ body {
     border: 1px solid #a5a5a5;
     border-radius: .5rem;
     padding: .5rem 1rem;
-    font-weight: 300;
+}
+
+.main-page .explanation {
+    margin-top: var(--margin);
 }

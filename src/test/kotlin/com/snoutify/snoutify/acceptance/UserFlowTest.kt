@@ -52,14 +52,14 @@ class UserFlowTest : FluentTest() {
         and_i_see_the_cover("http://localhost:$port/images/album-3.png")
         and_i_see_tracks_selected(4)
 
-        and_when_i_click_remove()
+        and_when_i_click_move()
         then_i_see_the_confirmation_page()
         and_when_i_click_cancel()
         then_i_can_see_the_album_page()
 
-        and_when_i_click_remove()
+        and_when_i_click_move()
         then_i_see_the_confirmation_page()
-        and_when_i_click_remove()
+        and_when_i_click_move()
         then_i_see_the_main_page()
         and_i_see_the_track_count(2)
         and_i_see_the_album_count(2)
@@ -167,8 +167,8 @@ class UserFlowTest : FluentTest() {
         await().until(el(".main-page")).displayed()
     }
 
-    private fun and_when_i_click_remove() {
-        el(".remove-button").click()
+    private fun and_when_i_click_move() {
+        el(".move-button").click()
     }
 
     private fun then_i_see_the_confirmation_page() {

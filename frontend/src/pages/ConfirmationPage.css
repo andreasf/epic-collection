@@ -19,12 +19,16 @@
     margin: 0 var(--margin) var(--margin);
 }
 
-.confirmation-page .remove-button {
+.confirmation-page .move-button {
     margin-bottom: calc(var(--margin) / 2);
 }
 
 .confirmation-page .cancel-button {
     border: none;
     background-color: inherit;
+    font-weight: 300;
+}
+
+.confirmation-page .explanation {
     font-weight: 300;
 }

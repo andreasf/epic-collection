@@ -51,7 +51,7 @@ describe("Routes", () => {
             },
             {
                 component: ConfirmationPage,
-                path: "/confirm-removal",
+                path: "/confirm-moving",
             }
         ];
 

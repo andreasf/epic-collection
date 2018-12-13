@@ -35,12 +35,12 @@ describe("ConfirmationPage", () => {
         expect(wrapper.find(".selected-count").text()).toEqual("42");
     });
 
-    describe("when clicking 'remove'", () => {
-        it("removes tracks and shows a spinner", () => {
+    describe("when clicking 'move'", () => {
+        it("moves tracks and shows a spinner", () => {
             const promise = Promise.resolve();
             when(libraryService.commit()).thenReturn(promise);
 
-            wrapper.find(".remove-button").simulate("click");
+            wrapper.find(".move-button").simulate("click");
 
             expect(wrapper.find(Spinner).exists()).toBeTruthy();
             verify(libraryService.commit()).once();
@@ -50,7 +50,7 @@ describe("ConfirmationPage", () => {
             const promise = Promise.resolve();
             when(libraryService.commit()).thenReturn(promise);
 
-            wrapper.find(".remove-button").simulate("click");
+            wrapper.find(".move-button").simulate("click");
             await promise;
 
             verify(history.push("/")).called();
@@ -60,13 +60,13 @@ describe("ConfirmationPage", () => {
             const promise = Promise.reject(new Error("error-message"));
             when(libraryService.commit()).thenReturn(promise);
 
-            wrapper.find(".remove-button").simulate("click");
+            wrapper.find(".move-button").simulate("click");
 
             try {
                 await promise;
                 fail("promise should have been rejected");
             } catch (e) {
-                verify(errorMessageService.show("error removing albums: error-message")).once();
+                verify(errorMessageService.show("error moving albums: error-message")).once();
                 expect(wrapper.find(Spinner).exists()).toBeFalsy();
             }
         });
@@ -79,7 +79,7 @@ describe("ConfirmationPage", () => {
             verify(history.push("/find-albums")).called();
         });
 
-        it("does not remove any tracks", () => {
+        it("does not move any tracks", () => {
             wrapper.find(".cancel-button").simulate("click");
 
             verify(libraryService.clearSelection()).never();

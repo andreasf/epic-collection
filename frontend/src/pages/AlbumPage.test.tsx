@@ -128,8 +128,8 @@ describe("AlbumPage", () => {
             await album2Promise;
         });
 
-        it("selects the album for removal and loads another album", () => {
-            verify(libraryService.selectForRemoval(album1)).called();
+        it("selects the album for moving and loads another album", () => {
+            verify(libraryService.selectForMoving(album1)).called();
 
             expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
             expect(wrapper.find(".album-artists").text()).toEqual("other-artists");
@@ -178,7 +178,7 @@ describe("AlbumPage", () => {
         });
 
         it("tells LibraryService to keep the album and loads another one", () => {
-            verify(libraryService.selectForRemoval(anything())).never();
+            verify(libraryService.selectForMoving(anything())).never();
             verify(libraryService.keepAlbum(album1)).called();
 
             expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
@@ -216,16 +216,16 @@ describe("AlbumPage", () => {
         });
     });
 
-    describe("when clicking 'remove'", () => {
+    describe("when clicking 'move'", () => {
         it("navigates to the confirmation page", () => {
             const albumPromise = Promise.resolve(album1);
             when(libraryService.getRandomAlbum()).thenReturn(albumPromise);
 
             const wrapper = shallowRender();
 
-            wrapper.find(".remove-button").simulate("click");
+            wrapper.find(".move-button").simulate("click");
 
-            verify(history.push("/confirm-removal")).called();
+            verify(history.push("/confirm-moving")).called();
         });
     });
 });

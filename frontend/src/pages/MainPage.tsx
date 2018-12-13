@@ -72,8 +72,11 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
                 </div>
                 <div className="bottom">
                     <button className="find-albums" onClick={() => this.onFindAlbumsClicked()}>
-                        find albums to remove
+                        find albums to move
                     </button>
+                    <div className="explanation">
+                        This will keep all your music.
+                    </div>
                 </div>
             </div>
         );

@@ -37,7 +37,7 @@ export class Routes extends React.Component<RoutesProps, {}> {
                 <Switch>
                     <Route exact={true} path="/" render={(props) => this.renderMain(props)}/>
                     <Route exact={true} path="/find-albums" render={(props) => this.renderAlbumPage(props)}/>
-                    <Route exact={true} path="/confirm-removal" render={(props) => this.renderConfirmationPage(props)}/>
+                    <Route exact={true} path="/confirm-moving" render={(props) => this.renderConfirmationPage(props)}/>
                 </Switch>
                 <ErrorMessageModal errorMessageService={this.props.errorMessageService}/>
             </div>

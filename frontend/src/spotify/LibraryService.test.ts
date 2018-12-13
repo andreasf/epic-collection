@@ -42,14 +42,14 @@ describe("LibraryService", () => {
                 "spotify:track:album-3-track-3",
             ];
 
-            libraryService.selectForRemoval(expectedAlbum1);
-            libraryService.selectForRemoval(expectedAlbum3);
+            libraryService.selectForMoving(expectedAlbum1);
+            libraryService.selectForMoving(expectedAlbum3);
 
             const commitPromise = libraryService.commit();
 
             verify(apiClient.createPlaylist(
                 "Epic Collection Dec 12, 2018, 09:03",
-                "Tracks removed from library on Dec 12, 2018, 09:03")).once();
+                "Tracks moved from library on Dec 12, 2018, 09:03")).once();
 
             await createPlaylistPromise;
             verify(apiClient.addToPlaylist("playlist-id", deepEqual(trackUris))).once();
@@ -69,8 +69,8 @@ describe("LibraryService", () => {
             when(apiClient.addToPlaylist(anything(), anything())).thenResolve();
             when(apiClient.deleteAlbums(anything())).thenResolve();
 
-            libraryService.selectForRemoval(largeAlbum1);
-            libraryService.selectForRemoval(largeAlbum2);
+            libraryService.selectForMoving(largeAlbum1);
+            libraryService.selectForMoving(largeAlbum2);
 
             await libraryService.commit();
 
@@ -93,7 +93,7 @@ describe("LibraryService", () => {
             when(apiClient.deleteAlbums(anything())).thenResolve();
 
             for (const album of albums) {
-                libraryService.selectForRemoval(album);
+                libraryService.selectForMoving(album);
             }
 
             await libraryService.commit();
@@ -111,7 +111,7 @@ describe("LibraryService", () => {
         it("clears the current selection", () => {
             expect(libraryService.getSelectedCount()).toEqual(0);
 
-            libraryService.selectForRemoval(expectedAlbum1);
+            libraryService.selectForMoving(expectedAlbum1);
             expect(libraryService.getSelectedCount()).toEqual(1 + expectedAlbum1.tracks.length);
 
             libraryService.clearSelection();
@@ -219,7 +219,7 @@ describe("LibraryService", () => {
 
             const firstAlbum = await libraryService.getRandomAlbum();
             verify(randomChoice.randomInt(23, deepEqual([]))).once();
-            libraryService.selectForRemoval(firstAlbum);
+            libraryService.selectForMoving(firstAlbum);
 
             reset(randomChoice);
             when(randomChoice.randomInt(anything(), anything())).thenReturn(3);
@@ -248,11 +248,11 @@ describe("LibraryService", () => {
         it("returns the number of selected albums and tracks", () => {
             expect(libraryService.getSelectedCount()).toEqual(0);
 
-            libraryService.selectForRemoval(expectedAlbum1);
+            libraryService.selectForMoving(expectedAlbum1);
             expect(libraryService.getSelectedCount()).toEqual(1 + expectedAlbum1.tracks.length);
 
 
-            libraryService.selectForRemoval(expectedAlbum3);
+            libraryService.selectForMoving(expectedAlbum3);
             expect(libraryService.getSelectedCount())
                 .toEqual(2 + expectedAlbum1.tracks.length + expectedAlbum3.tracks.length);
         });
