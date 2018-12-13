@@ -54,7 +54,7 @@ describe("ErrorMessageModal", () => {
 
         wrapper.find(".message .close-button").first().simulate("click");
 
-        verify(errorMessageService.pop()).once();
+        verify(errorMessageService.shift()).once();
     });
 
     it("stops observing ErrorMessageService when unmounting", () => {

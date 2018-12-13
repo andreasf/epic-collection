@@ -14,7 +14,7 @@ export class ErrorMessageService {
         return null;
     }
 
-    public pop() {
+    public shift() {
         this.messages = this.messages.splice(1);
         this.notifyObservers();
     }

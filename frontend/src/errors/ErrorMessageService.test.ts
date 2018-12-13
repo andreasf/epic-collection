@@ -17,7 +17,7 @@ describe("ErrorMessageService", () => {
         expect(errorMessageService.getMessage()).toEqual("first message");
     });
 
-    it("pop() removes the least recent message and notifies observers", () => {
+    it("shift() removes the least recent message and notifies observers", () => {
         const observer = mock(Observer);
 
         errorMessageService.show("first message");
@@ -27,10 +27,10 @@ describe("ErrorMessageService", () => {
 
         errorMessageService.addObserver(instance(observer));
 
-        errorMessageService.pop();
+        errorMessageService.shift();
         expect(errorMessageService.getMessage()).toEqual("second message");
 
-        errorMessageService.pop();
+        errorMessageService.shift();
         expect(errorMessageService.getMessage()).toBeNull();
 
         verify(observer.onErrorMessage()).twice();

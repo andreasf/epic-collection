@@ -54,7 +54,7 @@ export class ErrorMessageModal extends React.Component<ErrorMessageProps, ErrorM
     }
 
     private onClose() {
-        this.props.errorMessageService.pop();
+        this.props.errorMessageService.shift();
     }
 
     private updateMessage() {
