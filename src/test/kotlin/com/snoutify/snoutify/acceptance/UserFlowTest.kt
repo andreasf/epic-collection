@@ -143,7 +143,7 @@ class UserFlowTest : FluentTest() {
     }
 
     private fun and_i_see_the_cover(url: String) {
-        assertThat(el(".album-cover").attribute("src"))
+        assertThat(el(".album-cover img").attribute("src"))
                 .isEqualTo(url)
     }
 

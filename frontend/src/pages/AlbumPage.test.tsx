@@ -49,13 +49,13 @@ describe("AlbumPage", () => {
 
         const wrapper = shallowRender();
         await albumPromise;
-        wrapper.find(".album-cover").simulate("load");
+        wrapper.find(".album-cover img").simulate("load");
 
         verify(libraryService.getRandomAlbum()).once();
 
         expect(wrapper.find(".album-name").text()).toEqual("album-1-name");
         expect(wrapper.find(".album-artists").text()).toEqual("artists");
-        expect(wrapper.find(".album-cover").get(0).props)
+        expect(wrapper.find(".album-cover img").get(0).props)
             .toHaveProperty("src", "cover.jpg");
         expect(wrapper.find(Spinner).exists()).toBeFalsy();
     });
@@ -80,10 +80,10 @@ describe("AlbumPage", () => {
         verify(libraryService.getRandomAlbum()).once();
 
         expect(wrapper.find(Spinner).exists()).toBeTruthy();
-        expect(wrapper.find(".album-cover").get(0).props)
+        expect(wrapper.find(".album-cover img").get(0).props)
             .toHaveProperty("src", "cover.jpg");
 
-        wrapper.find(".album-cover").simulate("load");
+        wrapper.find(".album-cover img").simulate("load");
         expect(wrapper.find(Spinner).exists()).toBeFalsy();
     });
 
@@ -114,7 +114,7 @@ describe("AlbumPage", () => {
             wrapper = shallowRender();
 
             await album1Promise;
-            wrapper.find(".album-cover").simulate("load");
+            wrapper.find(".album-cover img").simulate("load");
             expect(wrapper.find(".album-name").text()).toEqual("album-1-name");
 
             // second album
@@ -133,7 +133,7 @@ describe("AlbumPage", () => {
 
             expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
             expect(wrapper.find(".album-artists").text()).toEqual("other-artists");
-            expect(wrapper.find(".album-cover").get(0).props)
+            expect(wrapper.find(".album-cover img").get(0).props)
                 .toHaveProperty("src", "cover-2.jpg");
         });
 
@@ -142,7 +142,7 @@ describe("AlbumPage", () => {
         });
 
         it("hides the spinner once data and image are loaded", () => {
-            wrapper.find(".album-cover").simulate("load");
+            wrapper.find(".album-cover img").simulate("load");
             expect(wrapper.find(Spinner).exists()).toBeFalsy();
         });
 
@@ -163,7 +163,7 @@ describe("AlbumPage", () => {
             wrapper = shallowRender();
 
             await album1Promise;
-            wrapper.find(".album-cover").simulate("load");
+            wrapper.find(".album-cover img").simulate("load");
             expect(wrapper.find(".album-name").text()).toEqual("album-1-name");
 
             // second album
@@ -183,7 +183,7 @@ describe("AlbumPage", () => {
 
             expect(wrapper.find(".album-name").text()).toEqual("second-album-name");
             expect(wrapper.find(".album-artists").text()).toEqual("other-artists");
-            expect(wrapper.find(".album-cover").get(0).props)
+            expect(wrapper.find(".album-cover img").get(0).props)
                 .toHaveProperty("src", "cover-2.jpg");
         });
 
@@ -192,7 +192,7 @@ describe("AlbumPage", () => {
         });
 
         it("hides the spinner once data and image are loaded", () => {
-            wrapper.find(".album-cover").simulate("load");
+            wrapper.find(".album-cover img").simulate("load");
             expect(wrapper.find(Spinner).exists()).toBeFalsy();
         });
 

@@ -59,8 +59,10 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                     <button className="move-button" onClick={() => this.onMoveClicked()}>move</button>
                 </div>
                 <div className="album">
-                    {spinner}
-                    <img className="album-cover" src={this.state.album.cover} onLoad={() => this.coverLoaded()}/>
+                    <div className="album-cover">
+                        {spinner}
+                        <img src={this.state.album.cover} onLoad={() => this.coverLoaded()}/>
+                    </div>
                     <div className="album-name">{this.state.album.name}</div>
                     <div className="album-artists">{this.state.album.artists}</div>
                 </div>
