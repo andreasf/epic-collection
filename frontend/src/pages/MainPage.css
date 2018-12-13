@@ -45,7 +45,6 @@ body {
 }
 
 .main-page .bottom {
-    padding-bottom: 2rem;
     text-align: center;
     font-weight: 300;
 }
@@ -58,5 +57,6 @@ body {
 }
 
 .main-page .explanation {
-    margin-top: var(--margin);
+    margin-top: calc(var(--margin) / 2);
+    padding: .5rem 1rem;
 }
