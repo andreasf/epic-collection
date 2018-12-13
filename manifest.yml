@@ -4,4 +4,4 @@ applications:
   memory: 64M
   buildpacks:
   - staticfile_buildpack
-  path: frontend/build
+  path: frontend/deploy

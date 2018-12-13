@@ -29,3 +29,9 @@ ReactDOM.render((
     ),
     document.getElementById('root') as HTMLElement
 );
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+    });
+}

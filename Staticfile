@@ -1,2 +1,4 @@
 force_https: true
 pushstate: true
+root: public
+location_include: includes/*.conf

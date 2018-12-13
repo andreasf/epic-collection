@@ -6,10 +6,18 @@ APP=epic-collection
 main() {
     script_path=$(dirname $0)
     pushd $script_path/frontend
+        rm -rf deploy
+
         npm run build
-        cp ../Staticfile build
+
         rm build/static/js/*.map
         rm build/static/css/*.map
+
+        mkdir -p deploy/public
+        mkdir -p deploy/nginx/conf/includes
+        cp -R build/* deploy/public
+        cp ../Staticfile deploy
+        cp ../nginx-overrides.conf deploy/nginx/conf/includes
     popd
 
     pushd $script_path
