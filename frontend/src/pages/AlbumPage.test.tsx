@@ -100,7 +100,7 @@ describe("AlbumPage", () => {
         }
 
         verify(errorMessageService.show(anyString())).once();
-        verify(errorMessageService.show("error retrieving album: boo")).once();
+        verify(errorMessageService.show("error retrieving next album: boo")).once();
     });
 
     describe("when clicking 'select'", () => {

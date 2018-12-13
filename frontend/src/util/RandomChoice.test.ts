@@ -53,7 +53,9 @@ describe("RandomChoice", () => {
             randomChoice.randomInt(4, [0, 1, 2, 3]);
             fail("should have thrown an error");
         } catch (e) {
-            expect(e.message).toEqual("all possible results excluded");
+            expect(e.message).toEqual("library empty or all albums viewed. " +
+                "after closing this dialog, select 'move' to move all selected albums or 'back' " +
+                "to clear the current selection.");
         }
     });
 });

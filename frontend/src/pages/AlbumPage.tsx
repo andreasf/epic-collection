@@ -97,7 +97,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
             });
 
         } catch (e) {
-            this.props.errorMessageService.show(`error retrieving album: ${e.message}`);
+            this.props.errorMessageService.show(`error retrieving next album: ${e.message}`);
         }
     }
 
