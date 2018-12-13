@@ -71,6 +71,10 @@
     object-fit: contain;
 }
 
+.album-page .album-cover img.loading {
+    opacity: 0;
+}
+
 .album-page .album-name {
     font-weight: 400;
 }

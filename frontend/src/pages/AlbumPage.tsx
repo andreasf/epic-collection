@@ -48,6 +48,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
     public render(): ReactNode {
         const loading = this.state.loading || this.state.coverLoading;
         const spinner = loading ? <Spinner/> : null;
+        const coverClass = loading ? "loading" : "";
 
         return (
             <div className="album-page">
@@ -61,7 +62,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
                 <div className="album">
                     <div className="album-cover">
                         {spinner}
-                        <img src={this.state.album.cover} onLoad={() => this.coverLoaded()}/>
+                        <img className={coverClass} src={this.state.album.cover} onLoad={() => this.coverLoaded()}/>
                     </div>
                     <div className="album-name">{this.state.album.name}</div>
                     <div className="album-artists">{this.state.album.artists}</div>
