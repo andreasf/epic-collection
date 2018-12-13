@@ -1,5 +1,6 @@
-import {PaginatedLibraryAlbums, PaginatedTracks} from "../response_types";
-
+import {PaginatedTracks} from "../response_types";
+import {term} from "@pact-foundation/pact/dsl/matchers";
+import {DepaginatedAlbum} from "../ApiClient";
 
 export const paginatedMeAlbumsResponse = {
     "items": [
@@ -12,45 +13,257 @@ export const paginatedMeAlbumsResponse = {
                     {"name": "artist-2"}
                 ],
                 "images": [
-                    {"width": 480, "height": 480, "url": "/images/album-1.png"}
+                    {"width": 480, "height": 480, "url": "/images/album-4.png"}
                 ],
                 "tracks": {
                     "items": [
-                        {
-                            "id": "album-4-track-1"
-                        },
-                        {
-                            "id": "album-4-track-2"
-                        },
-                        {
-                            "id": "album-4-track-3"
-                        }
+                        {"id": "album-4-track-1"},
+                        {"id": "album-4-track-2"},
+                        {"id": "album-4-track-3"},
+                        {"id": "album-4-track-4"},
+                        {"id": "album-4-track-5"},
+                        {"id": "album-4-track-6"},
+                        {"id": "album-4-track-7"},
+                        {"id": "album-4-track-8"},
+                        {"id": "album-4-track-9"},
+                        {"id": "album-4-track-10"},
+                        {"id": "album-4-track-11"},
+                        {"id": "album-4-track-12"},
+                        {"id": "album-4-track-13"},
+                        {"id": "album-4-track-14"},
+                        {"id": "album-4-track-15"},
+                        {"id": "album-4-track-16"},
+                        {"id": "album-4-track-17"},
+                        {"id": "album-4-track-18"},
+                        {"id": "album-4-track-19"},
+                        {"id": "album-4-track-20"},
+                        {"id": "album-4-track-21"},
+                        {"id": "album-4-track-22"},
+                        {"id": "album-4-track-23"},
+                        {"id": "album-4-track-24"},
+                        {"id": "album-4-track-25"},
+                        {"id": "album-4-track-26"},
+                        {"id": "album-4-track-27"},
+                        {"id": "album-4-track-28"},
+                        {"id": "album-4-track-29"},
+                        {"id": "album-4-track-30"},
+                        {"id": "album-4-track-31"},
+                        {"id": "album-4-track-32"},
+                        {"id": "album-4-track-33"},
+                        {"id": "album-4-track-34"},
+                        {"id": "album-4-track-35"},
+                        {"id": "album-4-track-36"},
+                        {"id": "album-4-track-37"},
+                        {"id": "album-4-track-38"},
+                        {"id": "album-4-track-39"},
+                        {"id": "album-4-track-40"},
+                        {"id": "album-4-track-41"},
+                        {"id": "album-4-track-42"},
+                        {"id": "album-4-track-43"},
+                        {"id": "album-4-track-44"},
+                        {"id": "album-4-track-45"},
+                        {"id": "album-4-track-46"},
+                        {"id": "album-4-track-47"},
+                        {"id": "album-4-track-48"},
+                        {"id": "album-4-track-49"},
+                        {"id": "album-4-track-50"},
                     ],
-                    "total": 5,
-                    "next": "http://localhost:3000/v1/albums/album-4-id/tracks?offset=3&limit=1"
+                    "total": 101,
+                    "next": term({
+                        matcher: ".*?\\/v1\\/albums\\/album-4-id\\/tracks\\?offset=50&limit=50",
+                        generate: "http://localhost:8123/v1/albums/album-4-id/tracks?offset=50&limit=50"
+                    })
                 }
             }
         }
     ],
     "total": 1
-} as PaginatedLibraryAlbums;
+};
 
 export const albumTracksPage2Response = {
     "items": [
-        {
-            "id": "album-4-track-4"
-        }
+        {"id": "album-4-track-51"},
+        {"id": "album-4-track-52"},
+        {"id": "album-4-track-53"},
+        {"id": "album-4-track-54"},
+        {"id": "album-4-track-55"},
+        {"id": "album-4-track-56"},
+        {"id": "album-4-track-57"},
+        {"id": "album-4-track-58"},
+        {"id": "album-4-track-59"},
+        {"id": "album-4-track-60"},
+        {"id": "album-4-track-61"},
+        {"id": "album-4-track-62"},
+        {"id": "album-4-track-63"},
+        {"id": "album-4-track-64"},
+        {"id": "album-4-track-65"},
+        {"id": "album-4-track-66"},
+        {"id": "album-4-track-67"},
+        {"id": "album-4-track-68"},
+        {"id": "album-4-track-69"},
+        {"id": "album-4-track-70"},
+        {"id": "album-4-track-71"},
+        {"id": "album-4-track-72"},
+        {"id": "album-4-track-73"},
+        {"id": "album-4-track-74"},
+        {"id": "album-4-track-75"},
+        {"id": "album-4-track-76"},
+        {"id": "album-4-track-77"},
+        {"id": "album-4-track-78"},
+        {"id": "album-4-track-79"},
+        {"id": "album-4-track-80"},
+        {"id": "album-4-track-81"},
+        {"id": "album-4-track-82"},
+        {"id": "album-4-track-83"},
+        {"id": "album-4-track-84"},
+        {"id": "album-4-track-85"},
+        {"id": "album-4-track-86"},
+        {"id": "album-4-track-87"},
+        {"id": "album-4-track-88"},
+        {"id": "album-4-track-89"},
+        {"id": "album-4-track-90"},
+        {"id": "album-4-track-91"},
+        {"id": "album-4-track-92"},
+        {"id": "album-4-track-93"},
+        {"id": "album-4-track-94"},
+        {"id": "album-4-track-95"},
+        {"id": "album-4-track-96"},
+        {"id": "album-4-track-97"},
+        {"id": "album-4-track-98"},
+        {"id": "album-4-track-99"},
+        {"id": "album-4-track-100"},
     ],
-    "total": 5,
-    "next": "http://localhost:3000/v1/albums/album-4-id/tracks?offset=4&limit=1"
-} as PaginatedTracks;
+    "total": 101,
+    "next": term({
+        matcher: ".*?\\/v1\\/albums\\/album-4-id\\/tracks\\?offset=100&limit=50",
+        generate: "http://localhost:8123/v1/albums/album-4-id/tracks?offset=100&limit=50"
+    })
+
+};
 
 export const albumTracksPage3Response = {
     "items": [
-        {
-            "id": "album-4-track-5"
-        }
+        {"id": "album-4-track-101"},
     ],
-    "total": 5,
+    "total": 101,
     "next": null
 } as PaginatedTracks;
+
+export const depaginatedAlbum = {
+    id: "album-4-id",
+    name: "album-4-name",
+    artists: [
+        {name: "artist-1"},
+        {name: "artist-2"},
+    ],
+    images: [
+        {width: 480, height: 480, url: "/images/album-4.png"}
+    ],
+    tracks: {
+        items: [
+            {"id": "album-4-track-1"},
+            {"id": "album-4-track-2"},
+            {"id": "album-4-track-3"},
+            {"id": "album-4-track-4"},
+            {"id": "album-4-track-5"},
+            {"id": "album-4-track-6"},
+            {"id": "album-4-track-7"},
+            {"id": "album-4-track-8"},
+            {"id": "album-4-track-9"},
+            {"id": "album-4-track-10"},
+            {"id": "album-4-track-11"},
+            {"id": "album-4-track-12"},
+            {"id": "album-4-track-13"},
+            {"id": "album-4-track-14"},
+            {"id": "album-4-track-15"},
+            {"id": "album-4-track-16"},
+            {"id": "album-4-track-17"},
+            {"id": "album-4-track-18"},
+            {"id": "album-4-track-19"},
+            {"id": "album-4-track-20"},
+            {"id": "album-4-track-21"},
+            {"id": "album-4-track-22"},
+            {"id": "album-4-track-23"},
+            {"id": "album-4-track-24"},
+            {"id": "album-4-track-25"},
+            {"id": "album-4-track-26"},
+            {"id": "album-4-track-27"},
+            {"id": "album-4-track-28"},
+            {"id": "album-4-track-29"},
+            {"id": "album-4-track-30"},
+            {"id": "album-4-track-31"},
+            {"id": "album-4-track-32"},
+            {"id": "album-4-track-33"},
+            {"id": "album-4-track-34"},
+            {"id": "album-4-track-35"},
+            {"id": "album-4-track-36"},
+            {"id": "album-4-track-37"},
+            {"id": "album-4-track-38"},
+            {"id": "album-4-track-39"},
+            {"id": "album-4-track-40"},
+            {"id": "album-4-track-41"},
+            {"id": "album-4-track-42"},
+            {"id": "album-4-track-43"},
+            {"id": "album-4-track-44"},
+            {"id": "album-4-track-45"},
+            {"id": "album-4-track-46"},
+            {"id": "album-4-track-47"},
+            {"id": "album-4-track-48"},
+            {"id": "album-4-track-49"},
+            {"id": "album-4-track-50"},
+            {"id": "album-4-track-51"},
+            {"id": "album-4-track-52"},
+            {"id": "album-4-track-53"},
+            {"id": "album-4-track-54"},
+            {"id": "album-4-track-55"},
+            {"id": "album-4-track-56"},
+            {"id": "album-4-track-57"},
+            {"id": "album-4-track-58"},
+            {"id": "album-4-track-59"},
+            {"id": "album-4-track-60"},
+            {"id": "album-4-track-61"},
+            {"id": "album-4-track-62"},
+            {"id": "album-4-track-63"},
+            {"id": "album-4-track-64"},
+            {"id": "album-4-track-65"},
+            {"id": "album-4-track-66"},
+            {"id": "album-4-track-67"},
+            {"id": "album-4-track-68"},
+            {"id": "album-4-track-69"},
+            {"id": "album-4-track-70"},
+            {"id": "album-4-track-71"},
+            {"id": "album-4-track-72"},
+            {"id": "album-4-track-73"},
+            {"id": "album-4-track-74"},
+            {"id": "album-4-track-75"},
+            {"id": "album-4-track-76"},
+            {"id": "album-4-track-77"},
+            {"id": "album-4-track-78"},
+            {"id": "album-4-track-79"},
+            {"id": "album-4-track-80"},
+            {"id": "album-4-track-81"},
+            {"id": "album-4-track-82"},
+            {"id": "album-4-track-83"},
+            {"id": "album-4-track-84"},
+            {"id": "album-4-track-85"},
+            {"id": "album-4-track-86"},
+            {"id": "album-4-track-87"},
+            {"id": "album-4-track-88"},
+            {"id": "album-4-track-89"},
+            {"id": "album-4-track-90"},
+            {"id": "album-4-track-91"},
+            {"id": "album-4-track-92"},
+            {"id": "album-4-track-93"},
+            {"id": "album-4-track-94"},
+            {"id": "album-4-track-95"},
+            {"id": "album-4-track-96"},
+            {"id": "album-4-track-97"},
+            {"id": "album-4-track-98"},
+            {"id": "album-4-track-99"},
+            {"id": "album-4-track-100"},
+            {"id": "album-4-track-101"},
+        ],
+        total: 101,
+        next: null
+    }
+} as DepaginatedAlbum;

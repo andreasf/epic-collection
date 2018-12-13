@@ -10,7 +10,7 @@ class FakeLibraryServiceTest {
 
     @Before
     fun beforeEach() {
-        service = FakeLibraryService(listOf(album1, album2, album3))
+        service = FakeLibraryService(listOf(album1, album2, album3, paginatedAlbum), "8080")
     }
 
     @Test
@@ -18,7 +18,7 @@ class FakeLibraryServiceTest {
         val paginatedLibraryAlbums = service.getAlbum(42)
 
         assertThat(paginatedLibraryAlbums).isEqualTo(
-                PaginatedLibraryAlbums(items = emptyList(), total = 3)
+                PaginatedLibraryAlbums(items = emptyList(), total = 4)
         )
     }
 
@@ -27,7 +27,16 @@ class FakeLibraryServiceTest {
         val paginatedLibraryAlbums = service.getAlbum(1)
 
         assertThat(paginatedLibraryAlbums).isEqualTo(
-                PaginatedLibraryAlbums(items = listOf(LibraryAlbum(album2)), total = 3)
+                PaginatedLibraryAlbums(items = listOf(LibraryAlbum(album2Response)), total = 4)
+        )
+    }
+
+    @Test
+    fun getAlbum_paginated_returnsFirstPage() {
+        val paginatedLibraryAlbums = service.getAlbum(3)
+
+        assertThat(paginatedLibraryAlbums).isEqualTo(
+                PaginatedLibraryAlbums(items = listOf(LibraryAlbum(paginatedAlbumPage1)), total = 4)
         )
     }
 
@@ -38,5 +47,12 @@ class FakeLibraryServiceTest {
         assertThatThrownBy {
             service.getAlbum(1)
         }.isInstanceOf(RuntimeException::class.java)
+    }
+
+    @Test
+    fun getAlbumTracks_returnsTracks() {
+        val albumTracks = service.getAlbumTracks("album-4-id", 50)
+
+        assertThat(albumTracks).isEqualTo(paginatedAlbumTracksPage2)
     }
 }

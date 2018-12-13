@@ -29,11 +29,9 @@ data class ImageResponse(
         val height: Int,
         val url: String)
 
-data class PaginatedTracks(val items: List<Track>) {
-        val total: Int get() {
-                return items.size
-        }
-}
+data class PaginatedTracks(val items: List<Track>,
+                           val next: String?,
+                           val total: Int = items.size)
 
 data class Track(val id: String)
 

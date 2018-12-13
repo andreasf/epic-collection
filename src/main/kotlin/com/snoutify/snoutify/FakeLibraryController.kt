@@ -10,7 +10,7 @@ class FakeLibraryController(private val fakeLibraryService: FakeLibraryService) 
     @CrossOrigin(allowCredentials = "true", allowedHeaders = ["Authorization"])
     fun tracks(): ResponseEntity<TracksResponse> {
         val trackCount = this.fakeLibraryService.getAlbums()
-                .map { it.tracks.total }
+                .map { it.tracks.size }
                 .reduce { totalTracks, albumTracks -> totalTracks + albumTracks }
 
         return ResponseEntity.ok(TracksResponse(trackCount))
@@ -29,6 +29,12 @@ class FakeLibraryController(private val fakeLibraryService: FakeLibraryService) 
         } catch (e: RuntimeException) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
         }
+    }
+
+    @GetMapping("/fake/v1/albums/{albumId}/tracks")
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = ["Authorization"])
+    fun albumTracks(@PathVariable albumId: String, @RequestParam offset: Int): PaginatedTracks {
+        return fakeLibraryService.getAlbumTracks(albumId, offset)
     }
 
     @PostMapping("/fake/v1/me/playlists")

@@ -1,14 +1,19 @@
 import {InteractionObject, Pact} from "@pact-foundation/pact";
 import * as path from "path";
 import {meTracksResponse} from "./test_resources/me_tracks_response";
-import {ApiClient} from "./ApiClient";
+import {ApiClient, DepaginatedAlbum} from "./ApiClient";
 import {meResponse} from "./test_resources/me_response";
 import {TokenService} from "../account/TokenService";
 import {instance, mock, when} from "ts-mockito";
 import {meAlbumsResponse} from "./test_resources/me_albums_response";
 import {ErrorHandlingFetch} from "./ErrorHandlingFetch";
-import {ApiAlbum} from "./response_types";
 import {MatcherResult} from "@pact-foundation/pact/dsl/matchers";
+import {
+    albumTracksPage2Response,
+    albumTracksPage3Response,
+    depaginatedAlbum,
+    paginatedMeAlbumsResponse
+} from "./test_resources/paginated_album_response";
 import Spy = jasmine.Spy;
 
 const mockServerPort = 8123;
@@ -155,7 +160,7 @@ describe("ApiClient", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
                 state: "with 3 albums",
-                uponReceiving: "GET /v1/me/albums (page 1)",
+                uponReceiving: "GET /v1/me/albums (count)",
                 withRequest: {
                     method: "GET",
                     path: "/v1/me/albums",
@@ -230,10 +235,92 @@ describe("ApiClient", () => {
                         {id: "album-1-track-2"},
                         {id: "album-1-track-3"},
                     ],
-                    total: 3
+                    total: 3,
+                    next: null,
                 }
-            } as ApiAlbum);
+            } as DepaginatedAlbum);
             expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error retrieving album");
+        });
+    });
+
+    describe("getAlbumByOffset (with pagination)", () => {
+        beforeEach(async () => {
+            const paginatedMeAlbums: InteractionObject = {
+                state: "with paginated album",
+                uponReceiving: "GET /v1/me/albums (paginated)",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/me/albums",
+                    query: "offset=0&limit=1",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: paginatedMeAlbumsResponse
+                }
+            };
+
+            const albumTracksPage2: InteractionObject = {
+                state: "with paginated album",
+                uponReceiving: "GET /v1/albums/album-4-id/tracks (page 2)",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/albums/album-4-id/tracks",
+                    query: "offset=50&limit=50",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: albumTracksPage2Response
+                }
+            };
+
+            const albumTracksPage3: InteractionObject = {
+                state: "with paginated album",
+                uponReceiving: "GET /v1/albums/album-4-id/tracks (page 3)",
+                withRequest: {
+                    method: "GET",
+                    path: "/v1/albums/album-4-id/tracks",
+                    query: "offset=100&limit=50",
+                    headers: {
+                        Authorization: "Bearer real-access-token"
+                    }
+                },
+                willRespondWith: {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: albumTracksPage3Response
+                }
+            };
+
+            await provider.addInteraction(preflightRequestFor(paginatedMeAlbums));
+            await provider.addInteraction(paginatedMeAlbums);
+            await provider.addInteraction(preflightRequestFor(albumTracksPage2));
+            await provider.addInteraction(albumTracksPage2);
+            await provider.addInteraction(preflightRequestFor(albumTracksPage3));
+            await provider.addInteraction(albumTracksPage3);
+        });
+
+        it("returns the album", async () => {
+            const album = await apiClient.getAlbumByOffset(0);
+
+            expect(album).toEqual(depaginatedAlbum);
+
+            expect(fetchSpy.calls.argsFor(0)[0]).toEqual("error retrieving album");
+            expect(fetchSpy.calls.argsFor(1)[0]).toEqual("error retrieving album tracks");
+            expect(fetchSpy.calls.argsFor(2)[0]).toEqual("error retrieving album tracks");
         });
     });
 
@@ -241,7 +328,7 @@ describe("ApiClient", () => {
         beforeEach(async () => {
             const interaction: InteractionObject = {
                 state: "with 5 tracks",
-                uponReceiving: "GET /v1/me/tracks (page 1)",
+                uponReceiving: "GET /v1/me/tracks",
                 withRequest: {
                     method: "GET",
                     path: "/v1/me/tracks",
@@ -344,13 +431,15 @@ describe("ApiClient", () => {
 function preflightRequestFor(interaction: InteractionObject): InteractionObject {
     const headers = interaction.withRequest.headers;
     const allowedHeaders = headers ? filterHeaders(headers).join(", ").toLowerCase() : "*";
+    const maybeQuery = interaction.withRequest.query ? `?${interaction.withRequest.query}` : "";
 
     return {
         state: interaction.state,
-        uponReceiving: `OPTIONS ${interaction.withRequest.path} (${interaction.withRequest.method})`,
+        uponReceiving: `OPTIONS ${interaction.withRequest.path}${maybeQuery} (${interaction.withRequest.method})`,
         withRequest: {
             method: "OPTIONS",
             path: interaction.withRequest.path,
+            query: interaction.withRequest.query,
             headers: {
                 "Origin": "http://localhost",
                 "Access-Control-Request-Method": interaction.withRequest.method,

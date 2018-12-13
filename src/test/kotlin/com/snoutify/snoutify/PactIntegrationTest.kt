@@ -27,36 +27,45 @@ open class PactIntegrationTest {
 
     @State("with 5 tracks")
     fun to5TracksState() {
-        context.getBean(FakeLibraryService::class.java).setAlbums(listOf(album1, album2, album3))
+        fakeLibraryService.setAlbums(listOf(album1, album2, album3))
     }
 
     @State("with 3 albums")
     fun to3AlbumsState() {
-        context.getBean(FakeLibraryService::class.java).setAlbums(listOf(album1, album2, album3))
+        fakeLibraryService.setAlbums(listOf(album1, album2, album3))
+    }
+
+    @State("with paginated album")
+    fun toPaginatedAlbumsState() {
+        fakeLibraryService.setAlbums(listOf(paginatedAlbum))
     }
 
     @State("endpoints returning 500")
     fun toErrorState() {
-        context.getBean(FakeProfileController::class.java).setCrash(true)
-        context.getBean(FakeLibraryService::class.java).setCrash(true)
+        fakeProfileController.setCrash(true)
+        fakeLibraryService.setCrash(true)
     }
 
     @After
     fun afterEach() {
-        context.getBean(FakeProfileController::class.java).setCrash(false)
-        context.getBean(FakeLibraryService::class.java).setCrash(false)
+        fakeProfileController.setCrash(false)
+        fakeLibraryService.setCrash(false)
     }
 
     companion object {
         val port = 8081
 
         lateinit var context: ConfigurableApplicationContext
+        lateinit var fakeLibraryService: FakeLibraryService
+        lateinit var fakeProfileController: FakeProfileController
 
         @BeforeClass
         @JvmStatic
         fun beforeAll() {
             val app = SpringApplication(SnoutifyApplication::class.java)
             context = app.run("--server.port=$port")
+            fakeLibraryService = context.getBean(FakeLibraryService::class.java)
+            fakeProfileController = context.getBean(FakeProfileController::class.java)
         }
 
         @AfterClass

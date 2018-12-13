@@ -97,7 +97,7 @@ export class ApiClient {
         return userProfileReponse.display_name;
     }
 
-    public async getAlbumByOffset(offset: number): Promise<ApiAlbum> {
+    public async getAlbumByOffset(offset: number): Promise<DepaginatedAlbum> {
         const url = `${this.apiPrefix}/v1/me/albums?offset=${offset}&limit=1`;
         const response = await this.errorHandlingFetch.fetch("error retrieving album", url, {
             headers: {
@@ -106,7 +106,40 @@ export class ApiClient {
         });
 
         const paginatedLibraryTracks = await response.json() as PaginatedLibraryAlbums;
-        return paginatedLibraryTracks.items[0].album;
+        return await this.depaginateApiAlbum(paginatedLibraryTracks.items[0].album);
+    }
+
+    private async depaginateApiAlbum(apiAlbum: ApiAlbum): Promise<DepaginatedAlbum> {
+        let nextTracksUrl = apiAlbum.tracks.next;
+        let allTracks = Array.from(apiAlbum.tracks.items);
+
+        while (nextTracksUrl) {
+            const tracksPage = await this.getAlbumTracksByUrl(nextTracksUrl);
+            nextTracksUrl = tracksPage.next;
+            allTracks = allTracks.concat(tracksPage.items);
+        }
+
+        return {
+            ...apiAlbum,
+            tracks: {
+                items: allTracks,
+                total: apiAlbum.tracks.total,
+                next: null,
+            }
+        } as DepaginatedAlbum;
+    }
+
+    private async getAlbumTracksByUrl(url: string): Promise<PaginatedTracks> {
+        const response = await this.errorHandlingFetch.fetch(
+            "error retrieving album tracks",
+            url,
+            {
+                headers: {
+                    "Authorization": `Bearer ${this.tokenService.getToken()}`
+                },
+            });
+
+        return await response.json() as PaginatedTracks;
     }
 }
 
@@ -118,4 +151,8 @@ interface CreatePlaylistRequest {
 
 interface AddToPlaylistRequest {
     uris: string[];
+}
+
+export interface DepaginatedAlbum extends ApiAlbum {
+    // same fields, but tracks are depaginated
 }

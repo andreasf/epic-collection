@@ -25,7 +25,8 @@ export const meAlbumsResponse = {
                             "id": "album-1-track-3"
                         }
                     ],
-                    "total": 3
+                    "total": 3,
+                    "next": null,
                 }
             }
         }
