@@ -1,12 +1,14 @@
 :root {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.2;
+
     --margin: 2rem;
 }
 
 body {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 20px;
+    margin: 0;
 }
-
 
 button {
     font-family: inherit;

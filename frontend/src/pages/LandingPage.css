@@ -1,0 +1,105 @@
+.landing-page {
+    padding: 2rem;
+}
+
+.landing-page h1, .subtitle,
+.landing-page .disclaimer,
+.landing-page .login {
+    text-align: center;
+}
+
+.landing-page h1 {
+    font-size: 2.5rem;
+    letter-spacing: -.06rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.landing-page h2 {
+    font-size: 1.5rem;
+    margin-top: 2.4rem;
+    margin-bottom: 1.2rem;
+}
+
+.landing-page .subtitle {
+    margin-bottom: 5rem;
+}
+
+.landing-page .disclaimer {
+    line-height: 1.2rem;
+    font-size: 50%;
+}
+
+.landing-page .introduction {
+    margin-bottom: 2.4rem;
+}
+
+.landing-page .login a {
+    display: inline-block;
+    font-weight: bold;
+    padding: .5rem 1rem;
+    border: 1px solid black;
+    border-radius: .5rem;
+    background-color: #dddddd;
+}
+
+.landing-page .login a:link,
+.landing-page .login a:visited {
+    text-decoration: none;
+    color: #000000;
+}
+
+.landing-page .faq a:link, a:visited {
+    color: #000000;
+}
+
+.landing-page p {
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+}
+
+.landing-page ul {
+    padding-left: 1.5rem;
+}
+
+.landing-page ul.faq {
+    list-style: none;
+    padding-left: 0;
+}
+
+.landing-page .faq li {
+    padding-top: 1.2em;
+}
+
+.landing-page .faq li:first-child {
+    padding-top: 0;
+}
+
+.landing-page .question {
+    font-weight: bold;
+}
+
+@media screen and (max-width: 339px) {
+    .landing-page {
+        padding: 1rem;
+    }
+
+    .landing-page h1 {
+        font-size: 2rem;
+    }
+
+    .landing-page .subtitle {
+        margin-bottom: 4rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .landing-page {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    .landing-page h1 {
+        font-size: 3rem;
+    }
+}

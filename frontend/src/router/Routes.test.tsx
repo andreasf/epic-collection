@@ -11,6 +11,7 @@ import {LibraryService} from "../spotify/LibraryService";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
 import {AlbumPage} from "../pages/AlbumPage";
 import {ConfirmationPage} from "../pages/ConfirmationPage";
+import {LandingPage} from "../pages/LandingPage";
 
 configure({adapter: new Adapter()});
 
@@ -42,7 +43,7 @@ describe("Routes", () => {
     describe("Routing", () => {
         const routes = [
             {
-                component: MainPage,
+                component: LandingPage,
                 path: "/",
             },
             {
@@ -83,28 +84,6 @@ describe("Routes", () => {
 
                 verify(tokenService.isOauthCallback()).once();
                 verify(tokenService.handleOauthCallback()).once();
-            });
-        });
-
-        describe("when no token is stored", () => {
-            it("redirects to Spotify Accounts Service login", () => {
-                when(tokenService.isLoggedIn()).thenReturn(false);
-
-                renderAt("/home");
-
-                verify(tokenService.isLoggedIn()).once();
-                verify(tokenService.redirectToLogin()).once();
-                verify(tokenService.handleOauthCallback()).never();
-            });
-        });
-
-        describe("when a token is stored", () => {
-            it("does not redirect anywhere", () => {
-                renderAt("/home");
-
-                verify(tokenService.isLoggedIn()).once();
-                verify(tokenService.redirectToLogin()).never();
-                verify(tokenService.handleOauthCallback()).never();
             });
         });
     });

@@ -28,7 +28,8 @@ class UserFlowTest : FluentTest() {
 
     @Test
     fun user_can_login_and_find_albums_to_remove() {
-        when_i_open_the_app()
+        when_i_open_the_landing_page()
+        and_i_open_the_app()
         then_i_see_my_username()
         and_i_see_the_track_count(5)
         and_i_see_the_album_count(3)
@@ -71,7 +72,8 @@ class UserFlowTest : FluentTest() {
 
     @Test
     fun user_can_cancel() {
-        when_i_open_the_app()
+        when_i_open_the_landing_page()
+        and_i_open_the_app()
         then_i_see_my_username()
         and_i_see_the_track_count(5)
         and_i_see_the_album_count(3)
@@ -99,12 +101,18 @@ class UserFlowTest : FluentTest() {
     fun app_shows_error_messages() {
         fakeProfileController.setCrash(true)
 
-        when_i_open_the_app()
+        when_i_open_the_landing_page()
+        and_i_open_the_app()
         then_i_see_an_error_message()
     }
 
-    private fun when_i_open_the_app() {
+    private fun when_i_open_the_landing_page() {
         goTo("http://localhost:$port")
+        await().until(el(".landing-page")).displayed()
+    }
+
+    private fun and_i_open_the_app() {
+        el(".login a").click()
         await().until(el(".main-page")).displayed()
     }
 

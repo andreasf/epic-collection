@@ -1,8 +1,3 @@
-body {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 20px;
-}
-
 .main-page {
     position: absolute;
     top: 0;
@@ -15,6 +10,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: start;
+
+    font-size: 20px;
 }
 
 .top {

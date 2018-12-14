@@ -9,6 +9,7 @@ import {ErrorMessageService} from "../errors/ErrorMessageService";
 import {ErrorMessageModal} from "../components/ErrorMessageModal";
 import {AlbumPage} from "../pages/AlbumPage";
 import {ConfirmationPage} from "../pages/ConfirmationPage";
+import {LandingPage} from "../pages/LandingPage";
 
 interface RoutesProps {
     tokenService: TokenService;
@@ -25,16 +26,13 @@ export class Routes extends React.Component<RoutesProps, {}> {
         if (this.props.tokenService.isOauthCallback()) {
             this.props.tokenService.handleOauthCallback();
         }
-
-        if (!this.props.tokenService.isLoggedIn()) {
-            this.props.tokenService.redirectToLogin();
-        }
     }
 
     public render(): ReactNode {
         return (
             <div className="router">
                 <Switch>
+                    <Route exact={true} path="/" render={(props) => this.renderLandingPage(props)}/>
                     <Route exact={true} path="/home" render={(props) => this.renderMain(props)}/>
                     <Route exact={true} path="/find-albums" render={(props) => this.renderAlbumPage(props)}/>
                     <Route exact={true} path="/confirm-moving" render={(props) => this.renderConfirmationPage(props)}/>
@@ -42,6 +40,10 @@ export class Routes extends React.Component<RoutesProps, {}> {
                 <ErrorMessageModal errorMessageService={this.props.errorMessageService}/>
             </div>
         );
+    }
+
+    private renderLandingPage(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
+        return <LandingPage/>;
     }
 
     private renderMain(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
