@@ -2,7 +2,7 @@
 name: Feedback
 about: Free-form feedback
 title: ''
-labels: enhancement
+labels: feedback
 assignees: ''
 
 ---
