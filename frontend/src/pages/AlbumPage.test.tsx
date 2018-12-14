@@ -211,7 +211,7 @@ describe("AlbumPage", () => {
 
             wrapper.find(".back-button").simulate("click");
 
-            verify(history.push("/")).called();
+            verify(history.push("/home")).called();
             verify(libraryService.clearSelection()).called();
         });
     });

@@ -30,7 +30,7 @@ export class TokenService {
     public handleOauthCallback(): void {
         const queryParameters = parse(this.location.hash);
         this.localStorage.setItem("token", queryParameters.access_token);
-        this.history.push("/");
+        this.history.push("/home");
     }
 
     public redirectToLogin() {

@@ -110,7 +110,7 @@ export class AlbumPage extends React.Component<AlbumPageProps, AlbumPageState> {
 
     private onBackClicked() {
         this.props.libraryService.clearSelection();
-        this.props.history.push("/");
+        this.props.history.push("/home");
     }
 
     private onSelectClicked() {

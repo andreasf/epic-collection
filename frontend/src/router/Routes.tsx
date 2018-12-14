@@ -35,7 +35,7 @@ export class Routes extends React.Component<RoutesProps, {}> {
         return (
             <div className="router">
                 <Switch>
-                    <Route exact={true} path="/" render={(props) => this.renderMain(props)}/>
+                    <Route exact={true} path="/home" render={(props) => this.renderMain(props)}/>
                     <Route exact={true} path="/find-albums" render={(props) => this.renderAlbumPage(props)}/>
                     <Route exact={true} path="/confirm-moving" render={(props) => this.renderConfirmationPage(props)}/>
                 </Switch>

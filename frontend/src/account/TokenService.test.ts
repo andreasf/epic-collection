@@ -64,7 +64,7 @@ describe("TokenService", () => {
 
         describe("when not on '/oauth/callback", () => {
             it("returns false", () => {
-                when(location.pathname).thenReturn("/");
+                when(location.pathname).thenReturn("/home");
 
                 expect(tokenService.isOauthCallback()).toBeFalsy();
 
@@ -80,7 +80,7 @@ describe("TokenService", () => {
             tokenService.handleOauthCallback();
 
             verify(localStorage.setItem("token", "token-value")).once();
-            verify(history.push("/")).once();
+            verify(history.push("/home")).once();
         });
     });
 

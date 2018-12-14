@@ -46,6 +46,10 @@ describe("Routes", () => {
                 path: "/",
             },
             {
+                component: MainPage,
+                path: "/home",
+            },
+            {
                 component: AlbumPage,
                 path: "/find-albums",
             },
@@ -60,7 +64,7 @@ describe("Routes", () => {
                 const wrapper = renderAt(currentRoute.path);
 
                 for (const route of routes) {
-                    if (route === currentRoute) {
+                    if (route === currentRoute || route.component === currentRoute.component) {
                         expect(wrapper.find(route.component).exists()).toBeTruthy();
                     } else {
                         expect(wrapper.find(route.component).exists()).toBeFalsy();
@@ -86,7 +90,7 @@ describe("Routes", () => {
             it("redirects to Spotify Accounts Service login", () => {
                 when(tokenService.isLoggedIn()).thenReturn(false);
 
-                renderAt("/");
+                renderAt("/home");
 
                 verify(tokenService.isLoggedIn()).once();
                 verify(tokenService.redirectToLogin()).once();
@@ -96,7 +100,7 @@ describe("Routes", () => {
 
         describe("when a token is stored", () => {
             it("does not redirect anywhere", () => {
-                renderAt("/");
+                renderAt("/home");
 
                 verify(tokenService.isLoggedIn()).once();
                 verify(tokenService.redirectToLogin()).never();

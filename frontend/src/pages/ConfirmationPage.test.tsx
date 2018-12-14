@@ -53,7 +53,7 @@ describe("ConfirmationPage", () => {
             wrapper.find(".move-button").simulate("click");
             await promise;
 
-            verify(history.push("/")).called();
+            verify(history.push("/home")).called();
         });
 
         it("shows an error message and hides the spinner if something goes wrong", async () => {

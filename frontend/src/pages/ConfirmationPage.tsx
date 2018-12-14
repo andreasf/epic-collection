@@ -64,7 +64,7 @@ export class ConfirmationPage extends React.Component<ConfirmationPageProps, Con
 
         try {
             await this.props.libraryService.commit();
-            this.props.history.push("/");
+            this.props.history.push("/home");
 
         } catch (e) {
             this.props.errorMessageService.show(`error moving albums: ${e.message}`);
