@@ -1,5 +1,26 @@
 .landing-page {
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.landing-page .hero .content, .landing-page .fold {
     padding: 2rem;
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.landing-page .hero {
+    background: linear-gradient(#001ba2, #6e00ff);
+    color: #ffffff;
+}
+
+.landing-page .hero .content {
+    padding-bottom: 3.2rem;
+}
+
+.landing-page .fold {
+    padding-top: 0;
 }
 
 .landing-page h1, .subtitle,
@@ -12,41 +33,42 @@
     font-size: 2.5rem;
     letter-spacing: -.06rem;
     margin-top: 3rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.35rem;
 }
 
 .landing-page h2 {
     font-size: 1.5rem;
-    margin-top: 2.4rem;
-    margin-bottom: 1.2rem;
+    margin-top: 2.7rem;
+    margin-bottom: 1.35rem;
 }
 
 .landing-page .subtitle {
-    margin-bottom: 4rem;
+    margin-bottom: 4.05rem;
 }
 
 .landing-page .disclaimer {
-    line-height: 1.2rem;
+    line-height: 1.35rem;
     font-size: 50%;
 }
 
 .landing-page .introduction {
-    margin-bottom: 2.4rem;
+    margin-bottom: 2.7rem;
 }
 
 .landing-page .login a {
     display: inline-block;
     font-weight: bold;
     padding: .5rem 1rem;
-    border: 1px solid black;
+    border: 1px solid white; 
     border-radius: .5rem;
-    background-color: #dddddd;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .landing-page .login a:link,
 .landing-page .login a:visited {
     text-decoration: none;
-    color: #000000;
+    color: inherit;
 }
 
 .landing-page .faq a:link, a:visited {
@@ -54,8 +76,8 @@
 }
 
 .landing-page p {
-    margin-top: 1.2em;
-    margin-bottom: 1.2em;
+    margin-top: 1.35em;
+    margin-bottom: 1.35em;
 }
 
 .landing-page ul {
@@ -68,7 +90,7 @@
 }
 
 .landing-page .faq li {
-    padding-top: 1.2em;
+    padding-top: 1.35em;
 }
 
 .landing-page .faq li:first-child {
@@ -80,8 +102,8 @@
 }
 
 @media screen and (max-width: 339px) {
-    .landing-page {
-        padding: 1rem;
+    .landing-page .hero .content {
+        padding-bottom: 2.7rem;
     }
 
     .landing-page h1 {
@@ -94,7 +116,7 @@
 }
 
 @media screen and (min-width: 768px) {
-    .landing-page {
+    .landing-page .hero .content, .landing-page .fold {
         padding-left: 3rem;
         padding-right: 3rem;
     }
