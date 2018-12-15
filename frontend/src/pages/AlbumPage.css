@@ -47,6 +47,7 @@
 
     font-weight: 300;
     margin: calc(var(--margin) / 2) var(--margin) var(--margin);
+    min-height: calc(1em * 1.35 * 2);
 }
 
 .album-page .album-cover {
@@ -54,6 +55,7 @@
     flex-shrink: 1;
 
     margin-bottom: calc(var(--margin) / 2);
+    min-height: 0;
     max-height: calc(100vw - 2 * var(--margin));
 
     display: flex;
