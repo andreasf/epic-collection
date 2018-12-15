@@ -6,6 +6,8 @@
 reached the limit of 10000 tracks. It interactively moves albums to playlists,
 keeping all your music around.*
 
+[Try it out here](https://epic-collection.cfapps.io) 👀
+
 I made this app to work around Spotify's library limit, and as an example React application
 with a traditional layered architecture, removing the complexity that state-management libraries bring.
 
@@ -23,6 +25,8 @@ All tests can be run with:
 ```
 CI=1 MOZ_HEADLESS=1 ./gradlew clean npm_install npm_test test
 ```
+
+The acceptance tests expect a current version of Firefox to be installed.
 
 Most tests are in `frontend` where they can be run with `CI=1 npm test`.
 
