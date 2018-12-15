@@ -74,7 +74,7 @@ export class LandingPage extends React.Component {
                         </li>
                         <li>
                             <div className="question">Is there a way to give feedback?</div>
-                            <div className="answer">Please create <a href="https://github.com/andreasf/epic-collection/issues/new/choose">a new "Feedback" issue here</a>.
+                            <div className="answer">Please create <a href="https://github.com/andreasf/epic-collection/issues">a new "Feedback" issue on GitHub</a>.
                             </div>
                         </li>
                         <li>
