@@ -4,6 +4,8 @@ set -e -o pipefail
 APP=epic-collection
 
 main() {
+    require_client_id
+
     script_path=$(dirname $0)
     pushd $script_path/frontend
         rm -rf deploy
@@ -25,6 +27,14 @@ main() {
         cf push
         delete_old_instance_if_running
     popd
+}
+
+require_client_id() {
+    if [[ -z "${REACT_APP_CLIENT_ID}" ]]
+    then
+        echo "error: REACT_APP_CLIENT_ID must be set" >&2
+        exit 1
+    fi
 }
 
 rename_app_if_running() {

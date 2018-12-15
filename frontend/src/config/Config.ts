@@ -9,7 +9,7 @@ interface Config {
 }
 
 const realConfig: Config = {
-    clientId: "7994d45282104ed888a4de0fa8546fc5",
+    clientId: process.env.REACT_APP_CLIENT_ID || "client-id env missing",
     apiPrefix: "https://api.spotify.com",
     authorizeUri: "https://accounts.spotify.com/authorize",
     callbackPath: "/oauth/callback",
