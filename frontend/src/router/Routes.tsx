@@ -49,7 +49,8 @@ export class Routes extends React.Component<RoutesProps, {}> {
     private renderMain(props: RouteComponentProps<any, StaticContext, any>): ReactNode {
         return <MainPage errorMessageService={this.props.errorMessageService}
                          libraryService={this.props.libraryService}
-                         history={props.history}/>;
+                         history={props.history}
+                         tokenService={this.props.tokenService}/>;
     }
 
     private renderAlbumPage(props: RouteComponentProps<any, StaticContext, any>): ReactNode {

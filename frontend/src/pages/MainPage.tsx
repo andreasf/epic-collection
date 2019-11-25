@@ -61,7 +61,12 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
                 {spinner}
                 <div className="top">
                     <div className="user-info">
-                        Hello <span className="username">{this.state.username}</span>.
+                        <div className="greeting">
+                            Hello <span className="username">{this.state.username}</span>.
+                        </div>
+                        <div className="logout">
+                            <button className="logout-button" onClick={() => this.onLogoutClicked()}>Logout</button>
+                        </div>
                     </div>
                     <div className="counts">
                         You have <span className="album-count">{this.state.albumCount}</span> albums
@@ -86,5 +91,9 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
 
     private onFindAlbumsClicked() {
         this.props.history.push("/find-albums");
+    }
+
+    private onLogoutClicked() {
+        this.props.tokenService.logout();
     }
 }
