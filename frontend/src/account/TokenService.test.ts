@@ -93,4 +93,15 @@ describe("TokenService", () => {
             expect(actualToken).toEqual("expected token");
         });
     });
+
+    describe("logout", () => {
+        it("clears localStorage and redirects to identity provider's logout URL", () => {
+            tokenService.logout();
+
+            verify(localStorage.clear()).called();
+
+            const logoutUri = "https://accounts.spotify.com/logout";
+            verify(location.assign(logoutUri)).called();
+        });
+    });
 });
