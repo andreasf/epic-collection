@@ -27,7 +27,8 @@ main() {
     popd
 
     pushd $script_path
-      cp -R frontend/deploy/* ../built-frontend
+      cp -R frontend/deploy ../built-frontend
+      cp manifest-concourse.yml ../built-frontend
     popd
 }
 

@@ -1,0 +1,7 @@
+---
+applications:
+- name: epic-collection
+  memory: 64M
+  buildpacks:
+  - staticfile_buildpack
+  path: deploy
