@@ -5,11 +5,13 @@ import {Spinner} from "../components/Spinner";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
 import {History} from "history";
 import "./MainPage.css";
+import {TokenService} from "../account/TokenService";
 
 interface MainPageProps {
     errorMessageService: ErrorMessageService;
     libraryService: LibraryService;
     history: History;
+    tokenService: TokenService;
 }
 
 interface MainPageState {

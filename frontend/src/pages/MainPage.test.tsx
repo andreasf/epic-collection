@@ -8,24 +8,28 @@ import {Spinner} from "../components/Spinner";
 import {ErrorMessageService} from "../errors/ErrorMessageService";
 import {History} from "history";
 import {NiceHistory} from "../test_doubles/test_doubles";
+import {TokenService} from "../account/TokenService";
 
 configure({adapter: new Adapter()});
 
 describe("MainPage", () => {
     let libraryService: LibraryService;
     let errorMessageService: ErrorMessageService;
+    let tokenService: TokenService;
     let history: History;
 
     beforeEach(() => {
         libraryService = mock(LibraryService);
         errorMessageService = mock(ErrorMessageService);
+        tokenService = mock(TokenService);
         history = mock(NiceHistory);
     });
 
     const shallowRender = () => {
         return shallow(<MainPage errorMessageService={instance(errorMessageService)}
                                  history={instance(history)}
-                                 libraryService={instance(libraryService)}/>);
+                                 libraryService={instance(libraryService)}
+                                 tokenService={instance(tokenService)}/>);
     };
 
     it("shows a spinner while requests are in progress", () => {
@@ -91,4 +95,22 @@ describe("MainPage", () => {
         wrapper.find(".find-albums").simulate("click");
         verify(history.push("/find-albums")).called();
     });
+
+    it("logs the user out when clicking logout", async () => {
+        const getUsernamePromise = Promise.resolve("expected username");
+        const getStatsPromise = Promise.resolve({
+            albums: 5,
+            tracks: 2342,
+            remaining: 23
+        } as LibraryStats);
+        when(libraryService.getUsername()).thenReturn(getUsernamePromise);
+        when(libraryService.getStats()).thenReturn(getStatsPromise);
+
+        const wrapper = shallowRender();
+        await getUsernamePromise;
+        await getStatsPromise;
+
+        wrapper.find(".logout-button").simulate("click");
+        verify(tokenService.logout()).called()
+    })
 });

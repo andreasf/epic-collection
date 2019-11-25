@@ -44,4 +44,8 @@ export class TokenService {
 
         this.location.assign(authUri);
     }
+
+    public logout() {
+        throw new Error("not implemented");
+    }
 }
