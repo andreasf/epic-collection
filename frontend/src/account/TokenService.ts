@@ -46,6 +46,7 @@ export class TokenService {
     }
 
     public logout() {
-        throw new Error("not implemented");
+        this.localStorage.clear();
+        this.location.assign(config.logoutUri);
     }
 }
