@@ -10,13 +10,12 @@ main() {
 
     pushd $script_path
       ./build.sh
+
+      rm -rf frontend/deploy
+      ./gradlew npm_run_build
     popd
 
     pushd $script_path/frontend
-        rm -rf deploy
-
-        npm run build
-
         rm build/static/js/*.map
         rm build/static/css/*.map
 
