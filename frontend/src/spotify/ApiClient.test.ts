@@ -18,6 +18,8 @@ import Spy = jasmine.Spy;
 
 const mockServerPort = 8123;
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
 describe("ApiClient", () => {
     const provider = new Pact({
         consumer: "snoutify",
