@@ -98,6 +98,16 @@ class UserFlowTest : FluentTest() {
     }
 
     @Test
+    fun user_can_logout() {
+        when_i_open_the_landing_page()
+        and_i_open_the_app()
+        then_i_see_my_username()
+
+        and_when_i_click_logout()
+        then_i_see_the_login_page()
+    }
+
+    @Test
     fun app_shows_error_messages() {
         fakeProfileController.setCrash(true)
 
@@ -114,6 +124,7 @@ class UserFlowTest : FluentTest() {
     private fun and_i_open_the_app() {
         el(".login a").click()
         await().until(el(".main-page")).displayed()
+        await().until(el(".spinner")).not().present()
     }
 
     private fun then_i_see_my_username() {
@@ -185,6 +196,14 @@ class UserFlowTest : FluentTest() {
 
     private fun and_when_i_click_cancel() {
         el(".cancel-button").click()
+    }
+
+    private fun and_when_i_click_logout() {
+        el(".logout-button").click()
+    }
+
+    private fun then_i_see_the_login_page() {
+        await().until(el(".login-page")).displayed()
     }
 
     companion object {
