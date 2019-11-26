@@ -16,4 +16,17 @@ class FakeLoginController {
                 .header("Location", redirect)
                 .build()
     }
+
+    @GetMapping("/fake/logout")
+    fun authorize(): ResponseEntity<String> {
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header("Content-Type", "text/html")
+                .body(logoutPage)
+    }
+
+    val logoutPage = """
+        <body class="logout-page">
+            You are logged out.
+        </body>
+    """.trimIndent()
 }
